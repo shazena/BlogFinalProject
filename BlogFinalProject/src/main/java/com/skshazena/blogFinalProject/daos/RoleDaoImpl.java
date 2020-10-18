@@ -5,9 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -22,33 +24,53 @@ public class RoleDaoImpl implements RoleDao {
     JdbcTemplate jdbc;
 
     @Override
-    public Role getRoleById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Role getRoleById(int roleId) {
+        try {
+            final String SELECT_ROLE_BY_ID = "SELECT * FROM role WHERE roleId = ?";
+            return jdbc.queryForObject(SELECT_ROLE_BY_ID, new RoleMapper(), roleId);
+        } catch (DataAccessException ex) {
+            return null;
+        }
     }
 
     @Override
     public Role getRoleByRole(String role) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            final String SELECT_ROLE_BY_ROLE = "SELECT * FROM role WHERE role = ?";
+            return jdbc.queryForObject(SELECT_ROLE_BY_ROLE, new RoleMapper(), role);
+        } catch (DataAccessException ex) {
+            return null;
+        }
     }
 
     @Override
     public List<Role> getAllRoles() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String SELECT_ALL_ROLES = "SELECT * FROM role";
+        return jdbc.query(SELECT_ALL_ROLES, new RoleMapper());
     }
 
     @Override
-    public void deleteRole(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void deleteRole(int roleId) {
+        final String DELETE_USER_ROLE = "DELETE FROM userRole WHERE role_id = ?";
+        final String DELETE_ROLE = "DELETE FROM role WHERE roleId = ?";
+        jdbc.update(DELETE_USER_ROLE, roleId);
+        jdbc.update(DELETE_ROLE, roleId);
     }
 
     @Override
     public void updateRole(Role role) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_ROLE = "UPDATE role SET role = ? WHERE roleId = ?";
+        jdbc.update(UPDATE_ROLE, role.getRole(), role.getRoleId());
     }
 
     @Override
+    @Transactional
     public Role createRole(Role role) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String INSERT_ROLE = "INSERT INTO role(role) VALUES(?)";
+        jdbc.update(INSERT_ROLE, role.getRole());
+        int newId = jdbc.queryForObject("select LAST_INSERT_ID()", Integer.class);
+        role.setRoleId(newId);
+        return role;
     }
 
     public static final class RoleMapper implements RowMapper<Role> {
