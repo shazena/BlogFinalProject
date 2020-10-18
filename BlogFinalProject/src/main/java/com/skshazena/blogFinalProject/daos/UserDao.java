@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface UserDao {
 
-    User getUserById(int id);
+    User getUserById(int userId);
 
     User getUserByUsername(String username);
 
@@ -19,7 +19,7 @@ public interface UserDao {
 
     void updateUser(User user);
 
-    void deleteUser(int id);
+    void deleteUser(int userId);
 
     User createUser(User user);
 }
