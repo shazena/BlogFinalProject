@@ -1,7 +1,7 @@
-drop database if exists BlogCMSFinalProjectDBTest;
-create database BlogCMSFinalProjectDBTest;
+drop database if exists BlogCMSFinalProjectDB;
+create database BlogCMSFinalProjectDB;
 
-use BlogCMSFinalProjectDBTest;
+use BlogCMSFinalProjectDB;
 
 CREATE TABLE `user` (
     `userId` INT PRIMARY KEY AUTO_INCREMENT,
