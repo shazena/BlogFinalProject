@@ -3,6 +3,10 @@ package com.skshazena.blogFinalProject.dtos;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 
 /**
  *
@@ -13,16 +17,36 @@ import java.util.Set;
 public class Post {
 
     private int postId;
+
+    @NotNull(message = "Title must be entered")
+    @NotBlank(message = "Title must not be blank")
     private String title;
+
+    @PastOrPresent
     private LocalDateTime createdAt;
+
     private LocalDateTime postAt;
+
     private LocalDateTime expireAt;
+
+    @PastOrPresent
     private LocalDateTime lastEditedAt;
+
+    @NotNull(message = "Content must be entered")
+    @NotBlank(message = "Content must not be blank")
     private String content;
+
     private boolean approvalStatus;
+
     private boolean staticPage;
+
     private String titlePhoto;
+
+    @NotNull(message = "Post must have an author")
+    @Valid
     private User user;
+
+    @Valid
     private Set<Hashtag> hashtagsForPost;
 
     public int getPostId() {

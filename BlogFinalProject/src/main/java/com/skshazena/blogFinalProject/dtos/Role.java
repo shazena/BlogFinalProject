@@ -1,6 +1,7 @@
 package com.skshazena.blogFinalProject.dtos;
 
 import java.util.Objects;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -11,6 +12,8 @@ import java.util.Objects;
 public class Role {
 
     private int roleId;
+    
+    @NotNull(message = "Role must be defined")
     private String role;
 
     public int getRoleId() {

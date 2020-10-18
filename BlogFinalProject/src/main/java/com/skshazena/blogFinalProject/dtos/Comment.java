@@ -2,6 +2,10 @@ package com.skshazena.blogFinalProject.dtos;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 
 /**
  *
@@ -12,11 +16,26 @@ import java.util.Objects;
 public class Comment {
 
     private int commentId;
+
+    @NotNull(message = "Title must be entered")
+    @NotBlank(message = "Title must not be blank")
     private String title;
+
+    @NotNull(message = "Content must be entered")
+    @NotBlank(message = "Content must not be blank")
     private String content;
+    
+    @PastOrPresent
     private LocalDateTime createdAt;
+    
     private boolean approvalStatus;
+    
+    @NotNull(message = "Comment must be associated with a Post")
+    @Valid
     private Post post;
+    
+    @NotNull(message = "Comment must be associated with a User")
+    @Valid
     private User user;
 
     public int getCommentId() {

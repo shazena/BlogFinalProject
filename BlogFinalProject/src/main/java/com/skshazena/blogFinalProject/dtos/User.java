@@ -3,6 +3,10 @@ package com.skshazena.blogFinalProject.dtos;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 
 /**
  *
@@ -13,13 +17,33 @@ import java.util.Set;
 public class User {
 
     private int userId;
+
+    @NotNull(message = "Username must be entered")
+    @NotBlank(message = "Username must not be blank")
     private String username;
+
+    @NotNull(message = "Password must be entered")
+    @NotBlank(message = "Password must not be blank")
     private String password;
+
     private boolean enabled;
+
+    @PastOrPresent
     private LocalDateTime lastLogin;
+
+    @NotNull(message = "First Name must be entered")
+    @NotBlank(message = "First Name must not be blank")
     private String firstName;
+
+    @NotNull(message = "Last Name must be entered")
+    @NotBlank(message = "Last Name must not be blank")
     private String lastName;
+    
+    
     private String profilePicture;
+    
+    @NotNull(message = "User must be assigned one role")
+    @Valid
     private Set<Role> roles;
 
     public int getUserId() {

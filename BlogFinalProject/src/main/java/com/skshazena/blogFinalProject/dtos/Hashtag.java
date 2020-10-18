@@ -1,6 +1,8 @@
 package com.skshazena.blogFinalProject.dtos;
 
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -11,7 +13,11 @@ import java.util.Objects;
 public class Hashtag {
 
     private int hashtagId;
+
+    @NotNull(message = "Title must be entered")
+    @NotBlank(message = "Title must not be blank")
     private String title;
+
     private int numberOfPosts;
 
     public int getHashtagId() {
