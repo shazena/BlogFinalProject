@@ -2,6 +2,7 @@ package com.skshazena.blogFinalProject.dtos;
 
 import java.util.Objects;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -14,6 +15,7 @@ public class Role {
     private int roleId;
     
     @NotNull(message = "Role must be defined")
+    @Size(max = 30, message = "Role must be less than 30 characters.")
     private String role;
 
     public int getRoleId() {

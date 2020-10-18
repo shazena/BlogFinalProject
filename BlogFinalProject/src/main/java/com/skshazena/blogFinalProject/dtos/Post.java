@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -20,6 +21,7 @@ public class Post {
 
     @NotNull(message = "Title must be entered")
     @NotBlank(message = "Title must not be blank")
+    @Size(max = 200, message = "Title must be less than 200 characters.")
     private String title;
 
     @PastOrPresent
@@ -40,6 +42,7 @@ public class Post {
 
     private boolean staticPage;
 
+    @Size(max = 255, message = "Photo File Path must be less than 255 characters.")
     private String titlePhoto;
 
     @NotNull(message = "Post must have an author")

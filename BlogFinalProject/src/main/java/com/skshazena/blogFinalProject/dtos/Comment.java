@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -19,10 +20,12 @@ public class Comment {
 
     @NotNull(message = "Title must be entered")
     @NotBlank(message = "Title must not be blank")
+    @Size(max = 100, message = "Title must be less than 100 characters.")
     private String title;
 
     @NotNull(message = "Content must be entered")
     @NotBlank(message = "Content must not be blank")
+    @Size(max = 1000, message = "Content must be less than 1000 characters.")
     private String content;
     
     @PastOrPresent

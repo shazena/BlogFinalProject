@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -20,10 +21,12 @@ public class User {
 
     @NotNull(message = "Username must be entered")
     @NotBlank(message = "Username must not be blank")
+    @Size(max = 30, message = "Username must be less than 30 characters.")
     private String username;
 
     @NotNull(message = "Password must be entered")
     @NotBlank(message = "Password must not be blank")
+    @Size(max = 100, message = "Password must be less than 100 characters.")
     private String password;
 
     private boolean enabled;
@@ -33,15 +36,17 @@ public class User {
 
     @NotNull(message = "First Name must be entered")
     @NotBlank(message = "First Name must not be blank")
+    @Size(max = 50, message = "First Name must be less than 50 characters.")
     private String firstName;
 
     @NotNull(message = "Last Name must be entered")
     @NotBlank(message = "Last Name must not be blank")
+    @Size(max = 50, message = "Last Name must be less than 50 characters.")
     private String lastName;
-    
-    
+
+    @Size(max = 255, message = "Photo file path must be less than 255 characters.")
     private String profilePicture;
-    
+
     @NotNull(message = "User must be assigned one role")
     @Valid
     private Set<Role> roles;
