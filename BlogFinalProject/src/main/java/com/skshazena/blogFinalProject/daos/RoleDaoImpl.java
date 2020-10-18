@@ -50,6 +50,7 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
+    @Transactional
     public void deleteRole(int roleId) {
         final String DELETE_USER_ROLE = "DELETE FROM userRole WHERE role_id = ?";
         final String DELETE_ROLE = "DELETE FROM role WHERE roleId = ?";

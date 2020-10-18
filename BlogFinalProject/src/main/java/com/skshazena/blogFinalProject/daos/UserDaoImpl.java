@@ -79,6 +79,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional
     public void deleteUser(int userId) {
         final String DELETE_USER_ROLE = "DELETE FROM userRole WHERE user_id = ?";
         final String DELETE_USER = "DELETE FROM user WHERE userId = ?";
