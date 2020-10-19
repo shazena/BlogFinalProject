@@ -1,7 +1,7 @@
 package com.skshazena.blogFinalProject.daos;
 
 import com.skshazena.blogFinalProject.daos.PostDaoImpl.PostMapper;
-import com.skshazena.blogFinalProject.daos.PostDaoImpl.UserMapper;
+import com.skshazena.blogFinalProject.daos.UserDaoImpl.UserMapper;
 import com.skshazena.blogFinalProject.dtos.Comment;
 import com.skshazena.blogFinalProject.dtos.Post;
 import com.skshazena.blogFinalProject.dtos.Role;
