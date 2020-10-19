@@ -19,7 +19,7 @@ CREATE TABLE `role` (
     `role` VARCHAR(30) NOT NULL
 );
 
-CREATE TABLE `user_role` (
+CREATE TABLE `userRole` (
     `user_id` INT NOT NULL,
     `role_id` INT NOT NULL,
     PRIMARY KEY (`user_id` , `role_id`),
@@ -31,7 +31,7 @@ CREATE TABLE `user_role` (
 
 CREATE TABLE hashtag (
     hashtagId INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(50) NOT NULL
+    title VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE post (

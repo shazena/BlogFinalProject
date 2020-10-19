@@ -31,7 +31,7 @@ CREATE TABLE `userRole` (
 
 CREATE TABLE hashtag (
     hashtagId INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(50) NOT NULL
+    title VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE post (
