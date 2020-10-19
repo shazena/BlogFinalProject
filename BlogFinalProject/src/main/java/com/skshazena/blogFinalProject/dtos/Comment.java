@@ -66,7 +66,7 @@ public class Comment {
     }
 
     public LocalDateTime getCreatedAt() {
-        return createdAt;
+        return createdAt.withNano(0);
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {

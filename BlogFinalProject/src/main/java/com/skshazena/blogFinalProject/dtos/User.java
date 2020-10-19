@@ -84,7 +84,7 @@ public class User {
     }
 
     public LocalDateTime getLastLogin() {
-        return lastLogin;
+        return lastLogin.withNano(0);
     }
 
     public void setLastLogin(LocalDateTime lastLogin) {

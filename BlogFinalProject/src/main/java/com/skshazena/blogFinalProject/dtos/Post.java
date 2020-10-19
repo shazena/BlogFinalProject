@@ -70,7 +70,7 @@ public class Post {
     }
 
     public LocalDateTime getCreatedAt() {
-        return createdAt;
+        return createdAt.withNano(0);
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
@@ -78,7 +78,7 @@ public class Post {
     }
 
     public LocalDateTime getPostAt() {
-        return postAt;
+        return postAt.withNano(0);
     }
 
     public void setPostAt(LocalDateTime postAt) {
@@ -86,7 +86,7 @@ public class Post {
     }
 
     public LocalDateTime getExpireAt() {
-        return expireAt;
+        return expireAt.withNano(0);
     }
 
     public void setExpireAt(LocalDateTime expireAt) {
@@ -94,7 +94,7 @@ public class Post {
     }
 
     public LocalDateTime getLastEditedAt() {
-        return lastEditedAt;
+        return lastEditedAt.withNano(0);
     }
 
     public void setLastEditedAt(LocalDateTime lastEditedAt) {
