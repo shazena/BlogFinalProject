@@ -62,12 +62,25 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional
     public void updateUser(User user) {
-        final String UPDATE_USER = "UPDATE user SET username = ?, password = ?,enabled = ? WHERE userId = ?";
+        final String UPDATE_USER = "UPDATE user SET "
+                + "username = ?, "
+                + "password = ?, "
+                + "enabled = ?, "
+                + "lastLogin = ?, "
+                + "firstName = ?, "
+                + "lastName = ?, "
+                + "profilePicture = ? "
+                + "WHERE userId = ?";
         jdbc.update(UPDATE_USER,
                 user.getUsername(),
                 user.getPassword(),
                 user.isEnabled(),
+                user.getLastLogin(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getProfilePicture(),
                 user.getUserId());
 
         final String DELETE_USER_ROLE = "DELETE FROM userRole WHERE user_id = ?";
@@ -90,8 +103,16 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public User createUser(User user) {
-        final String INSERT_USER = "INSERT INTO user(username, password, enabled) VALUES(?,?,?)";
-        jdbc.update(INSERT_USER, user.getUsername(), user.getPassword(), user.isEnabled());
+        final String INSERT_USER = "INSERT INTO user(username, password, enabled, lastLogin, firstName, lastName, profilePicture) "
+                + "VALUES(?,?,?,?,?,?,?)";
+        jdbc.update(INSERT_USER,
+                user.getUsername(),
+                user.getPassword(),
+                user.isEnabled(),
+                user.getLastLogin().withNano(0),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getProfilePicture());
         int newId = jdbc.queryForObject("select LAST_INSERT_ID()", Integer.class);
         user.setUserId(newId);
 
