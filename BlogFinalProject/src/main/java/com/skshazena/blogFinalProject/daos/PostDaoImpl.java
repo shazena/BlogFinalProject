@@ -166,7 +166,7 @@ public class PostDaoImpl implements PostDao {
 
         jdbc.update(DELETE_FROM_POSTHASHTAG, postId);
 
-        final String DELETE_POST = "DELETE FROM POST "
+        final String DELETE_POST = "DELETE FROM Post "
                 + "WHERE postId = ?";
 
         jdbc.update(DELETE_POST, postId);
@@ -199,6 +199,8 @@ public class PostDaoImpl implements PostDao {
         for (Hashtag hashtag : post.getHashtagsForPost()) {
             jdbc.update(INSERT_INTO_POSTHASHTAG, post.getPostId(), hashtag.getHashtagId());
         }
+
+        associateUserAndHashtagsWithPost(post);
 
         return post;
     }
