@@ -117,7 +117,7 @@ public class UserDaoImpl implements UserDao {
         user.setUserId(newId);
 
         for (Role role : user.getRoles()) {
-            final String INSERT_USER_ROLE = "INSERT INTO user_role(user_id, role_id) VALUES(?,?)";
+            final String INSERT_USER_ROLE = "INSERT INTO userRole(user_id, role_id) VALUES(?,?)";
             jdbc.update(INSERT_USER_ROLE, user.getUserId(), role.getRoleId());
         }
         return user;
