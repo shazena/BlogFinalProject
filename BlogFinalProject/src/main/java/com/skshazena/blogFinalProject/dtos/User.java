@@ -88,7 +88,7 @@ public class User {
     }
 
     public void setLastLogin(LocalDateTime lastLogin) {
-        this.lastLogin = lastLogin;
+        this.lastLogin = lastLogin.withNano(0);
     }
 
     public String getFirstName() {

@@ -70,7 +70,7 @@ public class Comment {
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+        this.createdAt = createdAt.withNano(0);
     }
 
     public boolean isApprovalStatus() {

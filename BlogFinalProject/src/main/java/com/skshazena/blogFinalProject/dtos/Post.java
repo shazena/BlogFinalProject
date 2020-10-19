@@ -1,6 +1,7 @@
 package com.skshazena.blogFinalProject.dtos;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.validation.Valid;
@@ -50,7 +51,7 @@ public class Post {
     private User user;
 
     @Valid
-    private Set<Hashtag> hashtagsForPost;
+    private List<Hashtag> hashtagsForPost;
 
     public int getPostId() {
         return postId;
@@ -73,7 +74,7 @@ public class Post {
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+        this.createdAt = createdAt.withNano(0);
     }
 
     public LocalDateTime getPostAt() {
@@ -81,7 +82,7 @@ public class Post {
     }
 
     public void setPostAt(LocalDateTime postAt) {
-        this.postAt = postAt;
+        this.postAt = postAt.withNano(0);
     }
 
     public LocalDateTime getExpireAt() {
@@ -89,7 +90,7 @@ public class Post {
     }
 
     public void setExpireAt(LocalDateTime expireAt) {
-        this.expireAt = expireAt;
+        this.expireAt = expireAt.withNano(0);
     }
 
     public LocalDateTime getLastEditedAt() {
@@ -97,7 +98,7 @@ public class Post {
     }
 
     public void setLastEditedAt(LocalDateTime lastEditedAt) {
-        this.lastEditedAt = lastEditedAt;
+        this.lastEditedAt = lastEditedAt.withNano(0);
     }
 
     public String getContent() {
@@ -140,29 +141,29 @@ public class Post {
         this.user = user;
     }
 
-    public Set<Hashtag> getHashtagsForPost() {
+    public List<Hashtag> getHashtagsForPost() {
         return hashtagsForPost;
     }
 
-    public void setHashtagsForPost(Set<Hashtag> hashtagsForPost) {
+    public void setHashtagsForPost(List<Hashtag> hashtagsForPost) {
         this.hashtagsForPost = hashtagsForPost;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 17 * hash + this.postId;
-        hash = 17 * hash + Objects.hashCode(this.title);
-        hash = 17 * hash + Objects.hashCode(this.createdAt);
-        hash = 17 * hash + Objects.hashCode(this.postAt);
-        hash = 17 * hash + Objects.hashCode(this.expireAt);
-        hash = 17 * hash + Objects.hashCode(this.lastEditedAt);
-        hash = 17 * hash + Objects.hashCode(this.content);
-        hash = 17 * hash + (this.approvalStatus ? 1 : 0);
-        hash = 17 * hash + (this.staticPage ? 1 : 0);
-        hash = 17 * hash + Objects.hashCode(this.titlePhoto);
-        hash = 17 * hash + Objects.hashCode(this.user);
-        hash = 17 * hash + Objects.hashCode(this.hashtagsForPost);
+        int hash = 3;
+        hash = 47 * hash + this.postId;
+        hash = 47 * hash + Objects.hashCode(this.title);
+        hash = 47 * hash + Objects.hashCode(this.createdAt);
+        hash = 47 * hash + Objects.hashCode(this.postAt);
+        hash = 47 * hash + Objects.hashCode(this.expireAt);
+        hash = 47 * hash + Objects.hashCode(this.lastEditedAt);
+        hash = 47 * hash + Objects.hashCode(this.content);
+        hash = 47 * hash + (this.approvalStatus ? 1 : 0);
+        hash = 47 * hash + (this.staticPage ? 1 : 0);
+        hash = 47 * hash + Objects.hashCode(this.titlePhoto);
+        hash = 47 * hash + Objects.hashCode(this.user);
+        hash = 47 * hash + Objects.hashCode(this.hashtagsForPost);
         return hash;
     }
 
