@@ -86,11 +86,11 @@ public class Post {
     }
 
     public LocalDateTime getExpireAt() {
-        return expireAt.withNano(0);
+        return expireAt;
     }
 
     public void setExpireAt(LocalDateTime expireAt) {
-        this.expireAt = expireAt.withNano(0);
+        this.expireAt = expireAt;
     }
 
     public LocalDateTime getLastEditedAt() {
