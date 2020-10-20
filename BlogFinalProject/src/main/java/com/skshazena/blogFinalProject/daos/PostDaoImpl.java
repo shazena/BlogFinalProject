@@ -4,10 +4,13 @@ import com.skshazena.blogFinalProject.daos.HashtagDaoImpl.HashtagMapper;
 import com.skshazena.blogFinalProject.daos.UserDaoImpl.UserMapper;
 import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Post;
+import com.skshazena.blogFinalProject.dtos.Role;
 import com.skshazena.blogFinalProject.dtos.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -112,7 +115,7 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public List<Post> getAllPostsNeedingApprovalWrittenByUserOldestFirst(int userId) {
+    public List<Post> getAllPostsNeedingApprovalWrittenByCreatorOldestFirst(int userId) {
         final String SELECT_POSTS_NEEDING_APPROVAL_WRITTEN_BY_USER = "SELECT * from Post "
                 + "WHERE (approvalStatus = 0) AND (userId = ?) ORDER BY postAt ASC";
         List<Post> postsNeedingApprovalWrittenByThisUser = jdbc.query(SELECT_POSTS_NEEDING_APPROVAL_WRITTEN_BY_USER, new PostMapper(), userId);
@@ -157,7 +160,7 @@ public class PostDaoImpl implements PostDao {
                 + "expireAt = ?, "
                 + "lastEditedAt = ?, "
                 + "content = ?, "
-                + "spprovalStatus = ?, "
+                + "approvalStatus = ?, "
                 + "staticPage = ?, "
                 + "titlePhoto = ? "
                 + "WHERE postId = ?";
@@ -244,6 +247,15 @@ public class PostDaoImpl implements PostDao {
                 + "JOIN Post p ON u.userId = p.userId "
                 + "WHERE p.postId = ?";
         User user = jdbc.queryForObject(SELECT_USER_FOR_POST, new UserMapper(), postId);
+
+        final String SELECT_ROLES_FOR_USER = "SELECT r.* FROM userRole ur "
+                + "JOIN role r ON ur.role_id = r.roleId "
+                + "WHERE ur.user_id = ?";
+
+        Set<Role> roles = new HashSet(jdbc.query(SELECT_ROLES_FOR_USER, new RoleDaoImpl.RoleMapper(), user.getUserId()));
+
+        user.setRoles(roles);
+
         return user;
     }
 
@@ -253,6 +265,9 @@ public class PostDaoImpl implements PostDao {
                 + "JOIN post p ON p.postId = ph.postId "
                 + "WHERE p.postId = ?";
         return jdbc.query(SELECT_HASHTAGS_FOR_POST, new HashtagMapper(), postId);
+        //this method intentionally does not bring in the number of posts per hashtag
+        //it is not necessary when accessing hashtags from the PostDao.
+        //It is only needed for when Hashtags are accessed from the HashtagDao
     }
 
     private void associateUserAndHashtagsWithPost(Post post) {
@@ -269,7 +284,11 @@ public class PostDaoImpl implements PostDao {
             post.setTitle(rs.getString("title"));
             post.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
             post.setPostAt(rs.getTimestamp("postAt").toLocalDateTime());
-            post.setExpireAt(rs.getTimestamp("expireAt").toLocalDateTime());
+            if (rs.getTimestamp("expireAt") != null) {
+                post.setExpireAt(rs.getTimestamp("expireAt").toLocalDateTime());
+            } else {
+                post.setExpireAt(null);
+            }
             post.setLastEditedAt(rs.getTimestamp("lastEditedAt").toLocalDateTime());
             post.setContent(rs.getString("content"));
             post.setApprovalStatus(rs.getBoolean("approvalStatus"));

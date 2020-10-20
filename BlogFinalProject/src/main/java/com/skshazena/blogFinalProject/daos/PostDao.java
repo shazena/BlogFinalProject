@@ -23,7 +23,7 @@ public interface PostDao {
 
     List<Post> getAllPostsForHashtagForUserNewestFirst(int hashtagId);
 
-    List<Post> getAllPostsNeedingApprovalWrittenByUserOldestFirst(int userId);
+    List<Post> getAllPostsNeedingApprovalWrittenByCreatorOldestFirst(int userId);
 
     List<Post> getAllPostsWrittenByCreatorNewestFirst(int userId);
 
