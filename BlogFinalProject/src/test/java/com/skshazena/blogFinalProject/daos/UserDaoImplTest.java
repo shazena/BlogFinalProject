@@ -60,7 +60,7 @@ public class UserDaoImplTest {
             hashtagDao.deleteHashtag(hashtag.getHashtagId());
         }
 
-        List<Post> allPosts = postDao.getAllPosts();
+        List<Post> allPosts = postDao.getAllPostsForAdminNewestFirst();
         for (Post post : allPosts) {
             postDao.deletePost(post.getPostId());
         }

@@ -13,17 +13,21 @@ public interface PostDao {
 
     Post getPostById(int postId);
 
-    List<Post> getAllPosts();
+    List<Post> getAllPostsForAdminNewestFirst();
 
-    List<Post> getAllPostsThatAreStatic();
+    List<Post> getAllPostsForBlogNonStaticNewestFirst();
 
-    List<Post> getAllPostsForHashtag(int hashtagId);
+    List<Post> getAllPostsForBlogThatAreStaticNewestFirst();
 
-    List<Post> getAllPostsNeedingApprovalWrittenByUser(int userId);
+    List<Post> getAllPostsForHashtagForAdminNewestFirst(int hashtagId);
 
-    List<Post> getAllPostsWrittenByUser(int userId);
+    List<Post> getAllPostsForHashtagForUserNewestFirst(int hashtagId);
 
-    List<Post> getAllPostsNeedingApprovalForAdmin();
+    List<Post> getAllPostsNeedingApprovalWrittenByUserOldestFirst(int userId);
+
+    List<Post> getAllPostsWrittenByCreatorNewestFirst(int userId);
+
+    List<Post> getAllPostsNeedingApprovalForAdminOldestFirst();
 
     void updatePost(Post post);
 

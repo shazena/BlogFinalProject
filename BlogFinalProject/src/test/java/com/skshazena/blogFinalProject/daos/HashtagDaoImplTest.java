@@ -59,7 +59,7 @@ public class HashtagDaoImplTest {
             hashtagDao.deleteHashtag(hashtag.getHashtagId());
         }
 
-        List<Post> allPosts = postDao.getAllPosts();
+        List<Post> allPosts = postDao.getAllPostsForAdminNewestFirst();
         for (Post post : allPosts) {
             postDao.deletePost(post.getPostId());
         }
@@ -121,6 +121,7 @@ public class HashtagDaoImplTest {
         hashtags.add(hashtag);
 
         post.setHashtagsForPost(hashtags);
+        post = postDao.createPost(post);
 
         Hashtag hashtagById = hashtagDao.getHashtagById(hashtag.getHashtagId());
         assertEquals(hashtag.getHashtagId(), hashtagById.getHashtagId());

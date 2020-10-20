@@ -45,7 +45,7 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public List<Post> getAllPosts() {
+    public List<Post> getAllPostsForAdminNewestFirst() {
         final String SELECT_ALL_POSTS = "SELECT * FROM Post ORDER BY postAt DESC";
         List<Post> allPosts = jdbc.query(SELECT_ALL_POSTS, new PostMapper());
         for (Post post : allPosts) {
@@ -55,9 +55,26 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public List<Post> getAllPostsThatAreStatic() {
+    public List<Post> getAllPostsForBlogNonStaticNewestFirst() {
+        final String SELECT_ALL_POSTS_FOR_BLOG = "SELECT * FROM Post "
+                + "WHERE postAt <= NOW() AND (expireAt >= NOW() OR expireAt IS NULL) "
+                + "AND staticPage = 0 AND approvalStatus = 1 "
+                + "ORDER BY postAt DESC";
+        List<Post> allPosts = jdbc.query(SELECT_ALL_POSTS_FOR_BLOG, new PostMapper());
+        for (Post post : allPosts) {
+            associateUserAndHashtagsWithPost(post);
+        }
+        return allPosts;
+    }
+
+    @Override
+    public List<Post> getAllPostsForBlogThatAreStaticNewestFirst() {
         final String SELECT_POSTS_THAT_ARE_STATIC = "SELECT * FROM Post "
-                + "WHERE staticPage = 1 ORDER BY postAt DESC";
+                + "WHERE staticPage = 1 "
+                + "AND postAt <= NOW() "
+                + "AND (expireAt >= NOW() OR expireAt IS NULL) "
+                + "AND approvalStatus = 1 "
+                + "ORDER BY postAt DESC";
         List<Post> staticPosts = jdbc.query(SELECT_POSTS_THAT_ARE_STATIC, new PostMapper());
         for (Post post : staticPosts) {
             associateUserAndHashtagsWithPost(post);
@@ -66,7 +83,7 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public List<Post> getAllPostsForHashtag(int hashtagId) {
+    public List<Post> getAllPostsForHashtagForAdminNewestFirst(int hashtagId) {
         final String SELECT_POSTS_FOR_HASHTAG = "SELECT p.* FROM Post p "
                 + "JOIN PostHashtag ph ON p.postId = ph.postId "
                 + "JOIN Hashtag h ON h.hashtagId = ph.hashtagId "
@@ -79,7 +96,23 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public List<Post> getAllPostsNeedingApprovalWrittenByUser(int userId) {
+    public List<Post> getAllPostsForHashtagForUserNewestFirst(int hashtagId) {
+        final String SELECT_POSTS_FOR_HASHTAG = "SELECT p.* FROM Post p "
+                + "JOIN PostHashtag ph ON p.postId = ph.postId "
+                + "JOIN Hashtag h ON h.hashtagId = ph.hashtagId "
+                + "WHERE h.hashtagId = ? "
+                + "AND postAt <= NOW() AND (expireAt >= NOW() OR expireAt IS NULL) "
+                + "AND approvalStatus = 1 "
+                + "ORDER BY postAt DESC";
+        List<Post> postsForHashtag = jdbc.query(SELECT_POSTS_FOR_HASHTAG, new PostMapper(), hashtagId);
+        for (Post post : postsForHashtag) {
+            associateUserAndHashtagsWithPost(post);
+        }
+        return postsForHashtag;
+    }
+
+    @Override
+    public List<Post> getAllPostsNeedingApprovalWrittenByUserOldestFirst(int userId) {
         final String SELECT_POSTS_NEEDING_APPROVAL_WRITTEN_BY_USER = "SELECT * from Post "
                 + "WHERE (approvalStatus = 0) AND (userId = ?) ORDER BY postAt ASC";
         List<Post> postsNeedingApprovalWrittenByThisUser = jdbc.query(SELECT_POSTS_NEEDING_APPROVAL_WRITTEN_BY_USER, new PostMapper(), userId);
@@ -90,9 +123,9 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public List<Post> getAllPostsWrittenByUser(int userId) {
+    public List<Post> getAllPostsWrittenByCreatorNewestFirst(int userId) {
         final String SELECT_POSTS_WRITTEN_BY_USER = "SELECT * FROM Post "
-                + "where userId = ? ORDER BY postAt DESC";
+                + "WHERE userId = ? ORDER BY postAt DESC";
         List<Post> postsByUser = jdbc.query(SELECT_POSTS_WRITTEN_BY_USER, new PostMapper(), userId);
         for (Post post : postsByUser) {
             associateUserAndHashtagsWithPost(post);
@@ -102,7 +135,7 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public List<Post> getAllPostsNeedingApprovalForAdmin() {
+    public List<Post> getAllPostsNeedingApprovalForAdminOldestFirst() {
         final String SELECT_POSTS_NEEDING_APPROVAL = "SELECT * FROM Post "
                 + "WHERE approvalStatus = 0 "
                 + "ORDER BY postAt ASC";
