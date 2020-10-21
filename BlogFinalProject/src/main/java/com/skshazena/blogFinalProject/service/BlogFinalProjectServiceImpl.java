@@ -13,6 +13,7 @@ import com.skshazena.blogFinalProject.dtos.Role;
 import com.skshazena.blogFinalProject.dtos.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * Date Created: Oct 21, 2020
  */
+@Service
 public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
 
     @Autowired
@@ -199,7 +201,7 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
     public Post createPost(Post post) {
         return postDao.createPost(post);
     }
-    
+
 //    BASIC CRRUD METHODS FOR ROLE DAO ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Role getRoleById(int roleId) {
