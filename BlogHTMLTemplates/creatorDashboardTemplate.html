@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang = "en" xmlns = "http://www.w3.org/1999/xhtml"
       xmlns:th = "http://www.thymeleaf.org"
->
-
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv = "content-type" content = "text/html; charset=UTF-8">
     <meta charset = "utf-8">
@@ -20,17 +19,7 @@
 
 
     <style th:inline = "text">
-        body {
-            height: 5000px;
-        }
 
-        .navbar-brand {
-            font-family: 'Laila', serif;
-        }
-
-        .fixed-top-2 {
-            margin-top: 56px;
-        }
     </style>
 
 </head>
@@ -81,8 +70,8 @@
                                 <span class = "">Post Approval</span>
                             </a>
                         </li>
-                        <li class="btn btn-dark my-4" style="width: 75%;align-self: center;">
-                            <a class="text-light" href= "/">Create New Post</a>
+                        <li class = "btn btn-dark my-4" style = "width: 75%;align-self: center;">
+                            <a class = "text-light" href = "/">Create New Post</a>
                         </li>
                     </ul>
                 </div>
