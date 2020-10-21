@@ -36,9 +36,9 @@
                        data-toggle = "dropdown" aria-haspopup = "true" aria-expanded = "false" href = "#">Highlights</a>
                     <div>
                         <div class = "dropdown-menu" aria-labelledby = "dropdownMenu2">
-                            <button class = "dropdown-item" type = "button">Static Page 1</button>
-                            <button class = "dropdown-item" type = "button">Static Page 2</button>
-                            <button class = "dropdown-item" type = "button">Static Page 3</button>
+                            <span th:each = "staticPost:${staticPosts}">
+                                <a class = "dropdown-item" th:text = "${staticPost.title}">Static Page 1</a>
+                            </span>
                         </div>
                     </div>
                 </li>
@@ -100,14 +100,12 @@
     <div class = "container">
         <div class = "row">
             <main role = "main">
-                <!--            <main role = "main" class = "col-md-9 ml-sm-auto col-lg-10 px-4">-->
-                <div class = "content"> <!--style = "display: grid; grid-template-columns: 2fr 1fr;"-->
-
-
-                                        <!--INSERT MAIN CONTENT HERE-->
+                <div class = "content">
+                    <!--INSERT MAIN CONTENT HERE-->
                     <div class = "container">
+
                         <div class = "card-group vgr-cards">
-                            <div class = "card my-4">
+                            <div class = "card my-4"> <!--BEGIN ONE CARD-->
                                 <div class = "card-img-body">
                                     <img class = "card-img" src = "https://picsum.photos/500/230"
                                          alt = "Card image cap">
@@ -125,45 +123,31 @@
                                     </p>
                                     <a href = "#" class = "btn btn-outline-dark">Read More</a>
                                 </div>
-                            </div>
-                            <div class = "card my-4">
+                            </div> <!--END ONE CARD-->
+                            <div class = "card my-4" th:each = "post: ${posts}"> <!--BEGIN ONE CARD-->
                                 <div class = "card-img-body">
-                                    <img class = "card-img" src = "https://picsum.photos/400/200"
-                                         alt = "Card image cap"></div>
-                                <div class = "card-body">
-                                    <h4 class = "card-title">Card title</h4>
-                                    <a href = "content">Creator</a>
-                                    <p class = "card-text">
-                                        This is a wider card with supporting text below as a natural
-                                        lead-in to additional content. This content is a little bit
-                                        longer. This is a wider card with supporting text below as a
-                                        natural lead-in to additional content. This content is a
-                                        little bit longer...
-                                        <span>#Hashtag</span>
-                                    </p>
-                                    <a href = "#" class = "btn btn-outline-dark">Read More</a>
+                                    <img class = "card-img" src = "https://picsum.photos/500/235"
+                                         alt = "Card image cap">
                                 </div>
-                            </div>
-                            <div class = "card my-4">
-                                <!--                                <div class = "card-img-body">-->
-                                <!--                                    <img class = "card-img" src = "https://picsum.photos/450/250"-->
-                                <!--                                         alt = "Card image cap"></div>-->
                                 <div class = "card-body">
-                                    <h4 class = "card-title">Card title</h4>
-                                    <p class = "card-text">
-                                        This is a wider card with supporting text below as a natural
-                                        lead-in to additional content. This content is a little bit
-                                        longer. This is a wider card with supporting text below as a
-                                        natural lead-in to additional content. This content is a
-                                        little bit longer...
-                                        <span>#Hashtag</span>
+                                    <h4 class = "card-title" th:text = "${post.title}">Card title</h4>
+                                    <span class = "small"
+                                          th:text = "${post.postAt +' by '+ post.user.firstName}"></span>
+                                    <p class = "card-text" th:text = "${post.content}">
+                                        Post Content Excerpt will go here.
+
                                     </p>
-                                    <a href = "#" class = "btn btn-outline-dark">Read More</a>
+                                    <span th:each = "hashtag : ${post.hashtagsForPost}">
+                                            <a href = "post" th:text = "${'#'+hashtag.title}">#Hashtag</a>
+                                    </span>
+                                    <br>
+                                    <a href = "post" class = "btn btn-outline-dark my-1">Read More</a>
                                 </div>
-                            </div>
+                            </div> <!--END ONE CARD-->
+
                         </div>
                     </div>
-                                        <!--INSERT MAIN CONTENT HERE-->
+                    <!--INSERT MAIN CONTENT HERE-->
 
 
                 </div>
