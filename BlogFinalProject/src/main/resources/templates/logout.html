@@ -9,7 +9,7 @@
     <meta name = "description" content = "">
     <meta name = "author" content = "">
 
-    <title>Error - Sadukie's School of Thought</title>
+    <title>Logout of Sadukie's School of Thought</title>
     <!-- Bootstrap core CSS -->
     <link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity = "sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -18,7 +18,10 @@
     <link href = "https://fonts.googleapis.com/css2?family=Laila:wght@300;400;500;600;700&display=swap"
           rel = "stylesheet">
     <!-- Custom styles for this template -->
-    <link href = "css/login.css" th:href = "@{/css/login.css}" rel = "stylesheet">
+    <!--<link href = "../static/css/login.css" th:href = "@{/css/login.css}" rel = "stylesheet">-->
+    <base href="/">
+    <link href = "../static/css/login.css" th:href="@{/css/login.css}" rel = "stylesheet">
+
     <style>
         a.h1 {
             font-family: 'Laila', serif;
@@ -31,12 +34,12 @@
 
     <div style = "width: 100%" class = "m-4">
         <a class = "h1 text-dark" href = "/">Sadukie's School of Thought</a>
-        <h3 class="m-4">We're sorry, that request could not be processed</h3>
+        <h3 class="m-4">You have been successfully logged out</h3>
         <a class="btn btn-outline-dark" href="/" >Home</a>
     </div>
-    <!--    <div style = "width: 100%">-->
-    <!--       -->
-    <!--    </div>-->
+<!--    <div style = "width: 100%">-->
+<!--       -->
+<!--    </div>-->
 
     <!-- Bootstrap core JavaScript =============== -->
     <script src = "https://code.jquery.com/jquery-3.5.1.min.js"
