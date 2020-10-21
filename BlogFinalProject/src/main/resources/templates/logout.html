@@ -18,7 +18,7 @@
     <link href = "https://fonts.googleapis.com/css2?family=Laila:wght@300;400;500;600;700&display=swap"
           rel = "stylesheet">
     <!-- Custom styles for this template -->
-    <link href = "../static/css/login.css" th:href="@{/css/login.css}" rel = "stylesheet">
+    <link href = "../static/css/login.css" th:href = "@{/css/login.css}" rel = "stylesheet">
 </head>
 
 <body class = "text-center" style = "flex-direction: column">
@@ -26,10 +26,13 @@
 
     <div style = "width: 100%" class = "m-4">
         <a class = "h1 text-dark" href = "/">Sadukie's School of Thought</a>
-        <h3 class="m-4">You have been successfully logged out</h3>
-        <h3 class="m-4">Thank you for stopping by!</h3>
-        <a class="btn btn-outline-dark" href="/" >Home</a>
+        <h3 class = "m-4">You have been successfully logged out</h3>
+        <h3 class = "m-4">Thank you for stopping by!</h3>
+        <!--        <a class = "btn btn-outline-dark" href = "/">Home</a>-->
     </div>
+
+    <p>You will be redirected to the home in 3 seconds</p>
+
 
     <!-- Bootstrap core JavaScript =============== -->
     <script src = "https://code.jquery.com/jquery-3.5.1.min.js"
@@ -40,5 +43,10 @@
     <script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity = "sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin = "anonymous"></script>
+    <script>
+        var timer = setTimeout(function () {
+            window.location = '/'
+        }, 3000);
+    </script>
 </body>
 </html>
