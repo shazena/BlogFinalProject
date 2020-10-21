@@ -37,7 +37,7 @@
                     <div>
                         <div class = "dropdown-menu" aria-labelledby = "dropdownMenu2">
                             <span th:each = "staticPost:${staticPosts}">
-                                <a class = "dropdown-item" th:text = "${staticPost.title}">Static Page 1</a>
+                                <a class = "dropdown-item"  th:href = "@{/blog/post(id=${staticPost.postId})}" th:text = "${staticPost.title}">Static Page 1</a>
                             </span>
                         </div>
                     </div>
