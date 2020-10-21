@@ -11,6 +11,7 @@ import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Post;
 import com.skshazena.blogFinalProject.dtos.Role;
 import com.skshazena.blogFinalProject.dtos.User;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,65 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
 
     @Autowired
     UserDao userDao;
+
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    @Override
+    public List<Post> getOlderAndNewerPost(int postId) {
+        Post currentPost = postDao.getPostById(postId);
+
+        List<Post> olderAndNewerPosts = new ArrayList<>();
+        Post olderPost = null;
+        Post newerPost = null;
+
+        List<Post> allPostsForBlogNonStaticNewestFirst = postDao.getAllPostsForBlogNonStaticNewestFirst();
+//        List<Post> allPostsForBlogNonStaticNewestFirst = postDao.getAllPostsForBlogThatAreStaticNewestFirst();
+        int indexOfCurrentPost = allPostsForBlogNonStaticNewestFirst.indexOf(currentPost);
+
+        int indexOfOlderPost = indexOfCurrentPost + 1;
+        int indexOfNewerPost = indexOfCurrentPost - 1;
+
+        if (allPostsForBlogNonStaticNewestFirst != null) {
+            if (allPostsForBlogNonStaticNewestFirst.size() > 2) { //there is a previous and a next post
+
+                olderPost = allPostsForBlogNonStaticNewestFirst.get(indexOfOlderPost);
+                newerPost = allPostsForBlogNonStaticNewestFirst.get(indexOfNewerPost);
+
+                olderAndNewerPosts.add(olderPost);
+                olderAndNewerPosts.add(newerPost);
+
+            } else if (allPostsForBlogNonStaticNewestFirst.size() == 2) {//if this has this post and another post
+                if (indexOfCurrentPost == 0) {// if this is the first post, there is no newer, just older
+
+                    olderPost = allPostsForBlogNonStaticNewestFirst.get(indexOfOlderPost);//older post will be the post in there
+
+                    newerPost = null; //then newer post will be null
+
+                    olderAndNewerPosts.add(olderPost);
+                    olderAndNewerPosts.add(newerPost);
+                } else { //if index of Current post is 1, then there is no older, just newer
+
+                    olderPost = null; //then older post will be null
+
+                    newerPost = allPostsForBlogNonStaticNewestFirst.get(indexOfNewerPost);//newer post will be the post in there
+
+                    olderAndNewerPosts.add(olderPost);
+                    olderAndNewerPosts.add(newerPost);
+
+                }
+            } else {//this post is the only post, there are no previous or next posts.
+                olderPost = null;
+                newerPost = null;
+
+                olderAndNewerPosts.add(olderPost);
+                olderAndNewerPosts.add(newerPost);
+            }
+        }
+
+        return olderAndNewerPosts;
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
 
 //    BASIC CRRUD METHODS FOR IMAGE DAO ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override

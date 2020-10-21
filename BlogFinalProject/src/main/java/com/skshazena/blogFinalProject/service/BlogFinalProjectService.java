@@ -21,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface BlogFinalProjectService {
 
+    public List<Post> getOlderAndNewerPost(int postId);
+
     public String saveImage(MultipartFile file, String fileName, String directory);
 
     public String updateImage(MultipartFile file, String fileName, String directory);

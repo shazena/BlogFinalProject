@@ -30,8 +30,4 @@ public class HomeController {
         return "mainBlogPageTemplate";
     }
 
-    @GetMapping("/post")
-    public String getFullPost(Integer id, Model model) {
-        return "blogPost";
-    }
 }

@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
  * Date Created: Oct 20, 2020
  */
 @Controller
-public class ContentController {
+public class CreatorController {
 
     @Autowired
     BlogFinalProjectService service;
     
-    @GetMapping("/content")
+    @GetMapping("/creator")
     public String displayContentPage() {
         return "creatorDashboardTemplate";
     }
