@@ -25,14 +25,12 @@ public class Post {
     @Size(max = 200, message = "Title must be less than 200 characters.")
     private String title;
 
-    @PastOrPresent
     private LocalDateTime createdAt;
 
     private LocalDateTime postAt;
 
     private LocalDateTime expireAt;
 
-    @PastOrPresent
     private LocalDateTime lastEditedAt;
 
     @NotNull(message = "Content must be entered")

@@ -31,7 +31,6 @@ public class User {
 
     private boolean enabled;
 
-    @PastOrPresent
     private LocalDateTime lastLogin;
 
     @NotNull(message = "First Name must be entered")
