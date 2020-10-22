@@ -62,8 +62,8 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
         String[] hashtags = hashtagsForPostAsString.split(","); //split the string at each comma
 
         for (String hashtag : hashtags) { //put each String in a set. This will help prevent duplicates
+            hashtag = hashtag.strip();
             if (!hashtag.isBlank()) {
-                hashtag.strip();
                 hashtagsForPostAsSet.add(hashtag);
             }
         }
