@@ -12,7 +12,9 @@ import com.skshazena.blogFinalProject.dtos.Post;
 import com.skshazena.blogFinalProject.dtos.Role;
 import com.skshazena.blogFinalProject.dtos.User;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,6 +48,55 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
 
     ///////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
+    @Override
+    public List<Hashtag> parseStringIntoHashtags(String hashtagsForPostAsString) {
+
+        List<Hashtag> hashtagsForPost = new ArrayList<>();
+
+        if (hashtagsForPostAsString.isBlank()) {
+            return null; //don't process if sting is blank
+        }
+
+        Set<String> hashtagsForPostAsSet = new HashSet<String>();
+
+        String[] hashtags = hashtagsForPostAsString.split(","); //split the string at each comma
+
+        for (String hashtag : hashtags) { //put each String in a set. This will help prevent duplicates
+            if (!hashtag.isBlank()) {
+                hashtagsForPostAsSet.add(hashtag);
+            }
+        }
+
+        for (String title : hashtagsForPostAsSet) { //for each hashtag in the set
+
+            Hashtag hashtagByTitle = hashtagDao.getHashtagByTitle(title); //check to see if it's in the dB already
+
+            if (hashtagByTitle == null) { //if it's not, make a new Hashtag object and  put the title inside
+                Hashtag hashtag = new Hashtag();
+                hashtag.setTitle(title);
+                hashtagsForPost.add(hashtag); //add the new one to the set
+            } else { //if it was not null
+                hashtagsForPost.add(hashtagByTitle); //add that non-null object to the list
+            }
+
+        }
+
+        return hashtagsForPost;
+
+    }
+
+    @Override
+    public int getNumberOfEnabledUsers() {
+        List<User> allUsers = userDao.getAllUsers();
+        ArrayList<User> enabledUsers = new ArrayList<User>();
+        for (User user : allUsers) {
+            if (user.isEnabled()) {
+                enabledUsers.add(user);
+            }
+        }
+        return enabledUsers.size();
+    }
+
     @Override
     public List<Post> getOlderAndNewerPost(int postId) {
         Post currentPost = postDao.getPostById(postId);

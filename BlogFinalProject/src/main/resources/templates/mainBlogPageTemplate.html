@@ -37,7 +37,8 @@
                     <div>
                         <div class = "dropdown-menu" aria-labelledby = "dropdownMenu2">
                             <span th:each = "staticPost:${staticPosts}">
-                                <a class = "dropdown-item"  th:href = "@{/blog/post(id=${staticPost.postId})}" th:text = "${staticPost.title}">Static Page 1</a>
+                                <a class = "dropdown-item" th:href = "@{/blog/post(id=${staticPost.postId})}"
+                                   th:text = "${staticPost.title}">Static Page 1</a>
                             </span>
                         </div>
                     </div>
@@ -87,7 +88,7 @@
                                    th:value = "${_csrf.token}"/>
                             Hello,&nbsp;
                                 <span th:text = "${#authentication.principal.firstName}"></span>&nbsp;
-                            <a sec:authorize = "hasRole('ADMIN')" th:href = "admin" class = "text-dark">
+                            <a sec:authorize = "hasRole('ADMIN')" th:href = "@{/admin/dashboard}" class = "text-dark">
                                 <i class = "fa fa-tachometer" style = "font-size: 1rem; "></i>
                             </a>
                             <a sec:authorize = "hasRole('CREATOR')" th:href = "creator" class = "text-dark">
@@ -143,7 +144,6 @@
                                           th:text = "${post.postAt +' by '+ post.user.firstName}"></span>
                                     <p class = "card-text" th:text = "${post.content}">
                                         Post Content Excerpt will go here.
-
                                     </p>
                                     <span th:each = "hashtag : ${post.hashtagsForPost}">
                                             <a href = "post" th:text = "${'#'+hashtag.title}">#Hashtag</a>

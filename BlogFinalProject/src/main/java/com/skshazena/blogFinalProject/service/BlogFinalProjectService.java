@@ -21,6 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface BlogFinalProjectService {
 
+    public List<Hashtag> parseStringIntoHashtags(String hashtagsForPostAsString);
+
+    public int getNumberOfEnabledUsers();
+
     public List<Post> getOlderAndNewerPost(int postId);
 
     public String saveImage(MultipartFile file, String fileName, String directory);
