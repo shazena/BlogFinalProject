@@ -29,9 +29,15 @@ public class BlogController {
         Post post = service.getPostById(id);
         List<Comment> allCommentsForPost = service.getAllCommentsForPost(id);
 
-        List<Post> olderAndNewerPosts = service.getOlderAndNewerPost(id);
-        Post olderPost = olderAndNewerPosts.get(0);
-        Post newerPost = olderAndNewerPosts.get(1);
+        List<Post> olderAndNewerPosts;
+        Post olderPost = null;
+        Post newerPost = null;
+
+        if (!post.isStaticPage()) {
+            olderAndNewerPosts = service.getOlderAndNewerPost(id);
+            olderPost = olderAndNewerPosts.get(0);
+            newerPost = olderAndNewerPosts.get(1);
+        }
 
         model.addAttribute("staticPosts", staticPosts);
         model.addAttribute("comments", allCommentsForPost);
