@@ -139,7 +139,7 @@ public class AdminController {
 
             //consider making new version of this page where the user gets back their post
             //formatted like the edit page
-            return "adminDashboardPostCreate";
+            return "adminDashboardPostsCreate";
         }
 
         //At the end you will need to implement theimage dao to save the main picture from the page.
