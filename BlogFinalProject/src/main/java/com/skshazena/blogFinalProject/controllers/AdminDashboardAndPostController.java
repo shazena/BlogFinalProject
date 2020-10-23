@@ -174,9 +174,11 @@ public class AdminDashboardAndPostController {
         violationsPostAdd = validate.validate(post);
 
         if (violationsPostAdd.isEmpty()) {
-            for (Hashtag hashtag : hashtagsForPost) {
-                if (hashtag.getHashtagId() == 0) {
-                    hashtagDao.createHashtag(hashtag);
+            if (!hashtagsForPost.isEmpty()) {
+                for (Hashtag hashtag : hashtagsForPost) {
+                    if (hashtag.getHashtagId() == 0) {
+                        hashtagDao.createHashtag(hashtag);
+                    }
                 }
             }
             post = postDao.createPost(post);

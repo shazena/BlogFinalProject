@@ -9,10 +9,12 @@ function addTagToInput(theTag) {
     hashtagInputOnPage.value = hashtagString;
 }
 
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
 
 tinymce.init({
     selector: '#content',
-    plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+    plugins: 'print preview paste searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
     menubar: 'file edit view insert format tools table help',
     toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
     toolbar_sticky: true,
@@ -60,5 +62,33 @@ tinymce.init({
         };
         input.click();
     },
-    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+
+    images_upload_handler: function (blobInfo, success, failure) {
+        var xhr, formData;
+
+        xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+        xhr.open('POST', 'http://localhost:8080/upload/image');
+        xhr.setRequestHeader(header, token);
+
+
+        xhr.onload = function () {
+            var json;
+
+            if (xhr.status != 200) {
+                failure('HTTP Error: ' + xhr.status);
+                return;
+            }
+
+            json = xhr.responseText;
+            success(json);
+        };
+
+
+        formData = new FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+        xhr.send(formData);
+    }
 });

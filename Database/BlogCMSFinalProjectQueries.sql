@@ -42,7 +42,11 @@ FROM
 WHERE postAt <= NOW() AND (expireAt >= NOW() OR expireAt is null) AND approvalStatus = 1;
 SELECT * FROM Post where postAt<= NOW() AND expireAt >= NOW();  
 
-delete from hashtag where hashtagId = 4;
+delete from postHashtag where hashtagId = 5;
+delete from hashtag where hashtagId = 5;
+select p.postId, p.title, ph.hashtagId from post p JOIN postHashtag ph ON p.postId = ph.postId;
+delete from postHashtag where postId > 4;
+delete from blogcmsfinalprojectdb.post where postId >4;
 
 
 update post SET
@@ -51,3 +55,7 @@ content = "<p>wpofjpweojfpowekjf</p><p>These are my own personal thoughts, belie
 <p>If you have any questions for me personally, please feel free to email me at my first name at this domain.&nbsp;</p>
 <p>~Sarah \"sadukie\" Dutkiewicz</p>"
 where postId = 9;
+
+
+ALTER TABLE blogcmsfinalprojectdb.post MODIFY content TEXT NOT NULL;
+ALTER TABLE blogcmsfinalprojectdb.post MODIFY content TEXT NOT NULL;
