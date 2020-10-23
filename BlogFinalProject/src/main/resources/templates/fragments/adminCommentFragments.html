@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang = "en" xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+
+    <title>Fragments</title>
+
+</head>
+
+<body>
+
+    <!--SAMPLE-->
+    <!--    <nav th:fragment = "adminNavBar"-->
+    <!--         class = "navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow fixed-top-2 ">-->
+    <!--        <a class = "navbar-brand col-sm-3 col-md-2 mr-0" th:href = "dashboard" id = "adminNav">Admin Dashboard</a>-->
+    <!--    </nav>-->
+
+    <div th:fragment = "createNewPost(formAction)">
+        <h2 class = "mt-4">Create New Post</h2>
+        <hr>
+        <div class = "col-12 m-1 text-center"
+             th:if = "${!errors.isEmpty()}">
+            <p class = "alert alert-danger" th:each = "error : ${errors}"
+               th:text = "${error.message}">Error message</p>
+        </div>
+        <form th:action = "${formAction}" class = "col-12" method = "post">
+            <!--        <form th:action = "@{/+'mapping'+/postCreate}" class = "col-12" method = "post">-->
+
+            <div class = "form-group row">
+                <label for = "title" class = "col-2 col-form-label text-right font-weight-bold">
+                    Post Title</label>
+                <input type = "text" id = "title" name = "title" class = "col-9 form-control">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "postAt" class = "col-2 col-form-label text-right font-weight-bold">
+                    Publish At</label>
+                <input type = "datetime-local" id = "postAt" name = "postAt"
+                       class = "col-4 form-control">
+                <label for = "expireAt" class = "col-1 col-form-label text-right font-weight-bold">
+                    Expire At</label>
+                <input type = "datetime-local" id = "expireAt" name = "expireAt"
+                       class = "col-4 form-control">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "hashtagsForPost"
+                       class = "col-2 col-form-label text-right font-weight-bold">
+                    Hashtags For Post</label>
+                <input type = "text" id = "hashtagsForPost" name = "hashtagsForPost"
+                       class = "form-control col-8">
+                <button type = "button"
+                        class = "btn btn-sm btn-outline-dark rounded-circle mx-4 font-weight-bold"
+                        data-container = "body" data-toggle = "popover" data-placement = "top"
+                        data-content = "Type new hashtags separated by commas. Click a hashtag below to add it to the list."
+                >&nbsp;&nbsp;i&nbsp;&nbsp;
+                </button>
+            </div>
+
+            <div class = "form-group row">
+                            <span for = "hashtagsForPost" class = "col-2 text-right font-weight-bold">
+                                Existing Hashtags</span>
+                <div class = "col-9">
+                                <span th:each = "hashtag : ${hashtags}">
+                                    <span th:text = "${hashtag.title}" th:id = "${hashtag.title}"
+                                          onclick = "addTagToInput(this.id)"></span>
+                                        <span>&nbsp;</span> <!--SPACE-->
+                                </span>
+                </div>
+            </div>
+
+            <div class = "form-group row">
+                <label for = "staticPage" class = "col-2 col-form-label text-right font-weight-bold">
+                    Static Page</label>
+                <input type = "checkbox" id = "staticPage" name = "staticPage"
+                       class = "col-1 form-control">
+
+                <label for = "file" class = "offset-1 col-2 col-form-label font-weight-bold text-right">
+                    Title Photo</label>
+                <div class = "custom-file text-left col-5">
+                    <input type = "file" class = "custom-file-input" name = "file" id = "file"
+                           onchange = "$('#nameOfFile').html(this.files[0].name)">
+                    <label class = "custom-file-label" id = "nameOfFile" for = "file">Choose
+                                                                                      file...</label>
+                </div>
+            </div>
+
+
+            <textarea name = "content" id = "content" style = "height: 800px;"></textarea>
+
+
+            <input type = "hidden" th:value = "${#authentication.principal.userId}" name = "userId"
+                   id = "userId">
+
+            <input type = "hidden"
+                   th:name = "${_csrf.parameterName}"
+                   th:value = "${_csrf.token}"/>
+
+            <div class = "form-group row justify-content-around my-4">
+                <button class = "btn btn-danger" type = "submit" name = "action"
+                        value = "cancel">
+                    Cancel
+                </button>
+                <button class = "btn btn-dark" type = "submit" name = "action" value = "save">
+                    Save Post
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+    <!--    END CREATE POST FRAGMENT-->
+
+
+    <!--    BEGIN EDIT POST FRAGMENT-->
+    <div th:fragment = "editPost (formAction, formHeader)">
+        <h2 class = "mt-4" th:text = "${formHeader}">Edit Post</h2>
+        <hr>
+        <div class = "col-12 m-1 text-center"
+             th:if = "${!errors.isEmpty()}">
+            <p class = "alert alert-danger" th:each = "error : ${errors}"
+               th:text = "${error.message}">Error message</p>
+        </div>
+        <form th:action = "${formAction}" class = "col-12" method = "post">
+
+            <div class = "form-group row">
+                <label for = "title" class = "col-2 col-form-label text-right font-weight-bold">
+                    Post Title</label>
+                <input type = "text" id = "title" name = "title" class = "col-9 form-control"
+                       th:value = "${post.title}">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "postAt" class = "col-2 col-form-label text-right font-weight-bold">
+                    Publish At</label>
+                <input type = "datetime-local" id = "postAt" name = "postAt"
+                       class = "col-4 form-control" th:value = "${post.postAt}">
+                <label for = "expireAt" class = "col-1 col-form-label text-right font-weight-bold">
+                    Expire At</label>
+                <input type = "datetime-local" id = "expireAt" name = "expireAt"
+                       class = "col-4 form-control" th:value = "${post.expireAt}">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "hashtagsForPost"
+                       class = "col-2 col-form-label text-right font-weight-bold">
+                    Hashtags For Post</label>
+                <input type = "text" id = "hashtagsForPost" name = "hashtagsForPost"
+                       class = "form-control col-8" th:value = "${hashtagsForPostAsString}">
+                <button type = "button"
+                        class = "btn btn-sm btn-outline-dark rounded-circle mx-4 font-weight-bold"
+                        data-container = "body" data-toggle = "popover" data-placement = "top"
+                        data-content = "Type new hashtags separated by commas. Click a hashtag below to add it to the list."
+                >&nbsp;&nbsp;i&nbsp;&nbsp;
+                </button>
+            </div>
+
+            <div class = "form-group row">
+                            <span for = "hashtagsForPost" class = "col-2 text-right font-weight-bold">
+                                Existing Hashtags</span>
+                <div class = "col-9">
+                                <span th:each = "hashtag : ${hashtags}">
+                                    <span th:text = "${hashtag.title}" th:id = "${hashtag.title}"
+                                          onclick = "addTagToInput(this.id)"></span>
+                                        <span>&nbsp;</span> <!--SPACE-->
+                                </span>
+                </div>
+            </div>
+
+            <div class = "form-group row">
+                <label for = "staticPage" class = "col-2 col-form-label text-right font-weight-bold">
+                    Static Page</label>
+                <input type = "checkbox" id = "staticPage" name = "staticPage"
+                       class = "col-1 form-control" th:checked = "${post.staticPage}">
+
+                <img th:if = "${post.titlePhoto}!=''" th:src = "${post.titlePhoto}" alt = "originalPhoto"
+                     class = "offset-1 col-1">
+                <img th:if = "${post.titlePhoto}==''" th:src = "${post.titlePhoto}" class = "offset-1 col-1">
+
+                <label for = "file" class = "col-2 col-form-label font-weight-bold text-right">
+                    Title Photo</label>
+                <div class = "custom-file text-left col-4">
+                    <input type = "file" class = "custom-file-input" name = "file" id = "file"
+                           onchange = "$('#nameOfFile').html(this.files[0].name)" th:value = "${post.titlePhoto}">
+                    <label class = "custom-file-label" id = "nameOfFile" for = "file">Choose
+                                                                                      file...</label>
+                </div>
+            </div>
+
+
+            <textarea name = "content" id = "content" style = "height: 800px;">[[${post.content}]]</textarea>
+
+
+            <input type = "hidden" th:value = "${#authentication.principal.userId}" name = "userId"
+                   id = "userId">
+
+            <input type = "hidden"
+                   th:name = "${_csrf.parameterName}"
+                   th:value = "${_csrf.token}"/>
+
+            <div class = "form-group row justify-content-around my-4">
+                <button class = "btn btn-danger" type = "submit" name = "action"
+                        value = "cancel">
+                    Cancel
+                </button>
+                <button class = "btn btn-dark" type = "submit" name = "action" value = "save">
+                    Save Post
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <!--    END EDIT POST FRAGMENT-->
+
+    <!--    ADMIN POST DETAILS FRAGMENT-->
+
+    <div th:fragment = "adminPostDetails">
+        <div class = "row mt-4 ml-1" style = "position: relative;"><h2>Post Details</h2>
+            <span style = "position:absolute; right: 0; top:0;">
+	                            <a id = "previewPostOnBlog" th:href = "@{/blog/post(id=${post.postId})}"
+                                   class = "btn btn-outline-primary">
+                                Preview Post On Blog
+                                </a>
+                        </span>
+        </div>
+        <hr>
+
+
+        <h6 class = "text-right">
+            <a href = "#" th:href = "@{/admin/postEdit(id=${post.postId})}">Edit</a> |
+            <a href = "#" th:href = "@{/admin/postDelete(id=${post.postId})}">Delete</a>
+        </h6>
+
+
+
+        <div class = "row m-4">
+
+            <div class = "col-3 text-right font-weight-bold my-1">Post Title</div>
+            <div class = "col-9 text-left">
+                <span th:text = "${post.title}">Post Title</span>
+            </div>
+
+            <div class = "col-3 text-right font-weight-bold my-1">Create Date</div>
+            <div class = "col-9 text-left">
+                <span th:text = "${#temporals.format(post.createdAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Create Date</span>
+            </div>
+
+            <div class = "col-3 text-right font-weight-bold my-1">Publish Date</div>
+            <div class = "col-9 text-left">
+                <span th:text = "${#temporals.format(post.postAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Publish Date</span>
+            </div>
+
+            <div class = "col-3 text-right font-weight-bold my-1">Expire Date</div>
+            <div class = "col-9 text-left">
+                <span th:text = "${#temporals.format(post.expireAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Expire Date</span><span
+                    th:if = "${post.expireAt}==null">none</span>
+            </div>
+
+            <div class = "col-3 text-right font-weight-bold my-1">Last Edited</div>
+            <div class = "col-9 text-left">
+                <span th:text = "${#temporals.format(post.lastEditedAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Last Edited</span>
+            </div>
+
+            <div class = "col-3 text-right font-weight-bold my-1">Author</div>
+            <div class = "col-9 text-left">
+                <a th:href = "@{/admin/userDetails(id=${post.user.userId})}"><span
+                        th:text = "${post.user.firstName + ' '+ post.user.lastName}">Author</span></a>
+            </div>
+
+            <div class = "col-3 text-right font-weight-bold my-1">Static Page</div>
+            <div class = "col-9 text-left">
+                <span th:text = "${post.staticPage}">Static Page</span>
+            </div>
+
+            <div class = "col-3 text-right font-weight-bold my-1">Approval Status</div>
+            <div class = "col-9 text-left">
+                <span th:text = "${post.approvalStatus}">Approval Status</span>
+            </div>
+
+            <div class = "col-3 text-right font-weight-bold my-1">Hashtags</div>
+            <div class = "col-9 text-left">
+                <span th:each = "hashtag : ${post.hashtagsForPost}">
+                    <a th:text = "${'#'+hashtag.title}" th:href = "@{/admin/hashtagDetails(id=${hashtag.hashtagId})}">#Hashtag</a>
+                </span>
+            </div>
+
+            <div class = "col-3 text-right font-weight-bold my-1">Content</div>
+            <div class = "col-9 text-left">
+                <span th:utext = "${post.content}">Content</span>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--    END ADMIN POST DETAILS FRAGMENT-->
+
+    <!--    ADMIN POST TABLE FRAGMENT-->
+
+    <div th:fragment = "commentsForApproval">
+        <h2 class = "mt-4">Comments For Approval</h2>
+
+        <table class = "table table-striped">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Create Date</th>
+                <th>Post Date</th>
+                <th>Expire Date</th>
+                <th>Last Edited</th>
+                <th>Static</th>
+                <th>Approved</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each = "post : ${posts}">
+                <td><a href = "#" th:href = "@{/admin/postDetails(id=${post.postId})}"><span
+                        th:text = "${post.title}">Post Title</span></a></td>
+                <td th:text = "${post.user.firstName+' '+ post.user.lastName}">Author</td>
+                <td th:text = "${#temporals.format(post.createdAt, 'MM/dd/yyyy')}">Created On</td>
+                <td th:text = "${#temporals.format(post.postAt, 'MM/dd/yyyy')}">Post On</td>
+                <td>
+                    <span th:if = "${post.expireAt}!= null"
+                          th:text = "${#temporals.format(post.expireAt, 'MM/dd/yyyy')}"></span>
+                    <span th:if = "${post.expireAt} == null">none</span>
+                </td>
+                <td th:text = "${#temporals.format(post.lastEditedAt, 'MM/dd/yyyy')}">Last Edited</td>
+                <td th:text = "${post.staticPage}">Static</td>
+                <td th:text = "${post.approvalStatus}">Approved</td>
+                <td><a href = "#" th:href = "@{/admin/postEdit(id=${post.postId})}">Edit</a>
+                </td>
+                <td><a href = "#" th:href = "@{/admin/postDelete(id=${post.postId})}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--    END ADMIN POST TABLE FRAGMENT-->
+
+</body>
