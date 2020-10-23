@@ -39,12 +39,7 @@
             <main role = "main" class = "col-md-9 ml-sm-auto col-lg-10 px-4">
                 <div class = "content">
 
-                    <div class = "col-12 m-1 text-center"
-                         th:if = "${message}!=null">
-                        <p class = "alert alert-danger" th:text = "${message}">Error message</p>
-                    </div>
                     <div th:replace = "fragments/adminHashtagFragments :: adminHashtagDetails"></div>
-
 
                 </div>
             </main>

@@ -40,6 +40,11 @@
                 <div class = "content">
 
 
+                    <div class = "col-12 m-1 mt-3 text-center"
+                         th:if = "${message}!=null">
+                        <p class = "alert alert-danger" th:text = "${message}">Error message</p>
+                    </div>
+
                     <div th:replace = "fragments/adminHashtagFragments :: adminHashtagTable"></div>
 
 

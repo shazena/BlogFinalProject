@@ -69,7 +69,7 @@ public class AdminHashtagController {
     @PostMapping("/hashtagEdit")
     public String editHashtag(HttpServletRequest request, Model model, @RequestParam(value = "action", required = true) String action) {
         if (action.equals("cancel")) {
-            return "redirect:/admin/posts";
+            return "redirect:/admin/hashtags";
         }
 
         String hashtagTitleFromEdit = request.getParameter("title");
@@ -80,16 +80,14 @@ public class AdminHashtagController {
         Hashtag hashtagByTitle = service.getHashtagByTitle(hashtagTitleFromEdit);
 
         if (hashtagByTitle != null) { //if it does Exist... show error
-            String message = "That hashtag already exists";
+            String message = "That hashtag already exists. No changes were made.";
 
             model.addAttribute("message", message);
 
-            List<Post> allPostsForHashtagForAdminNewestFirst = service.getAllPostsForHashtagForAdminNewestFirst(hashtagByTitle.getHashtagId());
+            List<Hashtag> allHashtags = service.getAllHashtags();
+            model.addAttribute("hashtags", allHashtags);
 
-            model.addAttribute("hashtag", hashtagByTitle);
-            model.addAttribute("posts", allPostsForHashtagForAdminNewestFirst);
-
-            return "adminDashboardHashtagDetails";
+            return "adminDashboardHashtags";
 
         } else { //if it does not exist, then validate
             theNewHashtag.setHashtagId(Integer.parseInt(hashtagIdAsString));
