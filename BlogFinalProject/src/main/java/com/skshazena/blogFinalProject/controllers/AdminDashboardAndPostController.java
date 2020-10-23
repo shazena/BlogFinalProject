@@ -1,5 +1,11 @@
 package com.skshazena.blogFinalProject.controllers;
 
+import com.skshazena.blogFinalProject.daos.CommentDao;
+import com.skshazena.blogFinalProject.daos.HashtagDao;
+import com.skshazena.blogFinalProject.daos.ImageDao;
+import com.skshazena.blogFinalProject.daos.PostDao;
+import com.skshazena.blogFinalProject.daos.RoleDao;
+import com.skshazena.blogFinalProject.daos.UserDao;
 import com.skshazena.blogFinalProject.dtos.Comment;
 import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Post;
@@ -7,6 +13,7 @@ import com.skshazena.blogFinalProject.dtos.User;
 import com.skshazena.blogFinalProject.service.BlogFinalProjectService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,6 +42,24 @@ public class AdminDashboardAndPostController {
     @Autowired
     BlogFinalProjectService service;
 
+    @Autowired
+    ImageDao imageDao;
+
+    @Autowired
+    CommentDao commentDao;
+
+    @Autowired
+    HashtagDao hashtagDao;
+
+    @Autowired
+    PostDao postDao;
+
+    @Autowired
+    RoleDao roleDao;
+
+    @Autowired
+    UserDao userDao;
+
     Set<ConstraintViolation<Post>> violationsPostAdd = new HashSet<>();
     Set<ConstraintViolation<Post>> violationsPostEdit = new HashSet<>();
     Set<ConstraintViolation<User>> violationsUserAdd = new HashSet<>();
@@ -42,9 +67,18 @@ public class AdminDashboardAndPostController {
 
     @GetMapping("/dashboard")
     public String displayAdminPage(Model model) {
-        int numberOfEnabledUsers = service.getNumberOfEnabledUsers();
-        int postsNeedingApproval = service.getAllPostsNeedingApprovalForAdminOldestFirst().size();
-        int commentsNeedingApproval = service.getAllCommentsNeedingApproval().size();
+
+        List<User> allUsers = userDao.getAllUsers();
+        ArrayList<User> enabledUsers = new ArrayList<User>();
+        for (User user : allUsers) {
+            if (user.isEnabled()) {
+                enabledUsers.add(user);
+            }
+        }
+        int numberOfEnabledUsers = enabledUsers.size();
+
+        int postsNeedingApproval = postDao.getAllPostsNeedingApprovalForAdminOldestFirst().size();
+        int commentsNeedingApproval = commentDao.getAllCommentsNeedingApproval().size();
 
         model.addAttribute("numberOfEnabledUsers", numberOfEnabledUsers);
         model.addAttribute("postsNeedingApproval", postsNeedingApproval);
@@ -54,7 +88,7 @@ public class AdminDashboardAndPostController {
 
     @GetMapping("/posts")
     public String displayAdminPostsPage(Model model) {
-        List<Post> allPostsForAdminNewestFirst = service.getAllPostsForAdminNewestFirst();
+        List<Post> allPostsForAdminNewestFirst = postDao.getAllPostsForAdminNewestFirst();
 
         model.addAttribute("posts", allPostsForAdminNewestFirst);
 
@@ -67,7 +101,7 @@ public class AdminDashboardAndPostController {
     @GetMapping("/postDetails")
     public String getPostDetailsOnPage(Integer id, Model model) {
 
-        Post post = service.getPostById(id);
+        Post post = postDao.getPostById(id);
 
         model.addAttribute("post", post);
         return "adminDashboardPostDetails";
@@ -75,7 +109,7 @@ public class AdminDashboardAndPostController {
 
     @GetMapping("/postCreate")
     public String displayCreateNewPostPage(Model model) {
-        List<Hashtag> allHashtags = service.getAllHashtags();
+        List<Hashtag> allHashtags = hashtagDao.getAllHashtags();
         model.addAttribute("hashtags", allHashtags);
         violationsPostAdd.clear();
         model.addAttribute("errors", violationsPostAdd);
@@ -121,7 +155,7 @@ public class AdminDashboardAndPostController {
             staticPage = true;
         }
 
-        User user = service.getUserById(Integer.parseInt(userId));
+        User user = userDao.getUserById(Integer.parseInt(userId));
 
         Post post = new Post();
         post.setTitle(title);
@@ -142,12 +176,13 @@ public class AdminDashboardAndPostController {
         if (violationsPostAdd.isEmpty()) {
             for (Hashtag hashtag : hashtagsForPost) {
                 if (hashtag.getHashtagId() == 0) {
-                    service.createHashtag(hashtag);
+                    hashtagDao.createHashtag(hashtag);
                 }
             }
-            service.createPost(post);
-            //TODO redirect to the details of the post
-            return "redirect:/admin/posts";
+            post = postDao.createPost(post);
+
+            //TODO Test me!!
+            return "redirect:/admin/postDetails?id=" + post.getPostId();
         } else {
 
             model.addAttribute("post", post);
@@ -159,7 +194,7 @@ public class AdminDashboardAndPostController {
                 }
             }
 
-            List<Hashtag> allHashtags = service.getAllHashtags();
+            List<Hashtag> allHashtags = hashtagDao.getAllHashtags();
 
             model.addAttribute("hashtagsForPostAsString", hashtagsForPostAsString);
             model.addAttribute("hashtags", allHashtags);
@@ -170,7 +205,7 @@ public class AdminDashboardAndPostController {
             return "adminDashboardPostsCreate";
         }
 
-        //At the end you will need to implement theimage dao to save the main picture from the page.
+        //TODO At the end you will need to implement theimage dao to save the main picture from the page.
         //need to send attributes to this page.
     }
 
@@ -178,7 +213,7 @@ public class AdminDashboardAndPostController {
     public String getPostToEdit(Integer id, Model model) {
 
         //TODO add validation!!!!!
-        Post postById = service.getPostById(id);
+        Post postById = postDao.getPostById(id);
 
         List<Hashtag> hashtagsForPost = postById.getHashtagsForPost();
         String hashtagsForPostAsString = "";
@@ -186,7 +221,7 @@ public class AdminDashboardAndPostController {
             hashtagsForPostAsString += hashtag.getTitle() + ", ";
         }
 
-        List<Hashtag> allHashtags = service.getAllHashtags();
+        List<Hashtag> allHashtags = hashtagDao.getAllHashtags();
 
         model.addAttribute("hashtagsForPostAsString", hashtagsForPostAsString);
         model.addAttribute("hashtags", allHashtags);
@@ -204,12 +239,12 @@ public class AdminDashboardAndPostController {
         //if the post needs editing, then return the post on to the same page
         //if the postEditing is sucessful, take the user to the details page.
 
-        return "soemthing";
+        return "something";
     }
 
     @GetMapping("/postApproval")
     public String displayPostApprovalPage(Model model) {
-        List<Post> allPostsNeedingApprovalForAdminOldestFirst = service.getAllPostsNeedingApprovalForAdminOldestFirst();
+        List<Post> allPostsNeedingApprovalForAdminOldestFirst = postDao.getAllPostsNeedingApprovalForAdminOldestFirst();
 
         String approval = "approval";
         model.addAttribute("approval", approval);

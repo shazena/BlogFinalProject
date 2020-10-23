@@ -1,5 +1,11 @@
 package com.skshazena.blogFinalProject.controllers;
 
+import com.skshazena.blogFinalProject.daos.CommentDao;
+import com.skshazena.blogFinalProject.daos.HashtagDao;
+import com.skshazena.blogFinalProject.daos.ImageDao;
+import com.skshazena.blogFinalProject.daos.PostDao;
+import com.skshazena.blogFinalProject.daos.RoleDao;
+import com.skshazena.blogFinalProject.daos.UserDao;
 import com.skshazena.blogFinalProject.dtos.Comment;
 import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Post;
@@ -25,11 +31,29 @@ public class BlogController {
     @Autowired
     BlogFinalProjectService service;
 
+    @Autowired
+    ImageDao imageDao;
+
+    @Autowired
+    CommentDao commentDao;
+
+    @Autowired
+    HashtagDao hashtagDao;
+
+    @Autowired
+    PostDao postDao;
+
+    @Autowired
+    RoleDao roleDao;
+
+    @Autowired
+    UserDao userDao;
+
     @GetMapping("/post")
     public String getPostDetailsOnPage(Integer id, Model model) {
-        List<Post> staticPosts = service.getAllPostsForBlogThatAreStaticNewestFirst();
-        Post post = service.getPostById(id);
-        List<Comment> allCommentsForPost = service.getAllCommentsForPost(id);
+        List<Post> staticPosts = postDao.getAllPostsForBlogThatAreStaticNewestFirst();
+        Post post = postDao.getPostById(id);
+        List<Comment> allCommentsForPost = commentDao.getAllCommentsForPost(id);
 
         List<Post> olderAndNewerPosts;
         Post olderPost = null;
@@ -51,8 +75,8 @@ public class BlogController {
 
     @GetMapping("/hashtag")
     public String getPostsWithThisHashtag(Integer id, Model model) {
-        Hashtag hashtagById = service.getHashtagById(id);
-        List<Post> allPostsForBlogForHashtagNewestFirst = service.getAllPostsForBlogForHashtagNewestFirst(id);
+        Hashtag hashtagById = hashtagDao.getHashtagById(id);
+        List<Post> allPostsForBlogForHashtagNewestFirst = postDao.getAllPostsForBlogForHashtagNewestFirst(id);
         allPostsForBlogForHashtagNewestFirst = service.processExcerpts(allPostsForBlogForHashtagNewestFirst);
 
         model.addAttribute("hashtag", hashtagById);

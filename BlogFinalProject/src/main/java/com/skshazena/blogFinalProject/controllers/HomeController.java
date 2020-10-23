@@ -1,12 +1,14 @@
 package com.skshazena.blogFinalProject.controllers;
 
+import com.skshazena.blogFinalProject.daos.CommentDao;
+import com.skshazena.blogFinalProject.daos.HashtagDao;
+import com.skshazena.blogFinalProject.daos.ImageDao;
+import com.skshazena.blogFinalProject.daos.PostDao;
+import com.skshazena.blogFinalProject.daos.RoleDao;
+import com.skshazena.blogFinalProject.daos.UserDao;
 import com.skshazena.blogFinalProject.dtos.Post;
 import com.skshazena.blogFinalProject.service.BlogFinalProjectService;
 import java.util.List;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,13 +26,31 @@ public class HomeController {
     @Autowired
     BlogFinalProjectService service;
 
+    @Autowired
+    ImageDao imageDao;
+
+    @Autowired
+    CommentDao commentDao;
+
+    @Autowired
+    HashtagDao hashtagDao;
+
+    @Autowired
+    PostDao postDao;
+
+    @Autowired
+    RoleDao roleDao;
+
+    @Autowired
+    UserDao userDao;
+
     @GetMapping({"/", "/home"})
     public String displayHomePage(Model model) {
-        List<Post> posts = service.getAllPostsForBlogNonStaticNewestFirst();
-        
+        List<Post> posts = postDao.getAllPostsForBlogNonStaticNewestFirst();
+
         posts = service.processExcerpts(posts);
 
-        List<Post> staticPosts = service.getAllPostsForBlogThatAreStaticNewestFirst();
+        List<Post> staticPosts = postDao.getAllPostsForBlogThatAreStaticNewestFirst();
 
         model.addAttribute("posts", posts);
         model.addAttribute("staticPosts", staticPosts);

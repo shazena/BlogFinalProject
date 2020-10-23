@@ -1,5 +1,11 @@
 package com.skshazena.blogFinalProject.controllers;
 
+import com.skshazena.blogFinalProject.daos.CommentDao;
+import com.skshazena.blogFinalProject.daos.HashtagDao;
+import com.skshazena.blogFinalProject.daos.ImageDao;
+import com.skshazena.blogFinalProject.daos.PostDao;
+import com.skshazena.blogFinalProject.daos.RoleDao;
+import com.skshazena.blogFinalProject.daos.UserDao;
 import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Post;
 import com.skshazena.blogFinalProject.service.BlogFinalProjectService;
@@ -31,20 +37,38 @@ public class AdminHashtagController {
     @Autowired
     BlogFinalProjectService service;
 
+    @Autowired
+    ImageDao imageDao;
+
+    @Autowired
+    CommentDao commentDao;
+
+    @Autowired
+    HashtagDao hashtagDao;
+
+    @Autowired
+    PostDao postDao;
+
+    @Autowired
+    RoleDao roleDao;
+
+    @Autowired
+    UserDao userDao;
+
     Set<ConstraintViolation<Hashtag>> violationsHashtagEdit = new HashSet<>();
 
     @GetMapping("/hashtags")
     public String getAllHashtags(Model model) {
-        List<Hashtag> allHashtags = service.getAllHashtags();
+        List<Hashtag> allHashtags = hashtagDao.getAllHashtags();
         model.addAttribute("hashtags", allHashtags);
         return "adminDashboardHashtags";
     }
 
     @GetMapping("/hashtagDetails")
     public String getHashtagDetails(Integer id, Model model) {
-        Hashtag hashtagById = service.getHashtagById(id);
+        Hashtag hashtagById = hashtagDao.getHashtagById(id);
 
-        List<Post> allPostsForHashtagForAdminNewestFirst = service.getAllPostsForHashtagForAdminNewestFirst(id);
+        List<Post> allPostsForHashtagForAdminNewestFirst = postDao.getAllPostsForHashtagForAdminNewestFirst(id);
 
         model.addAttribute("hashtag", hashtagById);
         model.addAttribute("posts", allPostsForHashtagForAdminNewestFirst);
@@ -54,7 +78,7 @@ public class AdminHashtagController {
 
     @GetMapping("/hashtagEdit")
     public String getHashtagToEdit(Integer id, Model model) {
-        Hashtag hashtagById = service.getHashtagById(id);
+        Hashtag hashtagById = hashtagDao.getHashtagById(id);
 
         model.addAttribute("hashtag", hashtagById);
 
@@ -74,14 +98,14 @@ public class AdminHashtagController {
 
         //find out if the hashtag already exists
         Hashtag theNewHashtag = new Hashtag();
-        Hashtag hashtagByTitle = service.getHashtagByTitle(hashtagTitleFromEdit);
+        Hashtag hashtagByTitle = hashtagDao.getHashtagByTitle(hashtagTitleFromEdit);
 
         if (hashtagByTitle != null) { //if it does Exist... show error
             String message = "That hashtag already exists. No changes were made.";
 
             model.addAttribute("message", message);
 
-            List<Hashtag> allHashtags = service.getAllHashtags();
+            List<Hashtag> allHashtags = hashtagDao.getAllHashtags();
             model.addAttribute("hashtags", allHashtags);
 
             return "adminDashboardHashtags";
@@ -95,7 +119,7 @@ public class AdminHashtagController {
 
             if (violationsHashtagEdit.isEmpty()) { //if there are not violations
 
-                service.updateHashtag(theNewHashtag);
+                hashtagDao.updateHashtag(theNewHashtag);
 
                 return "redirect:/admin/hashtags";
             } else {

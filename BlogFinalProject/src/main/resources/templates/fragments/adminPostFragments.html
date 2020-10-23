@@ -284,7 +284,7 @@
             <div class = "col-3 text-right font-weight-bold my-1">Hashtags</div>
             <div class = "col-9 text-left">
                 <span th:each = "hashtag : ${post.hashtagsForPost}">
-                    <span th:text = "${'#'+hashtag.title}">#Hashtag</span>
+                    <a th:text = "${'#'+hashtag.title}" th:href = "@{/admin/hashtagDetails(id=${hashtag.hashtagId})}">#Hashtag</a>
                 </span>
             </div>
 
