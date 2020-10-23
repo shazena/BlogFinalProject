@@ -42,7 +42,7 @@ CREATE TABLE post (
     postAt DATETIME NOT NULL,
     expireAt DATETIME,
     lastEditedAt DATETIME NOT NULL,
-    content LONGBLOB NOT NULL,
+    content TEXT NOT NULL,
     approvalStatus BIT NOT NULL,
     staticPage BIT NOT NULL,
     titlePhoto VARCHAR(255),

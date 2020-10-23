@@ -114,7 +114,6 @@
                 <span class = "small"
                       th:text = "${post.postAt +' by '+ post.user.firstName}"></span>
                 <p class = "card-text">
-                    Post Content Excerpt will go here.
                     <span th:text = "${post.content + '...'}"></span>
                     <a href = "post" th:href = "@{/blog/post(id=${post.postId})}"
                        class = "">Read More</a>
