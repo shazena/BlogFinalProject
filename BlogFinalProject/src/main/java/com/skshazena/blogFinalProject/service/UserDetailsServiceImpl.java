@@ -4,18 +4,24 @@ import com.skshazena.blogFinalProject.daos.UserDao;
 import com.skshazena.blogFinalProject.dtos.EnhancedSpringUser;
 import com.skshazena.blogFinalProject.dtos.Role;
 import com.skshazena.blogFinalProject.dtos.User;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
 /**
  *
  * @author Shazena Khan
