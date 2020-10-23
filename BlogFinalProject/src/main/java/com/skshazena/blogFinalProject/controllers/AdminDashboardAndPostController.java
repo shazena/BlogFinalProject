@@ -174,12 +174,15 @@ public class AdminDashboardAndPostController {
         violationsPostAdd = validate.validate(post);
 
         if (violationsPostAdd.isEmpty()) {
-            if (!hashtagsForPost.isEmpty()) {
+            if (hashtagsForPost != null || !hashtagsForPost.isEmpty()) { //TODO buggy, giving null pointer exceptions
                 for (Hashtag hashtag : hashtagsForPost) {
                     if (hashtag.getHashtagId() == 0) {
                         hashtagDao.createHashtag(hashtag);
                     }
                 }
+            } else {
+                hashtagsForPost = new ArrayList<Hashtag>();
+                post.setHashtagsForPost(hashtagsForPost);
             }
             post = postDao.createPost(post);
 

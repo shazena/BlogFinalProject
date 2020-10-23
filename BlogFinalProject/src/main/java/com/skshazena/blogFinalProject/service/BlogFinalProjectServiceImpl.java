@@ -68,8 +68,8 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
 
         List<Hashtag> hashtagsForPost = new ArrayList<>();
 
-        if (hashtagsForPostAsString.isBlank()) {
-            return null; //don't process if string is blank
+        if (hashtagsForPostAsString == null || hashtagsForPostAsString.isBlank()) {
+            return hashtagsForPost; //don't process if string is blank
         }
 
         Set<String> hashtagsForPostAsSet = new HashSet<String>();
