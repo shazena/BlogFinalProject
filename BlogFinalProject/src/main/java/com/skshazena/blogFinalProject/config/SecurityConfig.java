@@ -1,5 +1,6 @@
 package com.skshazena.blogFinalProject.config;
 
+import com.skshazena.blogFinalProject.service.CustomAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     UserDetailsService userDetails;
 
     @Autowired
+    CustomAuthenticationSuccessHandler authenticationHandler;
+
+    @Autowired
     public void configureGlobalInDB(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetails).passwordEncoder(bCryptPasswordEncoder());
     }
@@ -46,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .successHandler(authenticationHandler)
                 .failureUrl("/login?login_error=1")
                 .permitAll()
                 .and()

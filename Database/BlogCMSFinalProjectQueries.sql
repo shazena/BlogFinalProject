@@ -1,5 +1,5 @@
 USE BlogCMSFinalProjectDB;
-
+select * from `user` u JOIN userRole ON u.userId = userRole.user_id  JOIN `Role` r On userRole.role_id = r.roleId;
 -- Select Queries Main DB
 SELECT * from blogcmsfinalprojectdb.user;
 SELECT * from blogcmsfinalprojectdb.userRole;
