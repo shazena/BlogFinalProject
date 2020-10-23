@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BlogController {
 
     //TODO Add in the add Comment functionality
-    
     @Autowired
     BlogFinalProjectService service;
 
@@ -54,6 +53,7 @@ public class BlogController {
     public String getPostsWithThisHashtag(Integer id, Model model) {
         Hashtag hashtagById = service.getHashtagById(id);
         List<Post> allPostsForBlogForHashtagNewestFirst = service.getAllPostsForBlogForHashtagNewestFirst(id);
+        allPostsForBlogForHashtagNewestFirst = service.processExcerpts(allPostsForBlogForHashtagNewestFirst);
 
         model.addAttribute("hashtag", hashtagById);
         model.addAttribute("posts", allPostsForBlogForHashtagNewestFirst);

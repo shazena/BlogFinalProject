@@ -103,9 +103,9 @@ public class PostDaoImplTest {
         Post post = new Post();
         post.setTitle("firstTitle");
         post.setCreatedAt(LocalDateTime.now().minusDays(2));
-        post.setPostAt(LocalDateTime.now().minusDays(2));
+        post.setPostAt(LocalDateTime.now().minusDays(2).withNano(0));
         post.setExpireAt(LocalDateTime.now().plusDays(5).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusHours(3));
+        post.setLastEditedAt(LocalDateTime.now().minusHours(3).withNano(0));
         post.setContent("This is the content of my post");
         post.setApprovalStatus(true);
         post.setStaticPage(false);
@@ -144,7 +144,7 @@ public class PostDaoImplTest {
         user.setFirstName("firstName");
         user.setLastName("lastName");
         user.setEnabled(true);
-        user.setLastLogin(LocalDateTime.now().minusHours(3));
+        user.setLastLogin(LocalDateTime.now().minusHours(3).withNano(0));
         user.setUsername("firstUsername");
         user.setPassword("password");
         user.setProfilePicture("profilePicturePath");
@@ -154,10 +154,10 @@ public class PostDaoImplTest {
 
         Post post = new Post();
         post.setTitle("firstTitle");
-        post.setCreatedAt(LocalDateTime.now().minusDays(2));
-        post.setPostAt(LocalDateTime.now().minusDays(2));
+        post.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
+        post.setPostAt(LocalDateTime.now().minusDays(2).withNano(0));
         post.setExpireAt(LocalDateTime.now().plusDays(5).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusHours(3));
+        post.setLastEditedAt(LocalDateTime.now().minusHours(3).withNano(0));
         post.setContent("This is the content of my post");
         post.setApprovalStatus(true);
         post.setStaticPage(false);
@@ -176,10 +176,10 @@ public class PostDaoImplTest {
 
         Post post2 = new Post();
         post2.setTitle("secondTitle");
-        post2.setCreatedAt(LocalDateTime.now().minusDays(9));
-        post2.setPostAt(LocalDateTime.now().minusDays(9));
+        post2.setCreatedAt(LocalDateTime.now().minusDays(9).withNano(0));
+        post2.setPostAt(LocalDateTime.now().minusDays(9).withNano(0));
         post2.setExpireAt(LocalDateTime.now().minusDays(6).withNano(0));
-        post2.setLastEditedAt(LocalDateTime.now().minusDays(7));
+        post2.setLastEditedAt(LocalDateTime.now().minusDays(7).withNano(0));
         post2.setContent("This is the content of my post yet again");
         post2.setApprovalStatus(false);
         post2.setStaticPage(true);
@@ -238,10 +238,10 @@ public class PostDaoImplTest {
 
         Post post = new Post();
         post.setTitle("firstTitle");
-        post.setCreatedAt(LocalDateTime.now().minusDays(2));
-        post.setPostAt(LocalDateTime.now().minusDays(2));
+        post.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
+        post.setPostAt(LocalDateTime.now().minusDays(2).withNano(0));
         post.setExpireAt(LocalDateTime.now().plusDays(5).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusHours(3));
+        post.setLastEditedAt(LocalDateTime.now().minusHours(3).withNano(0));
         post.setContent("This is the content of my post");
         post.setApprovalStatus(true);
         post.setStaticPage(false);
@@ -260,10 +260,10 @@ public class PostDaoImplTest {
 
         Post post2 = new Post();
         post2.setTitle("secondTitle");
-        post2.setCreatedAt(LocalDateTime.now().minusDays(9));
-        post2.setPostAt(LocalDateTime.now().minusDays(9));
+        post2.setCreatedAt(LocalDateTime.now().minusDays(9).withNano(0).withNano(0));
+        post2.setPostAt(LocalDateTime.now().minusDays(9).withNano(0));
         post2.setExpireAt(LocalDateTime.now().minusDays(6).withNano(0));
-        post2.setLastEditedAt(LocalDateTime.now().minusDays(7));
+        post2.setLastEditedAt(LocalDateTime.now().minusDays(7).withNano(0));
         post2.setContent("This is the content of my post yet again");
         post2.setApprovalStatus(false);
         post2.setStaticPage(true);
@@ -315,7 +315,7 @@ public class PostDaoImplTest {
         user.setFirstName("firstName");
         user.setLastName("lastName");
         user.setEnabled(true);
-        user.setLastLogin(LocalDateTime.now().minusHours(3));
+        user.setLastLogin(LocalDateTime.now().minusHours(3).withNano(0));
         user.setUsername("firstUsername");
         user.setPassword("password");
         user.setProfilePicture("profilePicturePath");
@@ -327,7 +327,7 @@ public class PostDaoImplTest {
         user2.setFirstName("firstName2");
         user2.setLastName("lastName2");
         user2.setEnabled(true);
-        user2.setLastLogin(LocalDateTime.now().minusHours(1));
+        user2.setLastLogin(LocalDateTime.now().minusHours(1).withNano(0).withNano(0));
         user2.setUsername("secondUsername");
         user2.setPassword("password2");
         user2.setProfilePicture("profilePicturePath2");
@@ -337,10 +337,10 @@ public class PostDaoImplTest {
 
         Post post = new Post();
         post.setTitle("firstTitle");
-        post.setCreatedAt(LocalDateTime.now().minusDays(2));
-        post.setPostAt(LocalDateTime.now().minusDays(2));
+        post.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
+        post.setPostAt(LocalDateTime.now().minusDays(2).withNano(0));
         post.setExpireAt(LocalDateTime.now().plusDays(5).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusHours(3));
+        post.setLastEditedAt(LocalDateTime.now().minusHours(3).withNano(0));
         post.setContent("This is the content of my post");
         post.setApprovalStatus(true);
         post.setStaticPage(false);
@@ -359,10 +359,10 @@ public class PostDaoImplTest {
 
         Post post2 = new Post();
         post2.setTitle("secondTitle");
-        post2.setCreatedAt(LocalDateTime.now().minusDays(9));
-        post2.setPostAt(LocalDateTime.now().minusDays(9));
+        post2.setCreatedAt(LocalDateTime.now().minusDays(9).withNano(0));
+        post2.setPostAt(LocalDateTime.now().minusDays(9).withNano(0));
         post2.setExpireAt(LocalDateTime.now().minusDays(6).withNano(0));
-        post2.setLastEditedAt(LocalDateTime.now().minusDays(7));
+        post2.setLastEditedAt(LocalDateTime.now().minusDays(7).withNano(0));
         post2.setContent("This is the content of my post yet again");
         post2.setApprovalStatus(false);
         post2.setStaticPage(true);
@@ -381,10 +381,10 @@ public class PostDaoImplTest {
 
         Post post3 = new Post();
         post3.setTitle("thirdTitle");
-        post3.setCreatedAt(LocalDateTime.now().minusDays(15));
-        post3.setPostAt(LocalDateTime.now().minusDays(16));
+        post3.setCreatedAt(LocalDateTime.now().minusDays(15).withNano(0));
+        post3.setPostAt(LocalDateTime.now().minusDays(16).withNano(0));
         post3.setExpireAt(null);
-        post3.setLastEditedAt(LocalDateTime.now().minusDays(2));
+        post3.setLastEditedAt(LocalDateTime.now().minusDays(2).withNano(0));
         post3.setContent("This is the content of my post yet again. Again.");
         post3.setApprovalStatus(true);
         post3.setStaticPage(true);
@@ -438,7 +438,7 @@ public class PostDaoImplTest {
         user.setFirstName("firstName");
         user.setLastName("lastName");
         user.setEnabled(true);
-        user.setLastLogin(LocalDateTime.now().minusHours(3));
+        user.setLastLogin(LocalDateTime.now().minusHours(3).withNano(0));
         user.setUsername("firstUsername");
         user.setPassword("password");
         user.setProfilePicture("profilePicturePath");
@@ -450,7 +450,7 @@ public class PostDaoImplTest {
         user2.setFirstName("firstName2");
         user2.setLastName("lastName2");
         user2.setEnabled(true);
-        user2.setLastLogin(LocalDateTime.now().minusHours(1));
+        user2.setLastLogin(LocalDateTime.now().minusHours(1).withNano(0));
         user2.setUsername("secondUsername");
         user2.setPassword("password2");
         user2.setProfilePicture("profilePicturePath2");
@@ -460,10 +460,10 @@ public class PostDaoImplTest {
 
         Post post = new Post();
         post.setTitle("firstTitle");
-        post.setCreatedAt(LocalDateTime.now().minusDays(2));
-        post.setPostAt(LocalDateTime.now().minusDays(2));
+        post.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
+        post.setPostAt(LocalDateTime.now().minusDays(2).withNano(0));
         post.setExpireAt(LocalDateTime.now().plusDays(5).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusHours(3));
+        post.setLastEditedAt(LocalDateTime.now().minusHours(3).withNano(0));
         post.setContent("This is the content of my post");
         post.setApprovalStatus(true);
         post.setStaticPage(false);
@@ -482,10 +482,10 @@ public class PostDaoImplTest {
 
         Post post2 = new Post();
         post2.setTitle("secondTitle");
-        post2.setCreatedAt(LocalDateTime.now().minusDays(9));
-        post2.setPostAt(LocalDateTime.now().minusDays(9));
+        post2.setCreatedAt(LocalDateTime.now().minusDays(9).withNano(0));
+        post2.setPostAt(LocalDateTime.now().minusDays(9).withNano(0));
         post2.setExpireAt(LocalDateTime.now().minusDays(6).withNano(0));
-        post2.setLastEditedAt(LocalDateTime.now().minusDays(7));
+        post2.setLastEditedAt(LocalDateTime.now().minusDays(7).withNano(0));
         post2.setContent("This is the content of my post yet again");
         post2.setApprovalStatus(false);
         post2.setStaticPage(true);
@@ -504,10 +504,10 @@ public class PostDaoImplTest {
 
         Post post3 = new Post();
         post3.setTitle("thirdTitle");
-        post3.setCreatedAt(LocalDateTime.now().minusDays(15));
-        post3.setPostAt(LocalDateTime.now().minusDays(16));
+        post3.setCreatedAt(LocalDateTime.now().minusDays(15).withNano(0));
+        post3.setPostAt(LocalDateTime.now().minusDays(16).withNano(0));
         post3.setExpireAt(null);
-        post3.setLastEditedAt(LocalDateTime.now().minusDays(2));
+        post3.setLastEditedAt(LocalDateTime.now().minusDays(2).withNano(0));
         post3.setContent("This is the content of my post yet again. Again.");
         post3.setApprovalStatus(true);
         post3.setStaticPage(true);
@@ -531,10 +531,11 @@ public class PostDaoImplTest {
 
     /**
      * Test of getAllPostsForBlogForHashtagNewestFirst method, of class
- PostDaoImpl.
+     * PostDaoImpl.
      */
     @Test
-    public void testGetestGetAllPostsForBlogForHashtagNewestFirst       Role role = new Role();
+    public void testGetestGetAllPostsForBlogForHashtagNewestFirst() {
+        Role role = new Role();
         role.setRole("firstRole");
 
         role = roleDao.createRole(role);
@@ -554,7 +555,7 @@ public class PostDaoImplTest {
         user.setFirstName("firstName");
         user.setLastName("lastName");
         user.setEnabled(true);
-        user.setLastLogin(LocalDateTime.now().minusHours(3));
+        user.setLastLogin(LocalDateTime.now().minusHours(3).withNano(0));
         user.setUsername("firstUsername");
         user.setPassword("password");
         user.setProfilePicture("profilePicturePath");
@@ -566,7 +567,7 @@ public class PostDaoImplTest {
         user2.setFirstName("firstName2");
         user2.setLastName("lastName2");
         user2.setEnabled(true);
-        user2.setLastLogin(LocalDateTime.now().minusHours(1));
+        user2.setLastLogin(LocalDateTime.now().minusHours(1).withNano(0));
         user2.setUsername("secondUsername");
         user2.setPassword("password2");
         user2.setProfilePicture("profilePicturePath2");
@@ -576,10 +577,10 @@ public class PostDaoImplTest {
 
         Post post = new Post();
         post.setTitle("firstTitle");
-        post.setCreatedAt(LocalDateTime.now().minusDays(2));
-        post.setPostAt(LocalDateTime.now().minusDays(2));
+        post.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
+        post.setPostAt(LocalDateTime.now().minusDays(2).withNano(0));
         post.setExpireAt(LocalDateTime.now().plusDays(5).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusHours(3));
+        post.setLastEditedAt(LocalDateTime.now().minusHours(3).withNano(0));
         post.setContent("This is the content of my post");
         post.setApprovalStatus(true);
         post.setStaticPage(false);
@@ -598,10 +599,10 @@ public class PostDaoImplTest {
 
         Post post2 = new Post();
         post2.setTitle("secondTitle");
-        post2.setCreatedAt(LocalDateTime.now().minusDays(9));
-        post2.setPostAt(LocalDateTime.now().minusDays(9));
+        post2.setCreatedAt(LocalDateTime.now().minusDays(9).withNano(0));
+        post2.setPostAt(LocalDateTime.now().minusDays(9).withNano(0));
         post2.setExpireAt(LocalDateTime.now().minusDays(6).withNano(0));
-        post2.setLastEditedAt(LocalDateTime.now().minusDays(7));
+        post2.setLastEditedAt(LocalDateTime.now().minusDays(7).withNano(0));
         post2.setContent("This is the content of my post yet again");
         post2.setApprovalStatus(false);
         post2.setStaticPage(true);
@@ -620,10 +621,10 @@ public class PostDaoImplTest {
 
         Post post3 = new Post();
         post3.setTitle("thirdTitle");
-        post3.setCreatedAt(LocalDateTime.now().minusDays(15));
-        post3.setPostAt(LocalDateTime.now().minusDays(16));
+        post3.setCreatedAt(LocalDateTime.now().minusDays(15).withNano(0));
+        post3.setPostAt(LocalDateTime.now().minusDays(16).withNano(0));
         post3.setExpireAt(null);
-        post3.setLastEditedAt(LocalDateTime.now().minusDays(2));
+        post3.setLastEditedAt(LocalDateTime.now().minusDays(2).withNano(0));
         post3.setContent("This is the content of my post yet again. Again.");
         post3.setApprovalStatus(true);
         post3.setStaticPage(true);
@@ -670,7 +671,7 @@ public class PostDaoImplTest {
         user.setFirstName("firstName");
         user.setLastName("lastName");
         user.setEnabled(true);
-        user.setLastLogin(LocalDateTime.now().minusHours(3));
+        user.setLastLogin(LocalDateTime.now().minusHours(3).withNano(0));
         user.setUsername("firstUsername");
         user.setPassword("password");
         user.setProfilePicture("profilePicturePath");
@@ -682,7 +683,7 @@ public class PostDaoImplTest {
         user2.setFirstName("firstName2");
         user2.setLastName("lastName2");
         user2.setEnabled(true);
-        user2.setLastLogin(LocalDateTime.now().minusHours(1));
+        user2.setLastLogin(LocalDateTime.now().minusHours(1).withNano(0));
         user2.setUsername("secondUsername");
         user2.setPassword("password2");
         user2.setProfilePicture("profilePicturePath2");
@@ -692,10 +693,10 @@ public class PostDaoImplTest {
 
         Post post = new Post();
         post.setTitle("firstTitle");
-        post.setCreatedAt(LocalDateTime.now().minusDays(2));
-        post.setPostAt(LocalDateTime.now().minusDays(2));
+        post.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
+        post.setPostAt(LocalDateTime.now().minusDays(2).withNano(0));
         post.setExpireAt(LocalDateTime.now().plusDays(5).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusHours(3));
+        post.setLastEditedAt(LocalDateTime.now().minusHours(3).withNano(0));
         post.setContent("This is the content of my post");
         post.setApprovalStatus(true);
         post.setStaticPage(false);
@@ -714,10 +715,10 @@ public class PostDaoImplTest {
 
         Post post2 = new Post();
         post2.setTitle("secondTitle");
-        post2.setCreatedAt(LocalDateTime.now().minusDays(9));
-        post2.setPostAt(LocalDateTime.now().minusDays(9));
+        post2.setCreatedAt(LocalDateTime.now().minusDays(9).withNano(0));
+        post2.setPostAt(LocalDateTime.now().minusDays(9).withNano(0));
         post2.setExpireAt(LocalDateTime.now().minusDays(6).withNano(0));
-        post2.setLastEditedAt(LocalDateTime.now().minusDays(7));
+        post2.setLastEditedAt(LocalDateTime.now().minusDays(7).withNano(0));
         post2.setContent("This is the content of my post yet again");
         post2.setApprovalStatus(false);
         post2.setStaticPage(true);
@@ -736,10 +737,10 @@ public class PostDaoImplTest {
 
         Post post3 = new Post();
         post3.setTitle("thirdTitle");
-        post3.setCreatedAt(LocalDateTime.now().minusDays(15));
-        post3.setPostAt(LocalDateTime.now().minusDays(16));
+        post3.setCreatedAt(LocalDateTime.now().minusDays(15).withNano(0));
+        post3.setPostAt(LocalDateTime.now().minusDays(16).withNano(0));
         post3.setExpireAt(null);
-        post3.setLastEditedAt(LocalDateTime.now().minusDays(2));
+        post3.setLastEditedAt(LocalDateTime.now().minusDays(2).withNano(0));
         post3.setContent("This is the content of my post yet again. Again.");
         post3.setApprovalStatus(true);
         post3.setStaticPage(true);
@@ -794,7 +795,7 @@ public class PostDaoImplTest {
         user.setFirstName("firstName");
         user.setLastName("lastName");
         user.setEnabled(true);
-        user.setLastLogin(LocalDateTime.now().minusHours(3));
+        user.setLastLogin(LocalDateTime.now().minusHours(3).withNano(0));
         user.setUsername("firstUsername");
         user.setPassword("password");
         user.setProfilePicture("profilePicturePath");
@@ -806,7 +807,7 @@ public class PostDaoImplTest {
         user2.setFirstName("firstName2");
         user2.setLastName("lastName2");
         user2.setEnabled(true);
-        user2.setLastLogin(LocalDateTime.now().minusHours(1));
+        user2.setLastLogin(LocalDateTime.now().minusHours(1).withNano(0));
         user2.setUsername("secondUsername");
         user2.setPassword("password2");
         user2.setProfilePicture("profilePicturePath2");
@@ -816,10 +817,10 @@ public class PostDaoImplTest {
 
         Post post = new Post();
         post.setTitle("firstTitle");
-        post.setCreatedAt(LocalDateTime.now().minusDays(2));
-        post.setPostAt(LocalDateTime.now().minusDays(2));
+        post.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
+        post.setPostAt(LocalDateTime.now().minusDays(2).withNano(0));
         post.setExpireAt(LocalDateTime.now().plusDays(5).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusHours(3));
+        post.setLastEditedAt(LocalDateTime.now().minusHours(3).withNano(0));
         post.setContent("This is the content of my post");
         post.setApprovalStatus(true);
         post.setStaticPage(false);
@@ -838,10 +839,10 @@ public class PostDaoImplTest {
 
         Post post2 = new Post();
         post2.setTitle("secondTitle");
-        post2.setCreatedAt(LocalDateTime.now().minusDays(9));
-        post2.setPostAt(LocalDateTime.now().minusDays(9));
+        post2.setCreatedAt(LocalDateTime.now().minusDays(9).withNano(0));
+        post2.setPostAt(LocalDateTime.now().minusDays(9).withNano(0));
         post2.setExpireAt(LocalDateTime.now().minusDays(6).withNano(0));
-        post2.setLastEditedAt(LocalDateTime.now().minusDays(7));
+        post2.setLastEditedAt(LocalDateTime.now().minusDays(7).withNano(0));
         post2.setContent("This is the content of my post yet again");
         post2.setApprovalStatus(false);
         post2.setStaticPage(true);
@@ -860,10 +861,10 @@ public class PostDaoImplTest {
 
         Post post3 = new Post();
         post3.setTitle("thirdTitle");
-        post3.setCreatedAt(LocalDateTime.now().minusDays(15));
-        post3.setPostAt(LocalDateTime.now().minusDays(16));
+        post3.setCreatedAt(LocalDateTime.now().minusDays(15).withNano(0));
+        post3.setPostAt(LocalDateTime.now().minusDays(16).withNano(0));
         post3.setExpireAt(null);
-        post3.setLastEditedAt(LocalDateTime.now().minusDays(2));
+        post3.setLastEditedAt(LocalDateTime.now().minusDays(2).withNano(0));
         post3.setContent("This is the content of my post yet again. Again.");
         post3.setApprovalStatus(true);
         post3.setStaticPage(true);
@@ -918,7 +919,7 @@ public class PostDaoImplTest {
         user.setFirstName("firstName");
         user.setLastName("lastName");
         user.setEnabled(true);
-        user.setLastLogin(LocalDateTime.now().minusHours(3));
+        user.setLastLogin(LocalDateTime.now().minusHours(3).withNano(0));
         user.setUsername("firstUsername");
         user.setPassword("password");
         user.setProfilePicture("profilePicturePath");
@@ -930,7 +931,7 @@ public class PostDaoImplTest {
         user2.setFirstName("firstName2");
         user2.setLastName("lastName2");
         user2.setEnabled(true);
-        user2.setLastLogin(LocalDateTime.now().minusHours(1));
+        user2.setLastLogin(LocalDateTime.now().minusHours(1).withNano(0));
         user2.setUsername("secondUsername");
         user2.setPassword("password2");
         user2.setProfilePicture("profilePicturePath2");
@@ -940,10 +941,10 @@ public class PostDaoImplTest {
 
         Post post = new Post();
         post.setTitle("firstTitle");
-        post.setCreatedAt(LocalDateTime.now().minusDays(2));
-        post.setPostAt(LocalDateTime.now().minusDays(2));
+        post.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
+        post.setPostAt(LocalDateTime.now().minusDays(2).withNano(0));
         post.setExpireAt(LocalDateTime.now().plusDays(5).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusHours(3));
+        post.setLastEditedAt(LocalDateTime.now().minusHours(3).withNano(0));
         post.setContent("This is the content of my post");
         post.setApprovalStatus(true);
         post.setStaticPage(false);
@@ -962,10 +963,10 @@ public class PostDaoImplTest {
 
         Post post2 = new Post();
         post2.setTitle("secondTitle");
-        post2.setCreatedAt(LocalDateTime.now().minusDays(9));
-        post2.setPostAt(LocalDateTime.now().minusDays(9));
+        post2.setCreatedAt(LocalDateTime.now().minusDays(9).withNano(0));
+        post2.setPostAt(LocalDateTime.now().minusDays(9).withNano(0));
         post2.setExpireAt(LocalDateTime.now().minusDays(6).withNano(0));
-        post2.setLastEditedAt(LocalDateTime.now().minusDays(7));
+        post2.setLastEditedAt(LocalDateTime.now().minusDays(7).withNano(0));
         post2.setContent("This is the content of my post yet again");
         post2.setApprovalStatus(false);
         post2.setStaticPage(true);
@@ -984,10 +985,10 @@ public class PostDaoImplTest {
 
         Post post3 = new Post();
         post3.setTitle("thirdTitle");
-        post3.setCreatedAt(LocalDateTime.now().minusDays(15));
-        post3.setPostAt(LocalDateTime.now().minusDays(16));
+        post3.setCreatedAt(LocalDateTime.now().minusDays(15).withNano(0));
+        post3.setPostAt(LocalDateTime.now().minusDays(16).withNano(0));
         post3.setExpireAt(null);
-        post3.setLastEditedAt(LocalDateTime.now().minusDays(2));
+        post3.setLastEditedAt(LocalDateTime.now().minusDays(2).withNano(0));
         post3.setContent("This is the content of my post yet again. Again.");
         post3.setApprovalStatus(false);
         post3.setStaticPage(true);
@@ -1045,7 +1046,7 @@ public class PostDaoImplTest {
         user.setFirstName("firstName");
         user.setLastName("lastName");
         user.setEnabled(true);
-        user.setLastLogin(LocalDateTime.now().minusHours(3));
+        user.setLastLogin(LocalDateTime.now().minusHours(3).withNano(0));
         user.setUsername("firstUsername");
         user.setPassword("password");
         user.setProfilePicture("profilePicturePath");
@@ -1057,7 +1058,7 @@ public class PostDaoImplTest {
         user2.setFirstName("firstName2");
         user2.setLastName("lastName2");
         user2.setEnabled(true);
-        user2.setLastLogin(LocalDateTime.now().minusHours(1));
+        user2.setLastLogin(LocalDateTime.now().minusHours(1).withNano(0));
         user2.setUsername("secondUsername");
         user2.setPassword("password2");
         user2.setProfilePicture("profilePicturePath2");
@@ -1067,10 +1068,10 @@ public class PostDaoImplTest {
 
         Post post = new Post();
         post.setTitle("firstTitle");
-        post.setCreatedAt(LocalDateTime.now().minusDays(2));
-        post.setPostAt(LocalDateTime.now().minusDays(2));
+        post.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
+        post.setPostAt(LocalDateTime.now().minusDays(2).withNano(0));
         post.setExpireAt(LocalDateTime.now().plusDays(5).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusHours(3));
+        post.setLastEditedAt(LocalDateTime.now().minusHours(3).withNano(0));
         post.setContent("This is the content of my post");
         post.setApprovalStatus(true);
         post.setStaticPage(false);
@@ -1089,10 +1090,10 @@ public class PostDaoImplTest {
         Post createdPost = postDao.getPostById(post.getPostId());
 
         post.setTitle("secondTitle");
-        post.setCreatedAt(LocalDateTime.now().minusDays(9));
-        post.setPostAt(LocalDateTime.now().minusDays(9));
+        post.setCreatedAt(LocalDateTime.now().minusDays(9).withNano(0));
+        post.setPostAt(LocalDateTime.now().minusDays(9).withNano(0));
         post.setExpireAt(LocalDateTime.now().minusDays(6).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusDays(7));
+        post.setLastEditedAt(LocalDateTime.now().minusDays(7).withNano(0));
         post.setContent("This is the content of my post yet again");
         post.setApprovalStatus(false);
         post.setStaticPage(true);
@@ -1135,7 +1136,7 @@ public class PostDaoImplTest {
         user.setFirstName("firstName");
         user.setLastName("lastName");
         user.setEnabled(true);
-        user.setLastLogin(LocalDateTime.now().minusHours(3));
+        user.setLastLogin(LocalDateTime.now().minusHours(3).withNano(0));
         user.setUsername("firstUsername");
         user.setPassword("password");
         user.setProfilePicture("profilePicturePath");
@@ -1145,10 +1146,10 @@ public class PostDaoImplTest {
 
         Post post = new Post();
         post.setTitle("firstTitle");
-        post.setCreatedAt(LocalDateTime.now().minusDays(2));
-        post.setPostAt(LocalDateTime.now().minusDays(2));
+        post.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
+        post.setPostAt(LocalDateTime.now().minusDays(2).withNano(0));
         post.setExpireAt(LocalDateTime.now().plusDays(5).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusHours(3));
+        post.setLastEditedAt(LocalDateTime.now().minusHours(3).withNano(0));
         post.setContent("This is the content of my post");
         post.setApprovalStatus(true);
         post.setStaticPage(false);
@@ -1167,10 +1168,10 @@ public class PostDaoImplTest {
 
         Post post2 = new Post();
         post2.setTitle("secondTitle");
-        post2.setCreatedAt(LocalDateTime.now().minusDays(9));
-        post2.setPostAt(LocalDateTime.now().minusDays(9));
+        post2.setCreatedAt(LocalDateTime.now().minusDays(9).withNano(0));
+        post2.setPostAt(LocalDateTime.now().minusDays(9).withNano(0));
         post2.setExpireAt(LocalDateTime.now().minusDays(6).withNano(0));
-        post2.setLastEditedAt(LocalDateTime.now().minusDays(7));
+        post2.setLastEditedAt(LocalDateTime.now().minusDays(7).withNano(0));
         post2.setContent("This is the content of my post yet again");
         post2.setApprovalStatus(false);
         post2.setStaticPage(true);

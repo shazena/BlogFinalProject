@@ -103,7 +103,7 @@ public class CommentDaoImplTest {
         user.setFirstName("firstName");
         user.setLastName("lastName");
         user.setEnabled(true);
-        user.setLastLogin(LocalDateTime.now().minusHours(3));
+        user.setLastLogin(LocalDateTime.now().minusHours(3).withNano(0));
         user.setUsername("firstUsername");
         user.setPassword("password");
         user.setProfilePicture("profilePicturePath");
@@ -115,7 +115,7 @@ public class CommentDaoImplTest {
         user2.setFirstName("firstName2");
         user2.setLastName("lastName2");
         user2.setEnabled(true);
-        user2.setLastLogin(LocalDateTime.now().minusHours(1));
+        user2.setLastLogin(LocalDateTime.now().minusHours(1).withNano(0));
         user2.setUsername("secondUsername");
         user2.setPassword("password2");
         user2.setProfilePicture("profilePicturePath2");
@@ -125,10 +125,10 @@ public class CommentDaoImplTest {
 
         post = new Post();
         post.setTitle("firstTitle");
-        post.setCreatedAt(LocalDateTime.now().minusDays(2));
-        post.setPostAt(LocalDateTime.now().minusDays(2));
+        post.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
+        post.setPostAt(LocalDateTime.now().minusDays(2).withNano(0));
         post.setExpireAt(LocalDateTime.now().plusDays(5).withNano(0));
-        post.setLastEditedAt(LocalDateTime.now().minusHours(3));
+        post.setLastEditedAt(LocalDateTime.now().minusHours(3).withNano(0));
         post.setContent("This is the content of my post");
         post.setApprovalStatus(true);
         post.setStaticPage(false);
@@ -147,10 +147,10 @@ public class CommentDaoImplTest {
 
         post2 = new Post();
         post2.setTitle("secondTitle");
-        post2.setCreatedAt(LocalDateTime.now().minusDays(9));
-        post2.setPostAt(LocalDateTime.now().minusDays(9));
+        post2.setCreatedAt(LocalDateTime.now().minusDays(9).withNano(0));
+        post2.setPostAt(LocalDateTime.now().minusDays(9).withNano(0));
         post2.setExpireAt(LocalDateTime.now().minusDays(6).withNano(0));
-        post2.setLastEditedAt(LocalDateTime.now().minusDays(7));
+        post2.setLastEditedAt(LocalDateTime.now().minusDays(7).withNano(0));
         post2.setContent("This is the content of my post yet again");
         post2.setApprovalStatus(false);
         post2.setStaticPage(true);
@@ -178,7 +178,7 @@ public class CommentDaoImplTest {
         Comment comment = new Comment();
         comment.setTitle("commentTitle");
         comment.setContent("This is the comment content");
-        comment.setCreatedAt(LocalDateTime.now().minusDays(2));
+        comment.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
         comment.setApprovalStatus(false);
         comment.setPost(post);
         comment.setUser(user);
@@ -198,7 +198,7 @@ public class CommentDaoImplTest {
         Comment comment = new Comment();
         comment.setTitle("commentTitle");
         comment.setContent("This is the comment content");
-        comment.setCreatedAt(LocalDateTime.now().minusDays(2));
+        comment.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
         comment.setApprovalStatus(false);
         comment.setPost(post);
         comment.setUser(user);
@@ -208,7 +208,7 @@ public class CommentDaoImplTest {
         Comment comment2 = new Comment();
         comment2.setTitle("commentTitle2");
         comment2.setContent("This is also the comment content");
-        comment2.setCreatedAt(LocalDateTime.now().minusDays(3));
+        comment2.setCreatedAt(LocalDateTime.now().minusDays(3).withNano(0));
         comment2.setApprovalStatus(true);
         comment2.setPost(post2);
         comment2.setUser(user2);
@@ -231,7 +231,7 @@ public class CommentDaoImplTest {
         Comment comment = new Comment();
         comment.setTitle("commentTitle");
         comment.setContent("This is the comment content");
-        comment.setCreatedAt(LocalDateTime.now().minusDays(2));
+        comment.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
         comment.setApprovalStatus(true);
         comment.setPost(post);
         comment.setUser(user);
@@ -241,7 +241,7 @@ public class CommentDaoImplTest {
         Comment comment2 = new Comment();
         comment2.setTitle("commentTitle2");
         comment2.setContent("This is also the comment content");
-        comment2.setCreatedAt(LocalDateTime.now().minusDays(3));
+        comment2.setCreatedAt(LocalDateTime.now().minusDays(3).withNano(0));
         comment2.setApprovalStatus(false);
         comment2.setPost(post2);
         comment2.setUser(user2);
@@ -263,7 +263,7 @@ public class CommentDaoImplTest {
         Comment comment = new Comment();
         comment.setTitle("commentTitle");
         comment.setContent("This is the comment content");
-        comment.setCreatedAt(LocalDateTime.now().minusDays(2));
+        comment.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
         comment.setApprovalStatus(false);
         comment.setPost(post);
         comment.setUser(user);
@@ -273,7 +273,7 @@ public class CommentDaoImplTest {
         Comment comment2 = new Comment();
         comment2.setTitle("commentTitle2");
         comment2.setContent("This is also the comment content");
-        comment2.setCreatedAt(LocalDateTime.now().minusDays(3));
+        comment2.setCreatedAt(LocalDateTime.now().minusDays(3).withNano(0));
         comment2.setApprovalStatus(false);
         comment2.setPost(post2);
         comment2.setUser(user2);
@@ -294,7 +294,7 @@ public class CommentDaoImplTest {
         Comment comment = new Comment();
         comment.setTitle("commentTitle");
         comment.setContent("This is the comment content");
-        comment.setCreatedAt(LocalDateTime.now().minusDays(2));
+        comment.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
         comment.setApprovalStatus(true);
         comment.setPost(post);
         comment.setUser(user);
@@ -304,7 +304,7 @@ public class CommentDaoImplTest {
         Comment comment2 = new Comment();
         comment2.setTitle("commentTitle2");
         comment2.setContent("This is also the comment content");
-        comment2.setCreatedAt(LocalDateTime.now().minusDays(3));
+        comment2.setCreatedAt(LocalDateTime.now().minusDays(3).withNano(0));
         comment2.setApprovalStatus(false);
         comment2.setPost(post2);
         comment2.setUser(user2);
@@ -326,7 +326,7 @@ public class CommentDaoImplTest {
         Comment comment = new Comment();
         comment.setTitle("commentTitle");
         comment.setContent("This is the comment content");
-        comment.setCreatedAt(LocalDateTime.now().minusDays(2));
+        comment.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
         comment.setApprovalStatus(true);
         comment.setPost(post);
         comment.setUser(user);
@@ -337,7 +337,7 @@ public class CommentDaoImplTest {
 
         comment.setTitle("commentTitle2");
         comment.setContent("This is also the comment content");
-        comment.setCreatedAt(LocalDateTime.now().minusDays(3));
+        comment.setCreatedAt(LocalDateTime.now().minusDays(3).withNano(0));
         comment.setApprovalStatus(false);
         comment.setPost(post2);
         comment.setUser(user2);
@@ -362,7 +362,7 @@ public class CommentDaoImplTest {
         Comment comment = new Comment();
         comment.setTitle("commentTitle");
         comment.setContent("This is the comment content");
-        comment.setCreatedAt(LocalDateTime.now().minusDays(2));
+        comment.setCreatedAt(LocalDateTime.now().minusDays(2).withNano(0));
         comment.setApprovalStatus(false);
         comment.setPost(post);
         comment.setUser(user);
@@ -372,7 +372,7 @@ public class CommentDaoImplTest {
         Comment comment2 = new Comment();
         comment2.setTitle("commentTitle2");
         comment2.setContent("This is also the comment content");
-        comment2.setCreatedAt(LocalDateTime.now().minusDays(3));
+        comment2.setCreatedAt(LocalDateTime.now().minusDays(3).withNano(0));
         comment2.setApprovalStatus(true);
         comment2.setPost(post2);
         comment2.setUser(user2);

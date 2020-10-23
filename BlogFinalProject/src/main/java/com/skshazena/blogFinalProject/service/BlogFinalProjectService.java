@@ -21,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface BlogFinalProjectService {
 
+    public List<Post> processExcerpts(List<Post> listOfPosts);
+
     public List<Hashtag> parseStringIntoHashtags(String hashtagsForPostAsString);
 
     public int getNumberOfEnabledUsers();

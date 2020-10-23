@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,6 +52,24 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
 
     ///////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
+    @Override
+    public List<Post> processExcerpts(List<Post> listOfPosts) {
+        for (Post post : listOfPosts) {
+
+            Document document = Jsoup.parse(post.getContent());
+
+            Elements elementsByTag = document.getElementsByTag("p");
+
+            String postText = elementsByTag.text();
+
+            String excerpt = postText.substring(0, Integer.min(postText.length(), 200));
+
+            post.setContent(excerpt);
+
+        }
+        return listOfPosts;
+    }
+
     @Override
     public List<Hashtag> parseStringIntoHashtags(String hashtagsForPostAsString) {
 
