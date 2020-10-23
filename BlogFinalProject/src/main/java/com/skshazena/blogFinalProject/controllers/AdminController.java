@@ -1,5 +1,6 @@
 package com.skshazena.blogFinalProject.controllers;
 
+import com.skshazena.blogFinalProject.dtos.Comment;
 import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Post;
 import com.skshazena.blogFinalProject.dtos.User;
@@ -34,7 +35,11 @@ public class AdminController {
     @Autowired
     BlogFinalProjectService service;
 
-    Set<ConstraintViolation<Post>> violations = new HashSet<>();
+    Set<ConstraintViolation<Post>> violationsPostAdd = new HashSet<>();
+    Set<ConstraintViolation<Post>> violationsPostEdit = new HashSet<>();
+    Set<ConstraintViolation<Post>> violationsUserAdd = new HashSet<>();
+    Set<ConstraintViolation<Post>> violationsUserEdit = new HashSet<>();
+    Set<ConstraintViolation<Post>> violationsHashtagEdit = new HashSet<>();
 
     @GetMapping("/dashboard")
     public String displayAdminPage(Model model) {
@@ -45,7 +50,7 @@ public class AdminController {
         model.addAttribute("numberOfEnabledUsers", numberOfEnabledUsers);
         model.addAttribute("postsNeedingApproval", postsNeedingApproval);
         model.addAttribute("commentsNeedingApproval", commentsNeedingApproval);
-        return "adminDashboardTemplate";
+        return "adminDashboard";
     }
 
     @GetMapping("/posts")
@@ -54,15 +59,27 @@ public class AdminController {
 
         model.addAttribute("posts", allPostsForAdminNewestFirst);
 
+        String approval = "";
+        model.addAttribute("approval", approval);
+
         return "adminDashboardPosts";
+    }
+
+    @GetMapping("/postDetails")
+    public String getPostDetailsOnPage(Integer id, Model model) {
+
+        Post post = service.getPostById(id);
+
+        model.addAttribute("post", post);
+        return "adminDashboardPostDetails";
     }
 
     @GetMapping("/postCreate")
     public String displayCreateNewPostPage(Model model) {
         List<Hashtag> allHashtags = service.getAllHashtags();
         model.addAttribute("hashtags", allHashtags);
-        violations.clear();
-        model.addAttribute("errors", violations);
+        violationsPostAdd.clear();
+        model.addAttribute("errors", violationsPostAdd);
 
         return "adminDashboardPostsCreate";
     }
@@ -76,7 +93,7 @@ public class AdminController {
         String title = request.getParameter("title");
         String postAtAsString = request.getParameter("postAt");
         String expireAtAsString = request.getParameter("expireAt");
-        String hashtagsForPostAsString = request.getParameter("hashtagsForPost");
+        String hashtagsForPostAsStringToParse = request.getParameter("hashtagsForPost");
         String staticPageAsString = request.getParameter("staticPage");
         String fileAsString = request.getParameter("file");
         String contentFromTinyMCE = request.getParameter("content");
@@ -96,7 +113,7 @@ public class AdminController {
             expireAt = LocalDateTime.parse(expireAtAsString, DateTimeFormatter.ISO_LOCAL_DATE_TIME).withNano(0);
         }
 
-        List<Hashtag> hashtagsForPost = service.parseStringIntoHashtags(hashtagsForPostAsString);
+        List<Hashtag> hashtagsForPost = service.parseStringIntoHashtags(hashtagsForPostAsStringToParse);
 
         boolean staticPage = false;
         if (staticPageAsString == null) {
@@ -121,21 +138,33 @@ public class AdminController {
         post.setHashtagsForPost(hashtagsForPost);
 
         Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
-        violations = validate.validate(post);
+        violationsPostAdd = validate.validate(post);
 
-        if (violations.isEmpty()) {
+        if (violationsPostAdd.isEmpty()) {
             for (Hashtag hashtag : hashtagsForPost) {
                 if (hashtag.getHashtagId() == 0) {
                     service.createHashtag(hashtag);
                 }
             }
             service.createPost(post);
+            //TODO redirect to the details of the post
             return "redirect:/admin/posts";
         } else {
 
+            model.addAttribute("post", post);
+
+            String hashtagsForPostAsString = "";
+            if (hashtagsForPost != null) {
+                for (Hashtag hashtag : hashtagsForPost) {
+                    hashtagsForPostAsString += hashtag.getTitle() + ", ";
+                }
+            }
+
             List<Hashtag> allHashtags = service.getAllHashtags();
+
+            model.addAttribute("hashtagsForPostAsString", hashtagsForPostAsString);
             model.addAttribute("hashtags", allHashtags);
-            model.addAttribute("errors", violations);
+            model.addAttribute("errors", violationsPostAdd);
 
             //consider making new version of this page where the user gets back their post
             //formatted like the edit page
@@ -145,4 +174,49 @@ public class AdminController {
         //At the end you will need to implement theimage dao to save the main picture from the page.
         //need to send attributes to this page.
     }
+
+    @GetMapping("/postEdit")
+    public String getPostToEdit(Integer id, Model model) {
+
+        //TODO add validation!!!!!
+        Post postById = service.getPostById(id);
+
+        List<Hashtag> hashtagsForPost = postById.getHashtagsForPost();
+        String hashtagsForPostAsString = "";
+        for (Hashtag hashtag : hashtagsForPost) {
+            hashtagsForPostAsString += hashtag.getTitle() + ", ";
+        }
+
+        List<Hashtag> allHashtags = service.getAllHashtags();
+
+        model.addAttribute("hashtagsForPostAsString", hashtagsForPostAsString);
+        model.addAttribute("hashtags", allHashtags);
+        violationsPostEdit.clear();
+        model.addAttribute("errors", violationsPostEdit);
+
+        model.addAttribute("post", postById);
+        return "adminDashboardPostsEdit";
+    }
+
+    @PostMapping("/postEdit")
+    public String editPost(HttpServletRequest request, Model model, @RequestParam(value = "action", required = true) String action) {
+        //TODO write implementation
+        //include the cancel button
+        //if the post needs editing, then return the post on to the same page
+        //if the postEditing is sucessful, take the user to the details page.
+
+        return "soemthing";
+    }
+
+    @GetMapping("/postApproval")
+    public String displayPostApprovalPage(Model model) {
+        List<Post> allPostsNeedingApprovalForAdminOldestFirst = service.getAllPostsNeedingApprovalForAdminOldestFirst();
+
+        String approval = "approval";
+        model.addAttribute("approval", approval);
+        model.addAttribute("posts", allPostsNeedingApprovalForAdminOldestFirst);
+
+        return "adminDashboardPosts";
+    }
+
 }

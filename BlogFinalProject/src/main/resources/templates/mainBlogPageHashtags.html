@@ -2,14 +2,12 @@
 <html lang = "en" xmlns = "http://www.w3.org/1999/xhtml"
       xmlns:th = "http://www.thymeleaf.org"
       xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta http-equiv = "content-type" content = "text/html; charset=UTF-8">
     <meta charset = "utf-8">
     <meta name = "viewport" content = "width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name = "description" content = "">
-    <meta name = "author" content = "">
-
-    <title>Error - Sadukie's School of Thought</title>
+    <title>Sadukie's School of Thought</title>
     <!-- Bootstrap core CSS -->
     <link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity = "sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -18,21 +16,40 @@
     <link href = "https://fonts.googleapis.com/css2?family=Laila:wght@300;400;500;600;700&display=swap"
           rel = "stylesheet">
     <!-- Custom styles for this template -->
-    <link href = "css/login.css" th:href = "@{/css/login.css}" rel = "stylesheet">
+    <link href = "../static/css/blogStyles.css" th:href = "@{/css/blogStyles.css}" rel = "stylesheet">
+
 </head>
 
-<body class = "text-center" style = "flex-direction: column">
+<body>
+    <div th:replace = "fragments/blogFragments :: blogNavBar"></div>
+
+    <div class = "container">
+        <div class = "row">
+            <main role = "main">
+                <div class = "content">
+
+                    <!--INSERT MAIN CONTENT HERE-->
+
+                    <h2>
+                        <span th:text = "${hashtag.numberOfPosts}">No</span>
+                        Posts for the tag:
+                        <span th:text = "${hashtag.title}">hashtagName</span>
+                    </h2>
+
+                    <div class = "container">
+
+                        <div th:replace = "fragments/blogFragments :: cardForPost"></div>
 
 
-    <div style = "width: 100%" class = "m-4">
-        <a class = "h1 text-dark" href = "/">Sadukie's School of Thought</a>
-        <h3 class="m-4">We're sorry, that request could not be processed</h3>
-        <a class="btn btn-outline-dark" href="/" >Home</a>
+                        <!--INSERT MAIN CONTENT HERE-->
+
+
+                    </div>
+            </main>
+        </div>
     </div>
-    <!--    <div style = "width: 100%">-->
-    <!--       -->
-    <!--    </div>-->
 
     <div th:replace = "fragments/blogFragments :: scriptsForAllFiles"></div>
 </body>
+
 </html>

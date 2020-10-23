@@ -27,6 +27,7 @@ public class Post {
 
     private LocalDateTime createdAt;
 
+    @NotNull(message = "Publish Time must be set")
     private LocalDateTime postAt;
 
     private LocalDateTime expireAt;
@@ -76,11 +77,11 @@ public class Post {
     }
 
     public LocalDateTime getPostAt() {
-        return postAt.withNano(0);
+        return postAt;
     }
 
     public void setPostAt(LocalDateTime postAt) {
-        this.postAt = postAt.withNano(0);
+        this.postAt = postAt;
     }
 
     public LocalDateTime getExpireAt() {

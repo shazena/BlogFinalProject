@@ -69,13 +69,7 @@
             <main role = "main" class = "col-md-9 ml-sm-auto col-lg-10 px-4">
                 <div class = "content">
 
-                    <span th:if = "${post}!=null">
-                        <div th:replace = "fragments/adminPostFragments :: editPost (@{/admin/postCreate}, 'Create New Post')"></div>
-                    </span>
-
-                    <span th:if = "${post}==null">
-                        <div th:replace = "fragments/adminPostFragments :: createNewPost (@{/admin/postCreate})"></div>
-                    </span>
+                    <div th:replace = "fragments/adminPostFragments :: editPost (@{/admin/postEdit}, 'Edit Post')"></div>
 
                 </div>
             </main>

@@ -27,7 +27,7 @@ public class HomeController {
         model.addAttribute("posts", posts);
         model.addAttribute("staticPosts", staticPosts);
 
-        return "mainBlogPageTemplate";
+        return "mainBlogPage";
     }
 
 }

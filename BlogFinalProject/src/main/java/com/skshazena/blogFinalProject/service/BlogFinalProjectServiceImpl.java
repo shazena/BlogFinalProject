@@ -107,7 +107,6 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
         Post newerPost = null;
 
         List<Post> allPostsForBlogNonStaticNewestFirst = postDao.getAllPostsForBlogNonStaticNewestFirst();
-//        List<Post> allPostsForBlogNonStaticNewestFirst = postDao.getAllPostsForBlogThatAreStaticNewestFirst();
         int indexOfCurrentPost = allPostsForBlogNonStaticNewestFirst.indexOf(currentPost);
 
         int indexOfOlderPost = indexOfCurrentPost + 1;
@@ -116,7 +115,7 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
         if (allPostsForBlogNonStaticNewestFirst != null) {
             if (allPostsForBlogNonStaticNewestFirst.size() > 2) { //there is a previous and a next post
 
-                //TODO if the current post is the last in the set, then there is no older post
+                //if the current post is the last in the set, then there is no older post
                 //if the current post is the first in the set, then there is no newer post
                 if (indexOfCurrentPost == 0) {// if this is the first post, there is no newer, just older
 
@@ -173,65 +172,6 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
 
         return olderAndNewerPosts;
     }
-//    @Override
-//    public List<Post> getOlderAndNewerPost(int postId) {
-//        Post currentPost = postDao.getPostById(postId);
-//
-//        List<Post> olderAndNewerPosts = new ArrayList<>();
-//        Post olderPost = null;
-//        Post newerPost = null;
-//
-//        List<Post> allPostsForBlogNonStaticNewestFirst = postDao.getAllPostsForBlogNonStaticNewestFirst();
-////        List<Post> allPostsForBlogNonStaticNewestFirst = postDao.getAllPostsForBlogThatAreStaticNewestFirst();
-//        int indexOfCurrentPost = allPostsForBlogNonStaticNewestFirst.indexOf(currentPost);
-//
-//        int indexOfOlderPost = indexOfCurrentPost + 1;
-//        int indexOfNewerPost = indexOfCurrentPost - 1;
-//
-//        if (allPostsForBlogNonStaticNewestFirst != null) {
-//            if (allPostsForBlogNonStaticNewestFirst.size() > 2) { //there is a previous and a next post
-//
-//                //TODO if the current post is the last in the set, then there is no older post
-//                //if the current post is the first in the set, then there is no newer post
-//                
-//                
-//                
-//                olderPost = allPostsForBlogNonStaticNewestFirst.get(indexOfOlderPost);
-//                newerPost = allPostsForBlogNonStaticNewestFirst.get(indexOfNewerPost);
-//
-//                olderAndNewerPosts.add(olderPost);
-//                olderAndNewerPosts.add(newerPost);
-//
-//            } else if (allPostsForBlogNonStaticNewestFirst.size() == 2) {//if this has this post and another post
-//                if (indexOfCurrentPost == 0) {// if this is the first post, there is no newer, just older
-//
-//                    olderPost = allPostsForBlogNonStaticNewestFirst.get(indexOfOlderPost);//older post will be the post in there
-//
-//                    newerPost = null; //then newer post will be null
-//
-//                    olderAndNewerPosts.add(olderPost);
-//                    olderAndNewerPosts.add(newerPost);
-//                } else { //if index of Current post is 1, then there is no older, just newer
-//
-//                    olderPost = null; //then older post will be null
-//
-//                    newerPost = allPostsForBlogNonStaticNewestFirst.get(indexOfNewerPost);//newer post will be the post in there
-//
-//                    olderAndNewerPosts.add(olderPost);
-//                    olderAndNewerPosts.add(newerPost);
-//
-//                }
-//            } else {//this post is the only post, there are no previous or next posts.
-//                olderPost = null;
-//                newerPost = null;
-//
-//                olderAndNewerPosts.add(olderPost);
-//                olderAndNewerPosts.add(newerPost);
-//            }
-//        }
-//
-//        return olderAndNewerPosts;
-//    }
     ///////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
@@ -380,9 +320,9 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
     }
 
     @Override
-    public List<Post> getAllPostsForHashtagForUserNewestFirst(int hashtagId
+    public List<Post> getAllPostsForBlogForHashtagNewestFirst(int hashtagId
     ) {
-        return postDao.getAllPostsForHashtagForUserNewestFirst(hashtagId);
+        return postDao.getAllPostsForBlogForHashtagNewestFirst(hashtagId);
     }
 
     @Override

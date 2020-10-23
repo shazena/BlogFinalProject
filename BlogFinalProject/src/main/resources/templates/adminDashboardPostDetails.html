@@ -14,10 +14,6 @@
     <!--Google Font For Title-->
     <link href = "https://fonts.googleapis.com/css2?family=Laila:wght@300;400;500;600;700&display=swap"
           rel = "stylesheet">
-    <!--TINY MCE SCRIPT - NEEDS TO BE IN HEADER-->
-    <script src = "https://cdn.tiny.cloud/1/t2t1lagzzqlegqh3wicxgg3mvd174faoh7guw3em7109mch1/tinymce/5/tinymce.min.js"
-            referrerpolicy = "origin"></script>
-
     <!-- Custom styles for this template -->
     <link href = "../static/css/blogStyles.css" th:href = "@{/css/blogStyles.css}" rel = "stylesheet">
 
@@ -63,19 +59,13 @@
 
     <div class = "container-fluid">
         <div class = "row">
-
             <div th:replace = "fragments/adminFragments :: adminSidebar"></div>
 
             <main role = "main" class = "col-md-9 ml-sm-auto col-lg-10 px-4">
                 <div class = "content">
 
-                    <span th:if = "${post}!=null">
-                        <div th:replace = "fragments/adminPostFragments :: editPost (@{/admin/postCreate}, 'Create New Post')"></div>
-                    </span>
+                    <div th:replace = "fragments/adminPostFragments :: adminPostDetails"></div>
 
-                    <span th:if = "${post}==null">
-                        <div th:replace = "fragments/adminPostFragments :: createNewPost (@{/admin/postCreate})"></div>
-                    </span>
 
                 </div>
             </main>
@@ -83,9 +73,6 @@
     </div>
 
     <div th:replace = "fragments/blogFragments :: scriptsForAllFiles"></div>
-
-
-    <script th:src = "@{/js/createEditInitializer.js}"></script>
 </body>
 
 </html>

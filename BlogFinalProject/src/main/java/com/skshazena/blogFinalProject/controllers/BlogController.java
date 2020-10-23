@@ -1,6 +1,7 @@
 package com.skshazena.blogFinalProject.controllers;
 
 import com.skshazena.blogFinalProject.dtos.Comment;
+import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Post;
 import com.skshazena.blogFinalProject.service.BlogFinalProjectService;
 import java.util.List;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/blog")
 public class BlogController {
 
+    //TODO Add in the add Comment functionality
+    
     @Autowired
     BlogFinalProjectService service;
 
@@ -44,6 +47,17 @@ public class BlogController {
         model.addAttribute("post", post);
         model.addAttribute("olderPost", olderPost);
         model.addAttribute("newerPost", newerPost);
-        return "blogPost";
+        return "mainBlogPostDetails";
     }
+
+    @GetMapping("/hashtag")
+    public String getPostsWithThisHashtag(Integer id, Model model) {
+        Hashtag hashtagById = service.getHashtagById(id);
+        List<Post> allPostsForBlogForHashtagNewestFirst = service.getAllPostsForBlogForHashtagNewestFirst(id);
+
+        model.addAttribute("hashtag", hashtagById);
+        model.addAttribute("posts", allPostsForBlogForHashtagNewestFirst);
+        return "mainBlogPageHashtags";
+    }
+
 }

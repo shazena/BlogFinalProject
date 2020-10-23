@@ -530,12 +530,11 @@ public class PostDaoImplTest {
     }
 
     /**
-     * Test of getAllPostsForHashtagForUserNewestFirst method, of class
-     * PostDaoImpl.
+     * Test of getAllPostsForBlogForHashtagNewestFirst method, of class
+ PostDaoImpl.
      */
     @Test
-    public void testGetAllPostsForHashtagForUserNewestFirst() {
-        Role role = new Role();
+    public void testGetestGetAllPostsForBlogForHashtagNewestFirst       Role role = new Role();
         role.setRole("firstRole");
 
         role = roleDao.createRole(role);
@@ -638,7 +637,7 @@ public class PostDaoImplTest {
         Post postById2 = postDao.getPostById(post2.getPostId());
         Post postById3 = postDao.getPostById(post3.getPostId());
 
-        List<Post> allPostsForHashtagForUserNewestFirst = postDao.getAllPostsForHashtagForUserNewestFirst(hashtag2.getHashtagId());
+        List<Post> allPostsForHashtagForUserNewestFirst = postDao.getAllPostsForBlogForHashtagNewestFirst(hashtag2.getHashtagId());
         assertEquals(allPostsForHashtagForUserNewestFirst.size(), 1);
         assertFalse(allPostsForHashtagForUserNewestFirst.contains(postById));
         assertFalse(allPostsForHashtagForUserNewestFirst.contains(postById2));

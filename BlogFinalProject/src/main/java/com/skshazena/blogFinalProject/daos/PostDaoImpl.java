@@ -99,7 +99,7 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public List<Post> getAllPostsForHashtagForUserNewestFirst(int hashtagId) {
+    public List<Post> getAllPostsForBlogForHashtagNewestFirst(int hashtagId) {
         final String SELECT_POSTS_FOR_HASHTAG = "SELECT p.* FROM Post p "
                 + "JOIN PostHashtag ph ON p.postId = ph.postId "
                 + "JOIN Hashtag h ON h.hashtagId = ph.hashtagId "

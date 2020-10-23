@@ -75,7 +75,7 @@ public interface BlogFinalProjectService {
 
     public List<Post> getAllPostsForHashtagForAdminNewestFirst(int hashtagId);
 
-    public List<Post> getAllPostsForHashtagForUserNewestFirst(int hashtagId);
+    public List<Post> getAllPostsForBlogForHashtagNewestFirst(int hashtagId);
 
     public List<Post> getAllPostsNeedingApprovalWrittenByCreatorOldestFirst(int userId);
 
