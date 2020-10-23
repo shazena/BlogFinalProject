@@ -29,6 +29,7 @@ public interface BlogFinalProjectService {
 
     public List<Post> getOlderAndNewerPost(int postId);
 
+    //passthrough methods
     public String saveImage(MultipartFile file, String fileName, String directory);
 
     public String updateImage(MultipartFile file, String fileName, String directory);

@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminDashboardAndPostController {
 
     @Autowired
     BlogFinalProjectService service;

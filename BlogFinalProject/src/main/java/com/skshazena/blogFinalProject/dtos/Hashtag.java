@@ -19,7 +19,7 @@ public class Hashtag {
     @NotNull(message = "Hashtag must be entered")
     @NotBlank(message = "Hashtag must not be blank")
     @Size(max = 50, message = "Hashtag must be less than 50 characters.")
-    @Pattern(regexp = "[^a-zA-Z0-9]", message = "Each Hashtag must contain letters and numbers only")
+    @Pattern(regexp = "[a-zA-Z0-9]*", message = "Each Hashtag must contain letters and numbers only")
     private String title;
 
     private int numberOfPosts;

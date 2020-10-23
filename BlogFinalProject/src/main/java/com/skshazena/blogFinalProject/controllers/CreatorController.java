@@ -4,6 +4,7 @@ import com.skshazena.blogFinalProject.service.BlogFinalProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
@@ -12,13 +13,17 @@ import org.springframework.web.bind.annotation.GetMapping;
  * Date Created: Oct 20, 2020
  */
 @Controller
+@RequestMapping("/creator")
 public class CreatorController {
 
     @Autowired
     BlogFinalProjectService service;
-    
-    @GetMapping("/creator")
-    public String displayContentPage() {
-        return "creatorDashboardTemplate";
+
+    @GetMapping("/dashboard")
+    public String displayCreatorDashboardPage() {
+        
+        
+        
+        return "creatorDashboard";
     }
 }
