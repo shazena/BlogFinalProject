@@ -199,29 +199,23 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
 
 //    BASIC CRRUD METHODS FOR IMAGE DAO ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public String saveImage(MultipartFile file, String fileName,
-            String directory
-    ) {
+    public String saveImage(MultipartFile file, String fileName, String directory) {
         return imageDao.saveImage(file, fileName, directory);
     }
 
     @Override
-    public String updateImage(MultipartFile file, String fileName,
-            String directory
-    ) {
+    public String updateImage(MultipartFile file, String fileName, String directory) {
         return imageDao.updateImage(file, fileName, directory);
     }
 
     @Override
-    public boolean deleteImage(String fileName
-    ) {
+    public boolean deleteImage(String fileName) {
         return imageDao.deleteImage(fileName);
     }
 
 //    BASIC CRRUD METHODS FOR COMMENT DAO ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public Comment getCommentById(int commentId
-    ) {
+    public Comment getCommentById(int commentId) {
         return commentDao.getCommentById(commentId);
     }
 
@@ -231,14 +225,12 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
     }
 
     @Override
-    public List<Comment> getAllCommentsForPost(int postId
-    ) {
+    public List<Comment> getAllCommentsForPost(int postId) {
         return commentDao.getAllCommentsForPost(postId);
     }
 
     @Override
-    public List<Comment> getAllCommentsWrittenByUser(int userId
-    ) {
+    public List<Comment> getAllCommentsWrittenByUser(int userId) {
         return commentDao.getAllCommentsWrittenByUser(userId);
     }
 
@@ -248,34 +240,36 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
     }
 
     @Override
-    public void updateComment(Comment comment
-    ) {
+    public void updateComment(Comment comment) {
         commentDao.updateComment(comment);
     }
 
     @Override
-    public void deleteComment(int commentId
-    ) {
+    public void deleteComment(int commentId) {
         commentDao.deleteComment(commentId);
     }
 
     @Override
-    public Comment createComment(Comment comment
-    ) {
+    public Comment createComment(Comment comment) {
         return commentDao.createComment(comment);
     }
 
 //    BASIC CRRUD METHODS FOR HASHTAG DAO ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public Hashtag getHashtagById(int hashtagId
-    ) {
+    public Hashtag getHashtagById(int hashtagId) {
         return hashtagDao.getHashtagById(hashtagId);
     }
 
     @Override
-    public Hashtag getHashtagByTitle(String title
-    ) {
-        return hashtagDao.getHashtagByTitle(title);
+    public Hashtag getHashtagByTitle(String title) {
+        Hashtag hashtagByTitle = hashtagDao.getHashtagByTitle(title);
+
+        if (hashtagByTitle == null) {
+            return null;
+        } else {
+
+            return hashtagByTitle;
+        }
     }
 
     @Override
@@ -284,39 +278,33 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
     }
 
     @Override
-    public List<Hashtag> getAllHashtagsForPost(int postId
-    ) {
+    public List<Hashtag> getAllHashtagsForPost(int postId) {
         return hashtagDao.getAllHashtagsForPost(postId);
     }
 
     @Override
-    public List<Hashtag> getAllHashtagsNotUsedInPost(int postId
-    ) {
+    public List<Hashtag> getAllHashtagsNotUsedInPost(int postId) {
         return hashtagDao.getAllHashtagsNotUsedInPost(postId);
     }
 
     @Override
-    public void updateHashtag(Hashtag hashtag
-    ) {
+    public void updateHashtag(Hashtag hashtag) {
         hashtagDao.updateHashtag(hashtag);
     }
 
     @Override
-    public void deleteHashtag(int hashtagId
-    ) {
+    public void deleteHashtag(int hashtagId) {
         hashtagDao.deleteHashtag(hashtagId);
     }
 
     @Override
-    public Hashtag createHashtag(Hashtag hashtag
-    ) {
+    public Hashtag createHashtag(Hashtag hashtag) {
         return hashtagDao.createHashtag(hashtag);
     }
 
 //    BASIC CRRUD METHODS FOR POST DAO ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public Post getPostById(int postId
-    ) {
+    public Post getPostById(int postId) {
         return postDao.getPostById(postId);
     }
 
@@ -336,26 +324,22 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
     }
 
     @Override
-    public List<Post> getAllPostsForHashtagForAdminNewestFirst(int hashtagId
-    ) {
+    public List<Post> getAllPostsForHashtagForAdminNewestFirst(int hashtagId) {
         return postDao.getAllPostsForHashtagForAdminNewestFirst(hashtagId);
     }
 
     @Override
-    public List<Post> getAllPostsForBlogForHashtagNewestFirst(int hashtagId
-    ) {
+    public List<Post> getAllPostsForBlogForHashtagNewestFirst(int hashtagId) {
         return postDao.getAllPostsForBlogForHashtagNewestFirst(hashtagId);
     }
 
     @Override
-    public List<Post> getAllPostsNeedingApprovalWrittenByCreatorOldestFirst(int userId
-    ) {
+    public List<Post> getAllPostsNeedingApprovalWrittenByCreatorOldestFirst(int userId) {
         return postDao.getAllPostsNeedingApprovalWrittenByCreatorOldestFirst(userId);
     }
 
     @Override
-    public List<Post> getAllPostsWrittenByCreatorNewestFirst(int userId
-    ) {
+    public List<Post> getAllPostsWrittenByCreatorNewestFirst(int userId) {
         return postDao.getAllPostsWrittenByCreatorNewestFirst(userId);
     }
 
@@ -365,33 +349,28 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
     }
 
     @Override
-    public void updatePost(Post post
-    ) {
+    public void updatePost(Post post) {
         postDao.updatePost(post);
     }
 
     @Override
-    public void deletePost(int postId
-    ) {
+    public void deletePost(int postId) {
         postDao.deletePost(postId);
     }
 
     @Override
-    public Post createPost(Post post
-    ) {
+    public Post createPost(Post post) {
         return postDao.createPost(post);
     }
 
 //    BASIC CRRUD METHODS FOR ROLE DAO ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public Role getRoleById(int roleId
-    ) {
+    public Role getRoleById(int roleId) {
         return roleDao.getRoleById(roleId);
     }
 
     @Override
-    public Role getRoleByRole(String role
-    ) {
+    public Role getRoleByRole(String role) {
         return roleDao.getRoleByRole(role);
     }
 
@@ -401,33 +380,28 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
     }
 
     @Override
-    public void deleteRole(int roleId
-    ) {
+    public void deleteRole(int roleId) {
         roleDao.deleteRole(roleId);
     }
 
     @Override
-    public void updateRole(Role role
-    ) {
+    public void updateRole(Role role) {
         roleDao.updateRole(role);
     }
 
     @Override
-    public Role createRole(Role role
-    ) {
+    public Role createRole(Role role) {
         return roleDao.createRole(role);
     }
 
 //    BASIC CRRUD METHODS FOR USER DAO ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public User getUserById(int userId
-    ) {
+    public User getUserById(int userId) {
         return userDao.getUserById(userId);
     }
 
     @Override
-    public User getUserByUsername(String username
-    ) {
+    public User getUserByUsername(String username) {
         return userDao.getUserByUsername(username);
     }
 
@@ -437,20 +411,17 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
     }
 
     @Override
-    public void updateUser(User user
-    ) {
+    public void updateUser(User user) {
         userDao.updateUser(user);
     }
 
     @Override
-    public void deleteUser(int userId
-    ) {
+    public void deleteUser(int userId) {
         userDao.deleteUser(userId);
     }
 
     @Override
-    public User createUser(User user
-    ) {
+    public User createUser(User user) {
         return userDao.createUser(user);
     }
 

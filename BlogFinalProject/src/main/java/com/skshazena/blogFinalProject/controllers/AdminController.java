@@ -37,9 +37,8 @@ public class AdminController {
 
     Set<ConstraintViolation<Post>> violationsPostAdd = new HashSet<>();
     Set<ConstraintViolation<Post>> violationsPostEdit = new HashSet<>();
-    Set<ConstraintViolation<Post>> violationsUserAdd = new HashSet<>();
-    Set<ConstraintViolation<Post>> violationsUserEdit = new HashSet<>();
-    Set<ConstraintViolation<Post>> violationsHashtagEdit = new HashSet<>();
+    Set<ConstraintViolation<User>> violationsUserAdd = new HashSet<>();
+    Set<ConstraintViolation<User>> violationsUserEdit = new HashSet<>();
 
     @GetMapping("/dashboard")
     public String displayAdminPage(Model model) {
