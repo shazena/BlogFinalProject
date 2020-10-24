@@ -103,10 +103,13 @@
     <!--    BEGIN CARDS SHOWING POSTS FRAGMENT-->
 
     <div th:fragment = "cardForPost" class = "card-group vgr-cards">
-        <div class = "card my-4" th:each = "post: ${posts}"> <!--BEGIN ONE CARD-->
+        <div class = "card my-4" th:each = "post, stat: ${posts}"> <!--BEGIN ONE CARD-->
             <div class = "card-img-body">
-                <img class = "card-img" src = "https://picsum.photos/500/235"
+                <!-- <img class = "card-img" th:src = "${'https://picsum.photos/id/'+ 1+ stat.index + 6 +'/500/300'}"
+                      alt = "Card image cap">-->
+                <img class = "card-img" th:src = "${'https://picsum.photos/600/400?random=' + stat.index}"
                      alt = "Card image cap">
+                <!-- <img class = "card-img" th:src = "${post.titlePhoto}">-->
             </div>
             <div class = "card-body">
                 <a href = "post" th:href = "@{/blog/post(id=${post.postId})}"

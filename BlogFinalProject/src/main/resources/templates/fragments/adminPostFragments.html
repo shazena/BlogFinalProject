@@ -25,7 +25,7 @@
             <p class = "alert alert-danger" th:each = "error : ${errors}"
                th:text = "${error.message}">Error message</p>
         </div>
-        <form th:action = "${formAction}" class = "col-12" method = "post">
+        <form th:action = "${formAction}" class = "col-12" method = "post"  enctype="multipart/form-data">
             <!--        <form th:action = "@{/+'mapping'+/postCreate}" class = "col-12" method = "post">-->
 
             <div class = "form-group row">
@@ -82,7 +82,7 @@
                 <div class = "custom-file text-left col-5">
                     <input type = "file" class = "custom-file-input" name = "file" id = "file"
                            onchange = "$('#nameOfFile').html(this.files[0].name)">
-                    <label class = "custom-file-label" id = "nameOfFile" for = "file">Choose
+                    <label class = "custom-file-label" id = "file" for = "file">Choose
                                                                                       file...</label>
                 </div>
             </div>
@@ -123,7 +123,7 @@
             <p class = "alert alert-danger" th:each = "error : ${errors}"
                th:text = "${error.message}">Error message</p>
         </div>
-        <form th:action = "${formAction}" class = "col-12" method = "post">
+        <form th:action = "${formAction}" class = "col-12" method = "post"  enctype="multipart/form-data">
 
             <div class = "form-group row">
                 <label for = "title" class = "col-2 col-form-label text-right font-weight-bold">
@@ -184,7 +184,7 @@
                 <div class = "custom-file text-left col-4">
                     <input type = "file" class = "custom-file-input" name = "file" id = "file"
                            onchange = "$('#nameOfFile').html(this.files[0].name)" th:value = "${post.titlePhoto}">
-                    <label class = "custom-file-label" id = "nameOfFile" for = "file">Choose
+                    <label class = "custom-file-label" id = "file" for = "file">Choose
                                                                                       file...</label>
                 </div>
             </div>

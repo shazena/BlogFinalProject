@@ -6,12 +6,12 @@ import com.skshazena.blogFinalProject.daos.ImageDao;
 import com.skshazena.blogFinalProject.daos.PostDao;
 import com.skshazena.blogFinalProject.daos.RoleDao;
 import com.skshazena.blogFinalProject.daos.UserDao;
-import com.skshazena.blogFinalProject.dtos.Comment;
 import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Post;
 import com.skshazena.blogFinalProject.dtos.User;
 import com.skshazena.blogFinalProject.service.BlogFinalProjectService;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -59,6 +60,8 @@ public class AdminDashboardAndPostController {
 
     @Autowired
     UserDao userDao;
+    
+    private final String POST_TITLE_PHOTO_UPLOAD_DIRECTORY = "PostTitlePhotos";
 
     Set<ConstraintViolation<Post>> violationsPostAdd = new HashSet<>();
     Set<ConstraintViolation<Post>> violationsPostEdit = new HashSet<>();
@@ -118,17 +121,18 @@ public class AdminDashboardAndPostController {
     }
 
     @PostMapping("/postCreate")
-    public String createNewPost(HttpServletRequest request, Model model, @RequestParam(value = "action", required = true) String action) {
+    public String createNewPost(HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file, @RequestParam(value = "action", required = true) String action) {
         if (action.equals("cancel")) {
             return "redirect:/admin/posts";
         }
+
+        String fileLocation = imageDao.saveImage(file, Long.toString(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)), POST_TITLE_PHOTO_UPLOAD_DIRECTORY);
 
         String title = request.getParameter("title");
         String postAtAsString = request.getParameter("postAt");
         String expireAtAsString = request.getParameter("expireAt");
         String hashtagsForPostAsStringToParse = request.getParameter("hashtagsForPost");
         String staticPageAsString = request.getParameter("staticPage");
-        String fileAsString = request.getParameter("file");
         String contentFromTinyMCE = request.getParameter("content");
         String userId = request.getParameter("userId");
 
@@ -166,7 +170,7 @@ public class AdminDashboardAndPostController {
         post.setContent(contentFromTinyMCE);
         post.setApprovalStatus(true);
         post.setStaticPage(staticPage);
-        post.setTitlePhoto(fileAsString);
+        post.setTitlePhoto(fileLocation);
         post.setUser(user);
         post.setHashtagsForPost(hashtagsForPost);
 
@@ -174,7 +178,7 @@ public class AdminDashboardAndPostController {
         violationsPostAdd = validate.validate(post);
 
         if (violationsPostAdd.isEmpty()) {
-            if (hashtagsForPost != null || !hashtagsForPost.isEmpty()) { //TODO buggy, giving null pointer exceptions
+            if (hashtagsForPost != null || !hashtagsForPost.isEmpty()) {
                 for (Hashtag hashtag : hashtagsForPost) {
                     if (hashtag.getHashtagId() == 0) {
                         hashtagDao.createHashtag(hashtag);
