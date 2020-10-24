@@ -112,6 +112,10 @@ public class BlogFinalProjectServiceImpl implements BlogFinalProjectService {
         List<Post> allPostsForBlogNonStaticNewestFirst = postDao.getAllPostsForBlogNonStaticNewestFirst();
         int indexOfCurrentPost = allPostsForBlogNonStaticNewestFirst.indexOf(currentPost);
 
+        if (indexOfCurrentPost < 0) {
+            return olderAndNewerPosts;
+        }
+
         int indexOfOlderPost = indexOfCurrentPost + 1;
         int indexOfNewerPost = indexOfCurrentPost - 1;
 

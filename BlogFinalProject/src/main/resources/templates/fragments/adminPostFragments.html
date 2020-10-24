@@ -25,7 +25,7 @@
             <p class = "alert alert-danger" th:each = "error : ${errors}"
                th:text = "${error.message}">Error message</p>
         </div>
-        <form th:action = "${formAction}" class = "col-12" method = "post"  enctype="multipart/form-data">
+        <form th:action = "${formAction}" class = "col-12" method = "post" enctype = "multipart/form-data">
             <!--        <form th:action = "@{/+'mapping'+/postCreate}" class = "col-12" method = "post">-->
 
             <div class = "form-group row">
@@ -83,7 +83,7 @@
                     <input type = "file" class = "custom-file-input" name = "file" id = "file"
                            onchange = "$('#nameOfFile').html(this.files[0].name)">
                     <label class = "custom-file-label" id = "file" for = "file">Choose
-                                                                                      file...</label>
+                                                                                file...</label>
                 </div>
             </div>
 
@@ -123,7 +123,7 @@
             <p class = "alert alert-danger" th:each = "error : ${errors}"
                th:text = "${error.message}">Error message</p>
         </div>
-        <form th:action = "${formAction}" class = "col-12" method = "post"  enctype="multipart/form-data">
+        <form th:action = "${formAction}" class = "col-12" method = "post" enctype = "multipart/form-data">
 
             <div class = "form-group row">
                 <label for = "title" class = "col-2 col-form-label text-right font-weight-bold">
@@ -185,7 +185,7 @@
                     <input type = "file" class = "custom-file-input" name = "file" id = "file"
                            onchange = "$('#nameOfFile').html(this.files[0].name)" th:value = "${post.titlePhoto}">
                     <label class = "custom-file-label" id = "file" for = "file">Choose
-                                                                                      file...</label>
+                                                                                file...</label>
                 </div>
             </div>
 
@@ -221,11 +221,12 @@
     <div th:fragment = "adminPostDetails">
         <div class = "row mt-4 ml-1" style = "position: relative;"><h2>Post Details</h2>
             <span style = "position:absolute; right: 0; top:0;">
-	                            <a id = "previewPostOnBlog" th:href = "@{/blog/post(id=${post.postId})}"
+	                            <a id = "previewPostOnBlog" th:if = "${post.approvalStatus == true}"
+                                   th:href = "@{/blog/post(id=${post.postId})}" th:target="_blank"
                                    class = "btn btn-outline-primary">
                                 Preview Post On Blog
                                 </a>
-                        </span>
+            </span>
         </div>
         <hr>
 
@@ -234,7 +235,6 @@
             <a href = "#" th:href = "@{/admin/postEdit(id=${post.postId})}">Edit</a> |
             <a href = "#" th:href = "@{/admin/postDelete(id=${post.postId})}">Delete</a>
         </h6>
-
 
 
         <div class = "row m-4">
