@@ -21,9 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Repository
 public class ImageDaoImpl implements ImageDao {
 
-//    private final String RESOURCE_ROOT = "C:/Users/Shazena/Documents/GITHUB/CMS-SG-FinalProject/BlogFinalProject/src/main/resources/static/";
-    ImageFolder imageFolder = new ImageFolder();
-    private final String RESOURCE_ROOT = imageFolder.getRESOURCE_ROOT();
+    private final String RESOURCE_ROOT = "C:/Users/Shazena/Documents/GITHUB/CMS-SG-FinalProject/BlogFinalProject/src/main/resources/static/";
+//    ImageFolder imageFolder = new ImageFolder();
+//    private final String RESOURCE_ROOT = imageFolder.getRESOURCE_ROOT();
 
     private final String UPLOAD_DIRECTORY = "images/uploads/";
 

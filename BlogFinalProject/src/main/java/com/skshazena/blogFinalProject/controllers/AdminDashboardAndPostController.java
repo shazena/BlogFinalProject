@@ -60,7 +60,7 @@ public class AdminDashboardAndPostController {
 
     @Autowired
     UserDao userDao;
-    
+
     private final String POST_TITLE_PHOTO_UPLOAD_DIRECTORY = "PostTitlePhotos";
 
     Set<ConstraintViolation<Post>> violationsPostAdd = new HashSet<>();
@@ -181,7 +181,7 @@ public class AdminDashboardAndPostController {
             if (hashtagsForPost != null || !hashtagsForPost.isEmpty()) {
                 for (Hashtag hashtag : hashtagsForPost) {
                     if (hashtag.getHashtagId() == 0) {
-                        hashtagDao.createHashtag(hashtag);
+                        hashtag = hashtagDao.createHashtag(hashtag);
                     }
                 }
             } else {
@@ -190,7 +190,6 @@ public class AdminDashboardAndPostController {
             }
             post = postDao.createPost(post);
 
-            //TODO Test me!!
             return "redirect:/admin/postDetails?id=" + post.getPostId();
         } else {
 
@@ -242,13 +241,107 @@ public class AdminDashboardAndPostController {
     }
 
     @PostMapping("/postEdit")
-    public String editPost(HttpServletRequest request, Model model, @RequestParam(value = "action", required = true) String action) {
+    public String editPost(HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file, @RequestParam(value = "action", required = true) String action) {
         //TODO write implementation
         //include the cancel button
         //if the post needs editing, then return the post on to the same page
         //if the postEditing is sucessful, take the user to the details page.
 
-        return "something";
+        if (action.equals("cancel")) {
+            return "redirect:/admin/posts";
+        }
+
+        String title = request.getParameter("title");
+        String postAtAsString = request.getParameter("postAt");
+        String expireAtAsString = request.getParameter("expireAt");
+        String hashtagsForPostAsStringToParse = request.getParameter("hashtagsForPost");
+        String staticPageAsString = request.getParameter("staticPage");
+        String contentFromTinyMCE = request.getParameter("content");
+        String userId = request.getParameter("userId");
+
+        LocalDateTime postAt = LocalDateTime.now();
+        if (postAtAsString.isBlank()) {
+            postAt = null;
+        } else {
+            postAt = LocalDateTime.parse(postAtAsString, DateTimeFormatter.ISO_LOCAL_DATE_TIME).withNano(0);
+        }
+
+        LocalDateTime expireAt = LocalDateTime.now();
+        if (expireAtAsString.isBlank()) {
+            expireAt = null;
+        } else {
+            expireAt = LocalDateTime.parse(expireAtAsString, DateTimeFormatter.ISO_LOCAL_DATE_TIME).withNano(0);
+        }
+
+        List<Hashtag> hashtagsForPost = service.parseStringIntoHashtags(hashtagsForPostAsStringToParse);
+
+        boolean staticPage = false;
+        if (staticPageAsString == null) {
+            staticPage = false;
+        } else {
+            staticPage = true;
+        }
+
+        User user = userDao.getUserById(Integer.parseInt(userId));
+
+        String postIdAsString = request.getParameter("postId");
+
+        Post post = postDao.getPostById(Integer.parseInt(postIdAsString));
+
+        post.setTitle(title);
+        post.setPostAt(postAt);
+        post.setExpireAt(expireAt);
+        post.setLastEditedAt(LocalDateTime.now());
+        post.setContent(contentFromTinyMCE);
+        post.setApprovalStatus(true);
+        post.setStaticPage(staticPage);
+
+        boolean fileIsEmpty = file.isEmpty();
+
+        if (!fileIsEmpty) {
+            post.setTitlePhoto(imageDao.updateImage(file, post.getTitlePhoto(), POST_TITLE_PHOTO_UPLOAD_DIRECTORY));
+        }
+
+        post.setUser(user);
+        post.setHashtagsForPost(hashtagsForPost);
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violationsPostEdit = validate.validate(post);
+
+        if (violationsPostEdit.isEmpty()) {
+            if (hashtagsForPost != null || !hashtagsForPost.isEmpty()) {
+                for (Hashtag hashtag : hashtagsForPost) {
+                    if (hashtag.getHashtagId() == 0) {
+                        hashtag = hashtagDao.createHashtag(hashtag);
+                    }
+                }
+            } else { //if the post has no hashtags
+                hashtagsForPost = new ArrayList<Hashtag>();
+                post.setHashtagsForPost(hashtagsForPost);
+            }
+            postDao.updatePost(post);
+
+            return "redirect:/admin/postDetails?id=" + post.getPostId();
+        } else {
+
+            model.addAttribute("post", post);
+
+            String hashtagsForPostAsString = "";
+            if (hashtagsForPost != null) {
+                for (Hashtag hashtag : hashtagsForPost) {
+                    hashtagsForPostAsString += hashtag.getTitle() + ", ";
+                }
+            }
+
+            List<Hashtag> allHashtags = hashtagDao.getAllHashtags();
+
+            model.addAttribute("hashtagsForPostAsString", hashtagsForPostAsString);
+            model.addAttribute("hashtags", allHashtags);
+            model.addAttribute("errors", violationsPostEdit);
+
+            return "adminDashboardPostsCreate";
+        }
+
     }
 
     @GetMapping("/postApproval")

@@ -195,6 +195,8 @@
 
             <input type = "hidden" th:value = "${#authentication.principal.userId}" name = "userId"
                    id = "userId">
+            <input type = "hidden" th:value = "${post.postId}" name = "postId"
+                   id = "postId">
 
             <input type = "hidden"
                    th:name = "${_csrf.parameterName}"
@@ -222,7 +224,7 @@
         <div class = "row mt-4 ml-1" style = "position: relative;"><h2>Post Details</h2>
             <span style = "position:absolute; right: 0; top:0;">
 	                            <a id = "previewPostOnBlog" th:if = "${post.approvalStatus == true}"
-                                   th:href = "@{/blog/post(id=${post.postId})}" th:target="_blank"
+                                   th:href = "@{/blog/post(id=${post.postId})}" th:target = "_blank"
                                    class = "btn btn-outline-primary">
                                 Preview Post On Blog
                                 </a>
