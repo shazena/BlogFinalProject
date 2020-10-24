@@ -60,8 +60,6 @@ public class AdminDashboardAndPostController {
 
     Set<ConstraintViolation<Post>> violationsPostAdd = new HashSet<>();
     Set<ConstraintViolation<Post>> violationsPostEdit = new HashSet<>();
-    Set<ConstraintViolation<User>> violationsUserAdd = new HashSet<>();
-    Set<ConstraintViolation<User>> violationsUserEdit = new HashSet<>();
 
     @GetMapping("/dashboard")
     public String displayAdminPage(Model model) {
@@ -215,7 +213,6 @@ public class AdminDashboardAndPostController {
     @GetMapping("/postEdit")
     public String getPostToEdit(Integer id, Model model) {
 
-        //TODO add validation!!!!!
         Post postById = postDao.getPostById(id);
 
         List<Hashtag> hashtagsForPost = postById.getHashtagsForPost();
@@ -237,10 +234,6 @@ public class AdminDashboardAndPostController {
 
     @PostMapping("/postEdit")
     public String editPost(HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file, @RequestParam(value = "action", required = true) String action) {
-        //TODO write implementation
-        //include the cancel button
-        //if the post needs editing, then return the post on to the same page
-        //if the postEditing is sucessful, take the user to the details page.
 
         if (action.equals("cancel")) {
             return "redirect:/admin/posts";

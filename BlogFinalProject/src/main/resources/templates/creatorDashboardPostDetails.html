@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang = "en" xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv = "content-type" content = "text/html; charset=UTF-8">
+    <meta charset = "utf-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>CREATOR - Sadukie's School of Thought</title>
+    <!-- Bootstrap core CSS -->
+    <link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity = "sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin = "anonymous">
+    <!--Google Font For Title-->
+    <link href = "https://fonts.googleapis.com/css2?family=Laila:wght@300;400;500;600;700&display=swap"
+          rel = "stylesheet">
+    <!-- Custom styles for this template -->
+    <link href = "../static/css/blogStyles.css" th:href = "@{/css/blogStyles.css}" rel = "stylesheet">
+
+    <style th:inline = "text">
+        /*.card {*/
+        /*    border: 1px solid rgba(0, 0, 0, 0.125);*/
+        /*}*/
+
+        .currentPageLinkPosts {
+            border-bottom: 2px solid black;
+            padding-bottom: 3px;
+        }
+
+        /*.currentPageLinkHashtags {*/
+        /*    border-bottom: 2px solid black;*/
+        /*    padding-bottom: 3px;*/
+        /*}*/
+
+        /*.currentPageLinkPostApproval {*/
+        /*    border-bottom: 2px solid black;*/
+        /*    padding-bottom: 3px;*/
+        /*}*/
+    </style>
+
+
+</head>
+
+<body sec:authorize = "hasRole('CREATOR')">
+
+    <div th:replace = "fragments/blogFragments :: blogNavBar"></div>
+
+    <div th:replace = "fragments/creatorFragments :: creatorDashboardNav"></div>
+    <main role = "main" class = "col-md-9 ml-sm-auto col-lg-10 px-4">
+        <div class = "content">
+
+
+            <div class = "row mt-4 ml-1" style = "position: relative;"><h2>Post Details</h2>
+                <span style = "position:absolute; right: 0; top:0;">
+	                            <a id = "previewPostOnBlog" th:if = "${post.approvalStatus == true}"
+                                   th:href = "@{/blog/post(id=${post.postId})}" th:target = "_blank"
+                                   class = "btn btn-outline-primary">
+                                Preview Post On Blog
+                                </a>
+            </span>
+            </div>
+            <hr>
+
+
+            <h6 class = "text-right">
+                <a href = "#" th:href = "@{/creator/postEdit(id=${post.postId})}">Edit</a>
+            </h6>
+
+
+            <div class = "row m-4">
+
+                <div class = "col-3 text-right font-weight-bold my-1">Post Title</div>
+                <div class = "col-9 text-left">
+                    <span th:text = "${post.title}">Post Title</span>
+                </div>
+
+                <div class = "col-3 text-right font-weight-bold my-1">Create Date</div>
+                <div class = "col-9 text-left">
+                    <span th:text = "${#temporals.format(post.createdAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Create Date</span>
+                </div>
+
+                <div class = "col-3 text-right font-weight-bold my-1">Publish Date</div>
+                <div class = "col-9 text-left">
+                    <span th:text = "${#temporals.format(post.postAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Publish Date</span>
+                </div>
+
+                <div class = "col-3 text-right font-weight-bold my-1">Expire Date</div>
+                <div class = "col-9 text-left">
+                    <span th:text = "${#temporals.format(post.expireAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Expire Date</span><span
+                        th:if = "${post.expireAt}==null">none</span>
+                </div>
+
+                <div class = "col-3 text-right font-weight-bold my-1">Last Edited</div>
+                <div class = "col-9 text-left">
+                    <span th:text = "${#temporals.format(post.lastEditedAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Last Edited</span>
+                </div>
+
+                <div class = "col-3 text-right font-weight-bold my-1">Author</div>
+                <div class = "col-9 text-left">
+                    <span th:text = "${post.user.firstName + ' '+ post.user.lastName}">Author</span></a>
+                </div>
+
+                <div class = "col-3 text-right font-weight-bold my-1">Static Page</div>
+                <div class = "col-9 text-left">
+                    <span th:text = "${post.staticPage}">Static Page</span>
+                </div>
+
+                <div class = "col-3 text-right font-weight-bold my-1">Approval Status</div>
+                <div class = "col-9 text-left">
+                    <span th:text = "${post.approvalStatus}">Approval Status</span>
+                </div>
+
+                <div class = "col-3 text-right font-weight-bold my-1">Hashtags</div>
+                <div class = "col-9 text-left">
+                <span th:each = "hashtag : ${post.hashtagsForPost}">
+                    <a th:text = "${'#'+hashtag.title}" th:href = "@{/creator/hashtagDetails(id=${hashtag.hashtagId})}">#Hashtag</a>
+                </span>
+                </div>
+
+                <div class = "col-3 text-right font-weight-bold my-1">Content</div>
+                <div class = "col-9 text-left">
+                    <span th:utext = "${post.content}">Content</span>
+                </div>
+
+            </div>
+
+
+        </div>
+    </main>
+
+    <div th:replace = "fragments/blogFragments :: scriptsForAllFiles"></div>
+
+</body>
+
+</html>

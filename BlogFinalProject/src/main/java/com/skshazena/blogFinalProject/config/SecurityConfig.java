@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/content/**").hasRole("CREATOR")
+                .antMatchers("/creator/**").hasRole("CREATOR")
                 .antMatchers("/upload/**").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/", "/home").permitAll()

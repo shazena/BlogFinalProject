@@ -13,7 +13,41 @@
 
 
     <!--BEGIN CREATOR DASHBOARD NAV-->
+    <div th:fragment = "creatorDashboardNav">
+        <nav class = "navbar navbar-dark fixed-top bg-info flex-md-nowrap p-0 shadow fixed-top-2 ">
+            <a class = "navbar-brand col-sm-3 col-md-2 mr-0" href = "dashboard" id = "">Creator Dashboard</a>
+        </nav>
 
+        <div class = "container-fluid">
+            <div class = "row">
+                <nav class = "col-md-2 d-none d-md-block bg-light sidebar">
+                    <div class = "sidebar-sticky">
+                        <ul class = "nav flex-column">
+                            <li class = "nav-item">
+                                <a class = "nav-link" href = "posts">
+                                    <span class = "currentPageLinkPosts">View/Edit Posts</span>
+                                </a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href = "hashtags">
+                                    <span class = "currentPageLinkHashtags">View Hashtags</span>
+                                </a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href = "postApproval">
+                                    <span class = "currentPageLinkPostApproval">Post Approval</span>
+                                </a>
+                            </li>
+                            <li class = "btn btn-dark my-4" style = "width: 75%;align-self: center;">
+                                <a class = "text-light" th:href = "@{/creator/postCreate}">Create New Post</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav> <!-- end sidebar -->
+
+            </div>
+        </div>
+    </div>
 
     <!--END CREATOR DASHBOARD NAV-->
 

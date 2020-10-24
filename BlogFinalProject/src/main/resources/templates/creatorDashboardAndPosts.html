@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang = "en" xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv = "content-type" content = "text/html; charset=UTF-8">
+    <meta charset = "utf-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>CREATOR - Sadukie's School of Thought</title>
+    <!-- Bootstrap core CSS -->
+    <link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity = "sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin = "anonymous">
+    <!--Google Font For Title-->
+    <link href = "https://fonts.googleapis.com/css2?family=Laila:wght@300;400;500;600;700&display=swap"
+          rel = "stylesheet">
+    <!-- Custom styles for this template -->
+    <link href = "../static/css/blogStyles.css" th:href = "@{/css/blogStyles.css}" rel = "stylesheet">
+
+    <style th:if = "${approval == 'approval'}">
+        .currentPageLinkPostApproval {
+            border-bottom: 2px solid black;
+            padding-bottom: 3px;
+        }
+    </style>
+
+    <style th:if = "${approval == ''}">
+        .currentPageLinkPosts {
+            border-bottom: 2px solid black;
+            padding-bottom: 3px;
+        }
+    </style>
+
+
+</head>
+
+<body sec:authorize = "hasRole('CREATOR')">
+
+    <div th:replace = "fragments/blogFragments :: blogNavBar"></div>
+
+    <div th:replace = "fragments/creatorFragments :: creatorDashboardNav"></div>
+    <main role = "main" class = "col-md-9 ml-sm-auto col-lg-10 px-4">
+        <div class = "content">
+
+           <span th:if = "${approval == 'approval'}">
+               <div th:replace = "fragments/creatorPostFragments :: creatorPostTable('Posts Needing Approval')"></div>
+            </span>
+
+            <span th:if = " ${approval == ''}">
+                <div th:replace = "fragments/creatorPostFragments :: creatorPostTable('All Posts')"></div>
+            </span>
+
+        </div>
+    </main>
+
+    <div th:replace = "fragments/blogFragments :: scriptsForAllFiles"></div>
+
+</body>
+
+</html>

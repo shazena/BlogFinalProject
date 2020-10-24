@@ -3,7 +3,10 @@ package com.skshazena.blogFinalProject.controllers;
 import com.skshazena.blogFinalProject.daos.*;
 import com.skshazena.blogFinalProject.dtos.User;
 import com.skshazena.blogFinalProject.service.BlogFinalProjectService;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +43,9 @@ public class AdminUserController {
 
     @Autowired
     UserDao userDao;
+
+    Set<ConstraintViolation<User>> violationsUserAdd = new HashSet<>();
+    Set<ConstraintViolation<User>> violationsUserEdit = new HashSet<>();
 
     @GetMapping("/users")
     public String getAllUsers(Model model) {
