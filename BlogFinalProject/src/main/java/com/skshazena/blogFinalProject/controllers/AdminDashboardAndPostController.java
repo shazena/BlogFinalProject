@@ -1,11 +1,6 @@
 package com.skshazena.blogFinalProject.controllers;
 
-import com.skshazena.blogFinalProject.daos.CommentDao;
-import com.skshazena.blogFinalProject.daos.HashtagDao;
-import com.skshazena.blogFinalProject.daos.ImageDao;
-import com.skshazena.blogFinalProject.daos.PostDao;
-import com.skshazena.blogFinalProject.daos.RoleDao;
-import com.skshazena.blogFinalProject.daos.UserDao;
+import com.skshazena.blogFinalProject.daos.*;
 import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Post;
 import com.skshazena.blogFinalProject.dtos.User;
@@ -353,6 +348,15 @@ public class AdminDashboardAndPostController {
         model.addAttribute("posts", allPostsNeedingApprovalForAdminOldestFirst);
 
         return "adminDashboardPosts";
+    }
+
+    @PostMapping("/postDelete")
+    public String deletePost(HttpServletRequest request) {
+        String idToDelete = request.getParameter("postIdToDelete");//reads the name, not id
+
+        postDao.deletePost(Integer.parseInt(idToDelete));
+
+        return "redirect:/admin/posts";
     }
 
 }

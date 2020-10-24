@@ -107,9 +107,9 @@
             <div class = "card-img-body">
                 <!-- <img class = "card-img" th:src = "${'https://picsum.photos/id/'+ 1+ stat.index + 6 +'/500/300'}"
                       alt = "Card image cap">-->
-                <!--                <img class = "card-img" th:src = "${'https://picsum.photos/600/400?random=' + stat.index}"-->
-                <!--                     alt = "Card image cap">-->
-                <img class = "card-img" th:src = "@{../{image}(image = ${post.titlePhoto})}">
+                <img class = "card-img" th:src = "${'https://picsum.photos/600/400?random=' + stat.index}"
+                     alt = "Card image cap">
+                <!--                <img class = "card-img" th:src = "@{../{image}(image = ${post.titlePhoto})}">-->
             </div>
             <div class = "card-body">
                 <a href = "post" th:href = "@{/blog/post(id=${post.postId})}"

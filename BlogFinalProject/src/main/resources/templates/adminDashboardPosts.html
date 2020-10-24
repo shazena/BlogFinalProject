@@ -54,12 +54,16 @@
                         <div th:replace = "fragments/adminPostFragments :: adminPostTable('All Posts', '')"></div>
                     </span>
 
+                    <div th:replace = "fragments/adminPostFragments :: deleteModal"></div>
+
+
                 </div>
             </main>
         </div>
     </div>
 
     <div th:replace = "fragments/blogFragments :: scriptsForAllFiles"></div>
+    <div th:replace = "fragments/adminPostFragments :: deleteConfirmationModalScript"></div>
 </body>
 
 </html>

@@ -1,11 +1,6 @@
 package com.skshazena.blogFinalProject.controllers;
 
-import com.skshazena.blogFinalProject.daos.CommentDao;
-import com.skshazena.blogFinalProject.daos.HashtagDao;
-import com.skshazena.blogFinalProject.daos.ImageDao;
-import com.skshazena.blogFinalProject.daos.PostDao;
-import com.skshazena.blogFinalProject.daos.RoleDao;
-import com.skshazena.blogFinalProject.daos.UserDao;
+import com.skshazena.blogFinalProject.daos.*;
 import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Post;
 import com.skshazena.blogFinalProject.service.BlogFinalProjectService;
@@ -133,5 +128,11 @@ public class AdminHashtagController {
 
         }
 
+    }
+
+    @GetMapping("/hashtagDelete")
+    public String deleteHashtag(Integer id) {
+        hashtagDao.deleteHashtag(id);
+        return "redirect:/admin/hashtags";
     }
 }

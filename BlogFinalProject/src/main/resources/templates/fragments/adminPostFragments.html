@@ -340,12 +340,77 @@
                 <td th:text = "${post.approvalStatus}">Approved</td>
                 <td><a href = "#" th:href = "@{/admin/postEdit(id=${post.postId})}">Edit</a>
                 </td>
-                <td><a href = "#" th:href = "@{/admin/postDelete(id=${post.postId})}">Delete</a>
+                <td><span class = "text-primary"
+                          th:id = "${post.postId}"
+                          onclick = "showDeleteConfirmationModal(this.id)">Delete</span>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
     <!--    END ADMIN POST TABLE FRAGMENT-->
+
+    <!--    ADMIN POST DELETE MODAL-->
+
+
+    <!--BEGIN MODAL-->
+
+    <div th:fragment = "deleteModal" class = "modal fade" id = "postDeleteConfirmationModal" tabindex = "-1"
+         role = "dialog"
+         aria-labelledby = "postDeleteConfirmationModal" aria-hidden = "true">
+        <div class = "modal-dialog modal-lg" role = "document">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h5 class = "modal-title" id = "locationConfirmationModalLabel">
+                        Post Delete Confirmation</h5>
+                    <button type = "button" class = "close" data-dismiss = "modal"
+                            aria-label = "Close">
+                        <span aria-hidden = "true">&times;</span>
+                    </button>
+                </div> <!--end of modal header-->
+                <div class = "modal-body">
+                    <div class = "row">
+                        <p class = "m-3">Are you sure you want to delete that post? It will also delete any comments
+                                         associated with it.</p>
+                    </div>
+
+                    <div class = "row" style = "justify-content: center;">
+                        <form th:action = "@{/admin/postDelete}" method = "POST">
+                            <input type = "hidden" id = "postIdToDelete" name = "postIdToDelete">
+                            <button type = "submit" class = "btn btn-primary mx-2"
+                                    id = "submitButton"
+                                    data-toggle = "modal">Delete Post
+                            </button>
+                        </form>
+                        <button type = "button" class = "btn btn-danger"
+                                data-dismiss = "modal">Cancel
+                        </button>
+                    </div>
+
+                </div> <!--end of modal body-->
+            </div> <!-- end of modal content-->
+        </div> <!--end of modal dialogue-->
+    </div>
+
+
+    <!--END MODAL-->
+    <!--    END ADMIN POST DELETE MODAL-->
+
+
+    <!--    ADMIN POST DELETE SCRIPT-->
+    <div th:fragment = "deleteConfirmationModalScript">
+
+        <script>
+            function showDeleteConfirmationModal(theId) {
+                $('#postDeleteConfirmationModal').modal('show');
+                $('#postDeleteConfirmationModal').find('#postIdToDelete').val(theId);
+            }
+        </script>
+
+
+    </div>
+
+
+    <!--    END ADMIN POST DELETE SCRIPT-->
 
 </body>
