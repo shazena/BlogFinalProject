@@ -69,7 +69,8 @@
                                 </button>
                             </form>
                             <div class = "dropdown-divider"></div>
-                            <a class = "dropdown-item" href = "#">New around here? Sign up</a>
+                            <a class = "dropdown-item" th:href = "@{/blog/createNewUserAccount}">New around here? Sign
+                                                                                                 up</a>
                         </div>
                     </div> <!--END OF DROPDOWN-->
 
@@ -110,7 +111,7 @@
                       alt = "Card image cap">-->
                 <img class = "card-img" th:src = "${'https://picsum.photos/600/400?random=' + stat.index}"
                      alt = "Card image cap">
-                <!--                <img class = "card-img" th:src = "@{../{image}(image = ${post.titlePhoto})}">-->
+                <!--                                <img class = "card-img" th:src="${post.titlePhoto}">-->
             </div>
             <div class = "card-body">
                 <a href = "post" th:href = "@{/blog/post(id=${post.postId})}"

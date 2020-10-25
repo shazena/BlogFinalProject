@@ -38,7 +38,7 @@
                         <span>Friday, October 13 2020</span> by <span>Sarah "Sadukie" Dutkiewicz</span>
                     </p>
 
-<!--                    <img src = "images/1261723.jpg" alt = "Superman" width = "30%" style = "float:right; margin: 1rem;">-->
+                    <!--                    <img src = "images/1261723.jpg" alt = "Superman" width = "30%" style = "float:right; margin: 1rem;">-->
                     <div class = "tinyContent" th:utext = "${post.content}">
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus congue diam non egestas
@@ -116,7 +116,15 @@
                             <span class = "h5">What do you think? Leave a comment! </span>
                             <span class = "small" sec:authorize = "isAnonymous()">(must be logged in)</span>
                         </p>
-                        <form action = "submitComment" method = "post" class = "mx-auto"
+                        <div th:if = "${errors}">
+                            <div class = "col-12 m-1 text-center"
+                                 th:if = "${!errors.isEmpty()}">
+                                <p class = "alert alert-danger" th:each = "error : ${errors}"
+                                   th:text = "${error.message}">Error message</p>
+                            </div>
+                        </div>
+
+                        <form th:action = "@{/blog/submitComment}" method = "post" class = "mx-auto"
                               sec:authorize = "isAuthenticated()">
                             <div class = "form-group-row my-3">
                                 <label for = "commentTitle" class = "sr-only">Comment Title</label>
@@ -128,6 +136,16 @@
                                           rows = "4"
                                           placeholder = "Comment"></textarea>
                             </div>
+
+                            <input type = "hidden" th:value = "${#authentication.principal.userId}" name = "userId"
+                                   id = "userId">
+
+                            <input type = "hidden" th:value = "${post.postId}" name = "postId" id = "postId">
+
+                            <input type = "hidden"
+                                   th:name = "${_csrf.parameterName}"
+                                   th:value = "${_csrf.token}"/>
+
                             <div class = "offset-8">
                                 <button type = "submit" class = "btn btn-outline-dark">Post Comment
                                 </button>

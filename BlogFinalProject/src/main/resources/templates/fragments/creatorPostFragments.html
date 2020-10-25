@@ -76,7 +76,7 @@
                 <div class = "custom-file text-left col-5">
                     <input type = "file" class = "custom-file-input" name = "file" id = "file"
                            onchange = "$('#nameOfFile').html(this.files[0].name)">
-                    <label class = "custom-file-label" id = "file" for = "file">Choose
+                    <label class = "custom-file-label" id = "nameOfFile" for = "file">Choose
                                                                                 file...</label>
                 </div>
             </div>
@@ -178,7 +178,7 @@
                 <div class = "custom-file text-left col-4">
                     <input type = "file" class = "custom-file-input" name = "file" id = "file"
                            onchange = "$('#nameOfFile').html(this.files[0].name)" th:value = "${post.titlePhoto}">
-                    <label class = "custom-file-label" id = "file" for = "file">Choose
+                    <label class = "custom-file-label" id = "nameOfFile" for = "file">Choose
                                                                                 file...</label>
                 </div>
             </div>

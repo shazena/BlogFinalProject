@@ -48,6 +48,10 @@ select p.postId, p.title, ph.hashtagId from post p JOIN postHashtag ph ON p.post
 delete from postHashtag where postId > 4;
 delete from blogcmsfinalprojectdb.post where postId >4;
 
+update blogcmsfinalprojectdb.post set 
+titlePhoto = ''
+where postId =26;
+
 
 update post SET
 content = "<p>wpofjpweojfpowekjf</p><p>These are my own personal thoughts, beliefs, and perspectives of the world. This is not representative of any employers, planning committees, clients, or any other associations tied with me or my name. Every person has an opinion on something, and these are mine. We may end up having to agree to disagree, and I can guarantee you that not everyone will feel the same way that I do.&nbsp;</p>
@@ -59,3 +63,8 @@ where postId = 9;
 
 ALTER TABLE blogcmsfinalprojectdb.post MODIFY content TEXT NOT NULL;
 ALTER TABLE blogcmsfinalprojectdb.post MODIFY content TEXT NOT NULL;
+
+select * from Post where userId = 5;
+delete from postHashtag where postId = 31;
+delete from post where userId = 5;
+delete from comment where userId = 5;

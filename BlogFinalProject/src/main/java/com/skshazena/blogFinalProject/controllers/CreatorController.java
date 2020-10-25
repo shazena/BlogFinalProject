@@ -1,6 +1,7 @@
 package com.skshazena.blogFinalProject.controllers;
 
 import com.skshazena.blogFinalProject.daos.*;
+import com.skshazena.blogFinalProject.dtos.Comment;
 import com.skshazena.blogFinalProject.dtos.EnhancedSpringUser;
 import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Post;
@@ -339,5 +340,27 @@ public class CreatorController {
             return "creatorDashboardPostEdit";
         }
 
+    }
+
+    @GetMapping("/userDetails") //TODO needs to be added to a link on the page!!!!
+    public String getUserDetails(Integer id, Model model) {
+
+        //get the user that is currently logged in
+        EnhancedSpringUser user = (EnhancedSpringUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        //check to see if they are trying to view their own profile
+        if (id != user.getUserId()) { //if they are not!!!
+            String message = "You do not have authorization to view that page!";
+            return "error";//don't allow them to!
+        } else {
+
+            User userById = userDao.getUserById(id);
+            List<Comment> allCommentsWrittenByUser = commentDao.getAllCommentsWrittenByUser(id);
+
+            model.addAttribute("user", userById);
+            model.addAttribute("comments", allCommentsWrittenByUser);
+
+            return "adminDashboardUserDetails";
+        }
     }
 }

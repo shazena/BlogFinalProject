@@ -24,7 +24,7 @@
         <div class = "row mt-4 ml-1" style = "position: relative;"><h2>Comment Approval</h2>
             <span style = "position:absolute; right: 0; top:0;">
 	                            <a id = "previewPostOnBlog" th:if = "${comment.post.approvalStatus == true}"
-                                   th:href = "@{/blog/post(id=${comment.post.postId})}" th:target="_blank"
+                                   th:href = "@{/blog/post(id=${comment.post.postId})}" th:target = "_blank"
                                    class = "btn btn-outline-primary">
                                 Preview Post On Blog
                                 </a>
@@ -120,6 +120,9 @@
             </tr>
             </tbody>
         </table>
+        <div class = "text-center m-4">
+            <span th:if = "${#lists.size(comments)} == 0">No Comments for Approval!</span>
+        </div>
     </div>
     <!--    END ADMIN COMMENT TABLE FRAGMENT-->
 

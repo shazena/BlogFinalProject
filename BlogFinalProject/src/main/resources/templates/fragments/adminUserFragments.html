@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang = "en" xmlns = "http://www.w3.org/1999/xhtml"
-      xmlns:th = "http://www.thymeleaf.org"
-      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th = "http://www.thymeleaf.org">
 <head>
 
 
@@ -17,184 +16,89 @@
     <!--        <a class = "navbar-brand col-sm-3 col-md-2 mr-0" th:href = "dashboard" id = "adminNav">Admin Dashboard</a>-->
     <!--    </nav>-->
 
-    <div th:fragment = "createNewPost(formAction)">
-        <h2 class = "mt-4">Create New Post</h2>
+    <!--    BEGIN CREATE NEW USER FRAGMENT-->
+    <div th:fragment = "adminUserCreate">
+        <h2 class = "mt-4">Create User</h2>
         <hr>
+
         <div class = "col-12 m-1 text-center"
              th:if = "${!errors.isEmpty()}">
             <p class = "alert alert-danger" th:each = "error : ${errors}"
                th:text = "${error.message}">Error message</p>
         </div>
-        <form th:action = "${formAction}" class = "col-12" method = "post">
-            <!--        <form th:action = "@{/+'mapping'+/postCreate}" class = "col-12" method = "post">-->
 
+
+        <form th:action = "@{/admin/userCreate}" method = "post" enctype = "multipart/form-data">
             <div class = "form-group row">
-                <label for = "title" class = "col-2 col-form-label text-right font-weight-bold">
-                    Post Title</label>
-                <input type = "text" id = "title" name = "title" class = "col-9 form-control">
+                <label for = "usernameToAdd" class = "col-2 col-form-label text-right font-weight-bold">
+                    Username</label>
+                <input type = "text" id = "usernameToAdd"
+                       name = "usernameToAdd" class = "col-9 form-control">
             </div>
 
             <div class = "form-group row">
-                <label for = "postAt" class = "col-2 col-form-label text-right font-weight-bold">
-                    Publish At</label>
-                <input type = "datetime-local" id = "postAt" name = "postAt"
-                       class = "col-4 form-control">
-                <label for = "expireAt" class = "col-1 col-form-label text-right font-weight-bold">
-                    Expire At</label>
-                <input type = "datetime-local" id = "expireAt" name = "expireAt"
-                       class = "col-4 form-control">
+                <label for = "passwordToAdd" class = "col-2 col-form-label text-right font-weight-bold">
+                    Password</label>
+                <input type = "password" id = "passwordToAdd"
+                       name = "passwordToAdd" class = "col-9 form-control">
+            </div>
+            <div class = "form-group row">
+                <label for = "confirmPasswordToAdd" class = "col-2 col-form-label text-right font-weight-bold">
+                    Confirm Password</label>
+                <input type = "password" id = "confirmPasswordToAdd"
+                       name = "confirmPasswordToAdd" class = "col-9 form-control">
             </div>
 
             <div class = "form-group row">
-                <label for = "hashtagsForPost"
-                       class = "col-2 col-form-label text-right font-weight-bold">
-                    Hashtags For Post</label>
-                <input type = "text" id = "hashtagsForPost" name = "hashtagsForPost"
-                       class = "form-control col-8">
-                <button type = "button"
-                        class = "btn btn-sm btn-outline-dark rounded-circle mx-4 font-weight-bold"
-                        data-container = "body" data-toggle = "popover" data-placement = "top"
-                        data-content = "Type new hashtags separated by commas. Click a hashtag below to add it to the list."
-                >&nbsp;&nbsp;i&nbsp;&nbsp;
-                </button>
+                <label for = "firstName" class = "col-2 col-form-label text-right font-weight-bold">
+                    First Name</label>
+                <input type = "text" id = "firstName"
+                       name = "firstName" class = "col-9 form-control">
             </div>
 
             <div class = "form-group row">
-                            <span for = "hashtagsForPost" class = "col-2 text-right font-weight-bold">
-                                Existing Hashtags</span>
-                <div class = "col-9">
-                                <span th:each = "hashtag : ${hashtags}">
-                                    <span th:text = "${hashtag.title}" th:id = "${hashtag.title}"
-                                          onclick = "addTagToInput(this.id)"></span>
-                                        <span>&nbsp;</span> <!--SPACE-->
-                                </span>
-                </div>
+                <label for = "lastName" class = "col-2 col-form-label text-right font-weight-bold">
+                    Last Name</label>
+                <input type = "text" id = "lastName"
+                       name = "lastName" class = "col-9 form-control">
             </div>
 
             <div class = "form-group row">
-                <label for = "staticPage" class = "col-2 col-form-label text-right font-weight-bold">
-                    Static Page</label>
-                <input type = "checkbox" id = "staticPage" name = "staticPage"
-                       class = "col-1 form-control">
-
-                <label for = "file" class = "offset-1 col-2 col-form-label font-weight-bold text-right">
-                    Title Photo</label>
-                <div class = "custom-file text-left col-5">
-                    <input type = "file" class = "custom-file-input" name = "file" id = "file"
-                           onchange = "$('#nameOfFile').html(this.files[0].name)">
-                    <label class = "custom-file-label" id = "file" for = "file">Choose
-                                                                                      file...</label>
-                </div>
-            </div>
-
-
-            <textarea name = "content" id = "content" style = "height: 800px;"></textarea>
-
-
-            <input type = "hidden" th:value = "${#authentication.principal.userId}" name = "userId"
-                   id = "userId">
-
-            <input type = "hidden"
-                   th:name = "${_csrf.parameterName}"
-                   th:value = "${_csrf.token}"/>
-
-            <div class = "form-group row justify-content-around my-4">
-                <button class = "btn btn-danger" type = "submit" name = "action"
-                        value = "cancel">
-                    Cancel
-                </button>
-                <button class = "btn btn-dark" type = "submit" name = "action" value = "save">
-                    Save Post
-                </button>
-            </div>
-
-        </form>
-
-    </div>
-    <!--    END CREATE USER FRAGMENT-->
-
-
-    <!--    BEGIN EDIT USER FRAGMENT-->
-    <div th:fragment = "editPost (formAction, formHeader)">
-        <h2 class = "mt-4" th:text = "${formHeader}">Edit Post</h2>
-        <hr>
-        <div class = "col-12 m-1 text-center"
-             th:if = "${!errors.isEmpty()}">
-            <p class = "alert alert-danger" th:each = "error : ${errors}"
-               th:text = "${error.message}">Error message</p>
-        </div>
-        <form th:action = "${formAction}" class = "col-12" method = "post">
-
-            <div class = "form-group row">
-                <label for = "title" class = "col-2 col-form-label text-right font-weight-bold">
-                    Post Title</label>
-                <input type = "text" id = "title" name = "title" class = "col-9 form-control"
-                       th:value = "${post.title}">
+                <label for = "roles" class = "col-2 col-form-label text-right font-weight-bold">
+                    Roles</label>
+                <select multiple id = "roles" name = "roles"
+                        class = "form-control col-9">
+                    <option th:each = "role : ${roles}"
+                            th:value = "${role.roleId}"
+                            th:text = "${role.role}">
+                        Role
+                    </option>
+                </select>
             </div>
 
             <div class = "form-group row">
-                <label for = "postAt" class = "col-2 col-form-label text-right font-weight-bold">
-                    Publish At</label>
-                <input type = "datetime-local" id = "postAt" name = "postAt"
-                       class = "col-4 form-control" th:value = "${post.postAt}">
-                <label for = "expireAt" class = "col-1 col-form-label text-right font-weight-bold">
-                    Expire At</label>
-                <input type = "datetime-local" id = "expireAt" name = "expireAt"
-                       class = "col-4 form-control" th:value = "${post.expireAt}">
-            </div>
 
-            <div class = "form-group row">
-                <label for = "hashtagsForPost"
-                       class = "col-2 col-form-label text-right font-weight-bold">
-                    Hashtags For Post</label>
-                <input type = "text" id = "hashtagsForPost" name = "hashtagsForPost"
-                       class = "form-control col-8" th:value = "${hashtagsForPostAsString}">
-                <button type = "button"
-                        class = "btn btn-sm btn-outline-dark rounded-circle mx-4 font-weight-bold"
-                        data-container = "body" data-toggle = "popover" data-placement = "top"
-                        data-content = "Type new hashtags separated by commas. Click a hashtag below to add it to the list."
-                >&nbsp;&nbsp;i&nbsp;&nbsp;
-                </button>
-            </div>
+                <label for = "enabled" class = "col-2 col-form-label text-right font-weight-bold">
+                    Enabled</label>
+                <input type = "checkbox" id = "enabled" name = "enabled" th:checked = "true"
+                       class = "form-control col-1">
 
-            <div class = "form-group row">
-                            <span for = "hashtagsForPost" class = "col-2 text-right font-weight-bold">
-                                Existing Hashtags</span>
-                <div class = "col-9">
-                                <span th:each = "hashtag : ${hashtags}">
-                                    <span th:text = "${hashtag.title}" th:id = "${hashtag.title}"
-                                          onclick = "addTagToInput(this.id)"></span>
-                                        <span>&nbsp;</span> <!--SPACE-->
-                                </span>
-                </div>
-            </div>
-
-            <div class = "form-group row">
-                <label for = "staticPage" class = "col-2 col-form-label text-right font-weight-bold">
-                    Static Page</label>
-                <input type = "checkbox" id = "staticPage" name = "staticPage"
-                       class = "col-1 form-control" th:checked = "${post.staticPage}">
-
-                <img th:if = "${post.titlePhoto}!=''" th:src = "${post.titlePhoto}" alt = "originalPhoto"
-                     class = "offset-1 col-1">
-                <img th:if = "${post.titlePhoto}==''" th:src = "${post.titlePhoto}" class = "offset-1 col-1">
 
                 <label for = "file" class = "col-2 col-form-label font-weight-bold text-right">
-                    Title Photo</label>
+                    Profile Picture</label>
                 <div class = "custom-file text-left col-4">
                     <input type = "file" class = "custom-file-input" name = "file" id = "file"
-                           onchange = "$('#nameOfFile').html(this.files[0].name)" th:value = "${post.titlePhoto}">
+                           onchange = "$('#nameOfFile').html(this.files[0].name)">
                     <label class = "custom-file-label" id = "nameOfFile" for = "file">Choose
                                                                                       file...</label>
                 </div>
+
+
             </div>
 
 
-            <textarea name = "content" id = "content" style = "height: 800px;">[[${post.content}]]</textarea>
-
-
-            <input type = "hidden" th:value = "${#authentication.principal.userId}" name = "userId"
-                   id = "userId">
+            <input type = "hidden" th:value = "${#authentication.principal.userId}" name = "userIdOfEditor"
+                   id = "userIdOfEditor">
 
             <input type = "hidden"
                    th:name = "${_csrf.parameterName}"
@@ -206,91 +110,264 @@
                     Cancel
                 </button>
                 <button class = "btn btn-dark" type = "submit" name = "action" value = "save">
-                    Save Post
+                    Save User
                 </button>
             </div>
 
         </form>
 
+
     </div>
 
-    <!--    END USER POST FRAGMENT-->
+    <!--    END CREATE NEW USER FRAGMENT-->
+
+
+    <!--    BEGIN EDIT USER FRAGMENT-->
+    <div th:fragment = "adminUserEdit">
+        <h2 class = "mt-4">Edit User</h2>
+        <hr>
+
+        <div class = "col-12 m-1 text-center"
+             th:if = "${!errors.isEmpty()}">
+            <p class = "alert alert-danger" th:each = "error : ${errors}"
+               th:text = "${error.message}">Error message</p>
+        </div>
+
+
+        <form th:action = "@{/admin/userEdit}" method = "post" enctype = "multipart/form-data">
+            <div class = "form-group row">
+                <label for = "usernameToEdit" class = "col-2 col-form-label text-right font-weight-bold">
+                    Username</label>
+                <input type = "text" th:value = "${user.username}" id = "usernameToEdit"
+                       name = "usernameToEdit" class = "col-9 form-control">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "firstName" class = "col-2 col-form-label text-right font-weight-bold">
+                    First Name</label>
+                <input type = "text" th:value = "${user.firstName}" id = "firstName"
+                       name = "firstName" class = "col-9 form-control">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "lastName" class = "col-2 col-form-label text-right font-weight-bold">
+                    Last Name</label>
+                <input type = "text" th:value = "${user.lastName}" id = "lastName"
+                       name = "lastName" class = "col-9 form-control">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "roles" class = "col-2 col-form-label text-right font-weight-bold">
+                    Roles</label>
+                <select multiple id = "roles" name = "roles"
+                        class = "form-control col-9">
+                    <option th:each = "role : ${roles}"
+                            th:value = "${role.roleId}"
+                            th:text = "${role.role}"
+                            th:selected = "${user.roles.contains(role)}">
+                        Role
+                    </option>
+                </select>
+            </div>
+
+            <div class = "form-group row">
+
+                <label for = "enabled" class = "col-2 col-form-label text-right font-weight-bold">
+                    Enabled</label>
+                <input type = "checkbox" id = "enabled" name = "enabled"
+                       class = "form-control col-1" th:checked = "${user.enabled}">
+
+                <img th:if = "${user.profilePicture}" th:src = "${user.profilePicture}" alt = "originalPhoto"
+                     class = "offset-1 col-1">
+                <img th:if = "!${user.profilePicture}" th:src = "${user.profilePicture}" class = "offset-1 col-1">
+
+                <label for = "file" class = "col-2 col-form-label font-weight-bold text-right">
+                    Profile Picture</label>
+                <div class = "custom-file text-left col-4">
+                    <input type = "file" class = "custom-file-input" name = "file" id = "file"
+                           onchange = "$('#nameOfFile').html(this.files[0].name)" th:value = "${user.profilePicture}">
+                    <label class = "custom-file-label" id = "nameOfFile" for = "file">Choose
+                                                                                      file...</label>
+                </div>
+
+
+            </div>
+
+
+            <input type = "hidden" th:value = "${user.userId}" name = "userId" id = "userId">
+            <input type = "hidden" th:value = "${#authentication.principal.userId}" name = "userIdOfEditor"
+                   id = "userIdOfEditor">
+
+            <input type = "hidden"
+                   th:name = "${_csrf.parameterName}"
+                   th:value = "${_csrf.token}"/>
+
+            <div class = "form-group row justify-content-around my-4">
+                <button class = "btn btn-danger" type = "submit" name = "action"
+                        value = "cancel">
+                    Cancel
+                </button>
+                <button class = "btn btn-dark" type = "submit" name = "action" value = "save">
+                    Save User
+                </button>
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+    <!--    END EDIT USER FRAGMENT-->
+
+
+    <!--    BEGIN EDIT USER PASSWORD FRAGMENT-->
+    <div th:fragment = "adminUserPasswordEdit">
+        <h2 class = "mt-4">Edit Password for Username: <span th:text = "${user.username}">username</span></h2>
+        <hr>
+
+        <div class = "col-12 m-1 text-center"
+             th:if = "${!errors.isEmpty()}">
+            <p class = "alert alert-danger" th:each = "error : ${errors}"
+               th:text = "${error.message}">Error message</p>
+        </div>
+
+
+        <form th:action = "@{/admin/passwordEdit}" method = "post">
+            <div class = "form-group row">
+                <label for = "passwordToEdit" class = "col-4 col-form-label text-right font-weight-bold">
+                    New Password</label>
+                <input type = "password" id = "passwordToEdit" name = "passwordToEdit" class = "col-4 form-control">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "passwordToEdit" class = "col-4 col-form-label text-right font-weight-bold">
+                    Confirm New Password</label>
+                <input type = "password" id = "confirmPasswordToEdit" name = "confirmPasswordToEdit"
+                       class = "col-4 form-control">
+            </div>
+
+
+            <input type = "hidden" th:value = "${user.userId}" name = "userId" id = "userId">
+            <input type = "hidden" th:value = "${#authentication.principal.userId}" name = "userIdOfEditor"
+                   id = "userIdOfEditor">
+
+            <input type = "hidden"
+                   th:name = "${_csrf.parameterName}"
+                   th:value = "${_csrf.token}"/>
+
+            <div class = "form-group row justify-content-around my-4">
+                <button class = "btn btn-danger" type = "submit" name = "action"
+                        value = "cancel">
+                    Cancel
+                </button>
+                <button class = "btn btn-dark" type = "submit" name = "action" value = "save">
+                    Save New Password
+                </button>
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+    <!--    END EDIT USER PASSWORD FRAGMENT-->
+
 
     <!--    ADMIN USER DETAILS FRAGMENT-->
 
-    <div th:fragment = "adminPostDetails">
-        <div class = "row mt-4 ml-1" style = "position: relative;"><h2>Post Details</h2>
+    <div th:fragment = "adminUserDetails">
+        <div class = "row mt-4 ml-1" style = "position: relative;"><h2>User Details</h2>
             <span style = "position:absolute; right: 0; top:0;">
-	                            <a id = "previewPostOnBlog" th:href = "@{/blog/post(id=${post.postId})}"
-                                   class = "btn btn-outline-primary">
-                                Preview Post On Blog
-                                </a>
-                        </span>
+                <a id = "editPasswordButton"
+                   th:href = "@{/admin/passwordEdit(id=${user.userId})}"
+                   class = "btn btn-outline-danger">
+                        Edit Password
+                </a>
+            </span>
         </div>
         <hr>
 
 
         <h6 class = "text-right">
-            <a href = "#" th:href = "@{/admin/postEdit(id=${post.postId})}">Edit</a> |
-            <a href = "#" th:href = "@{/admin/postDelete(id=${post.postId})}">Delete</a>
+            <a href = "#" th:href = "@{/admin/userEdit(id=${user.userId})}">Edit Profile</a> |
+            <a href = "#">
+                <span class = "text-primary"
+                      th:id = "${user.userId}"
+                      onclick = "showDeleteConfirmationModal(this.id)">Delete</span>
+            </a>
         </h6>
 
 
-        <div class = "row m-4">
+        <div class = "m-4" style = "display: grid; grid-template-columns: 1fr 1fr;">
 
-            <div class = "col-3 text-right font-weight-bold my-1">Post Title</div>
-            <div class = "col-9 text-left">
-                <span th:text = "${post.title}">Post Title</span>
-            </div>
 
-            <div class = "col-3 text-right font-weight-bold my-1">Create Date</div>
-            <div class = "col-9 text-left">
-                <span th:text = "${#temporals.format(post.createdAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Create Date</span>
-            </div>
+            <div> <!--BEGIN LEFT SECTION-->
+                <div class = "row">
+                    <div class = "col-3 text-right font-weight-bold">Username</div>
+                    <div class = "col-9 text-left">
+                        <span th:text = "${user.username}">Username</span>
+                    </div>
+                </div>
 
-            <div class = "col-3 text-right font-weight-bold my-1">Publish Date</div>
-            <div class = "col-9 text-left">
-                <span th:text = "${#temporals.format(post.postAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Publish Date</span>
-            </div>
+                <div class = "row">
+                    <div class = "col-3 text-right font-weight-bold">First Name</div>
+                    <div class = "col-9 text-left">
+                        <span th:text = "${user.firstName}">FirstName</span>
+                    </div>
+                </div>
 
-            <div class = "col-3 text-right font-weight-bold my-1">Expire Date</div>
-            <div class = "col-9 text-left">
-                <span th:text = "${#temporals.format(post.expireAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Expire Date</span><span
-                    th:if = "${post.expireAt}==null">none</span>
-            </div>
+                <div class = "row">
+                    <div class = "col-3 text-right font-weight-bold">Last Name</div>
+                    <div class = "col-9 text-left">
+                        <span th:text = "${user.lastName}">LastName</span>
+                    </div>
+                </div>
 
-            <div class = "col-3 text-right font-weight-bold my-1">Last Edited</div>
-            <div class = "col-9 text-left">
-                <span th:text = "${#temporals.format(post.lastEditedAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Last Edited</span>
-            </div>
+                <div class = "row">
+                    <div class = "col-3 text-right font-weight-bold">Enabled</div>
+                    <div class = "col-9 text-left">
+                        <span th:text = "${user.enabled}">Enabled</span>
+                    </div>
+                </div>
 
-            <div class = "col-3 text-right font-weight-bold my-1">Author</div>
-            <div class = "col-9 text-left">
-                <a th:href = "@{/admin/userDetails(id=${post.user.userId})}"><span
-                        th:text = "${post.user.firstName + ' '+ post.user.lastName}">Author</span></a>
-            </div>
+                <div class = "row">
+                    <div class = "col-3 text-right font-weight-bold">Last Login</div>
+                    <div class = "col-9 text-left">
+                        <span th:text = "${#temporals.format(user.lastLogin, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Last Login</span>
+                    </div>
+                </div>
 
-            <div class = "col-3 text-right font-weight-bold my-1">Static Page</div>
-            <div class = "col-9 text-left">
-                <span th:text = "${post.staticPage}">Static Page</span>
-            </div>
+                <div class = "row">
+                    <div class = "col-3 text-right font-weight-bold">Profile Pic</div>
+                    <div class = "col-9 text-left">
+                        <img th:if = "${user.profilePicture}"
+                             th:src = "${user.profilePicture}" style = "width: 100px;">
+                        <span th:if = "!${user.profilePicture}">No Picture provided</span>
+                    </div>
+                </div>
 
-            <div class = "col-3 text-right font-weight-bold my-1">Approval Status</div>
-            <div class = "col-9 text-left">
-                <span th:text = "${post.approvalStatus}">Approval Status</span>
-            </div>
+            </div> <!--END LEFT SECTION-->
 
-            <div class = "col-3 text-right font-weight-bold my-1">Hashtags</div>
-            <div class = "col-9 text-left">
-                <span th:each = "hashtag : ${post.hashtagsForPost}">
-                    <a th:text = "${'#'+hashtag.title}" th:href = "@{/admin/hashtagDetails(id=${hashtag.hashtagId})}">#Hashtag</a>
-                </span>
-            </div>
+            <div> <!--BEGIN RIGHT SECTION-->
 
-            <div class = "col-3 text-right font-weight-bold my-1">Content</div>
-            <div class = "col-9 text-left">
-                <span th:utext = "${post.content}">Content</span>
-            </div>
+                <h5 class = "mb-3" th:if = "${#lists.size(comments)} > 0">Comments By This User</h5>
+                <h5 class = "mb-3" th:if = "${#lists.size(comments)} == 0">This User has not made any Comments</h5>
+
+                <div th:each = "comment : ${comments}">
+
+                    <h6 th:text = "${comment.title}">Comment Title</h6>
+                    <p>
+                        <span th:text = "${#temporals.format(comment.createdAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}"></span><br/>
+                        <span th:text = "${comment.content}">Comment Content</span>
+                    </p>
+                    <br/>
+
+                </div>
+
+            </div> <!--END RIGHT SECTION-->
+
 
         </div>
     </div>
@@ -301,7 +378,21 @@
     <!--    ADMIN USER TABLE FRAGMENT-->
 
     <div th:fragment = "adminUserTable">
-        <h2 class = "mt-4">All Users</h2>
+        <div class = "row mt-4 ml-1" style = "position: relative;"><h2>All Users</h2>
+            <span style = "position:absolute; right: 0; top:0;">
+                <a id = "createNewUserButton"
+                   th:href = "@{/admin/userCreate}"
+                   class = "btn btn-outline-primary">
+                        Create New User
+                </a>
+            </span>
+        </div>
+
+        <div class = "col-12 m-1 text-center"
+             th:if = "${!errors.isEmpty()}">
+            <p class = "alert alert-danger" th:each = "error : ${errors}"
+               th:text = "${error.message}">Error message</p>
+        </div>
 
         <table class = "table table-striped">
             <thead>
@@ -334,12 +425,81 @@
                 <td th:text = "${user.enabled}">Enabled</td>
                 <td><a href = "#" th:href = "@{/admin/userEdit(id=${user.userId})}">Edit</a>
                 </td>
-                <td><a href = "#" th:href = "@{/admin/userDelete(id=${user.userId})}">Delete</a>
+                <td>
+                        <span class = "text-primary"
+                              th:id = "${user.userId}"
+                              onclick = "showDeleteConfirmationModal(this.id)">Delete
+                        </span>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
     <!--    END USER POST TABLE FRAGMENT-->
+
+    <!--BEGIN ADMIN USER DELETE MODAL-->
+    <!--BEGIN MODAL-->
+
+    <div th:fragment = "deleteUserModal" class = "modal fade" id = "userDeleteConfirmationModal" tabindex = "-1"
+         role = "dialog"
+         aria-labelledby = "userDeleteConfirmationModal" aria-hidden = "true">
+        <div class = "modal-dialog modal-lg" role = "document">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h5 class = "modal-title" id = "locationConfirmationModalLabel">
+                        User Delete Confirmation</h5>
+                    <button type = "button" class = "close" data-dismiss = "modal"
+                            aria-label = "Close">
+                        <span aria-hidden = "true">&times;</span>
+                    </button>
+                </div> <!--end of modal header-->
+                <div class = "modal-body">
+                    <div class = "row">
+                        <p class = "m-3">Are you sure you want to delete that user? It will also delete any posts and
+                                         comments
+                                         associated with that user.</p>
+                    </div>
+
+                    <div class = "row justify-content-around">
+                        <button type = "button" class = "btn btn-danger"
+                                data-dismiss = "modal">Cancel
+                        </button>
+                        <form th:action = "@{/admin/userDelete}" method = "POST">
+                            <input type = "hidden" id = "userIdToDelete" name = "userIdToDelete">
+                            <input type = "hidden" th:value = "${#authentication.principal.userId}" name = "userId"
+                                   id = "userId">
+                            <input type = "hidden"
+                                   th:name = "${_csrf.parameterName}"
+                                   th:value = "${_csrf.token}"/>
+                            <button type = "submit" class = "btn btn-primary mx-2"
+                                    id = "submitButton"
+                                    data-toggle = "modal">Delete User
+                            </button>
+                        </form>
+                    </div>
+
+                </div> <!--end of modal body-->
+            </div> <!-- end of modal content-->
+        </div> <!--end of modal dialogue-->
+    </div>
+
+
+    <!--END MODAL-->
+    <!--    END ADMIN USER DELETE MODAL-->
+
+
+    <!--    ADMIN USER DELETE SCRIPT-->
+    <div th:fragment = "deleteUserConfirmationModalScript">
+
+        <script>
+            function showDeleteConfirmationModal(theId) {
+                $('#userDeleteConfirmationModal').modal('show');
+                $('#userDeleteConfirmationModal').find('#userIdToDelete').val(theId);
+            }
+        </script>
+
+    </div>
+
+    <!--    END ADMIN USER DELETE SCRIPT-->
 
 </body>

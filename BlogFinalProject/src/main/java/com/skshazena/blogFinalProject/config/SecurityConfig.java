@@ -43,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/creator/**").hasRole("CREATOR")
-                .antMatchers("/upload/**").permitAll()
-                .antMatchers("/images/**").permitAll()
+                .antMatchers("/upload/**").permitAll()//allow uploads from TinyMCE
+                .antMatchers("/images/**").permitAll()//allow users to see images on page
                 .antMatchers("/", "/home").permitAll()
                 .antMatchers("/blog/**").permitAll()
                 .antMatchers("/css/**", "/js/**", "/fonts/**").permitAll()

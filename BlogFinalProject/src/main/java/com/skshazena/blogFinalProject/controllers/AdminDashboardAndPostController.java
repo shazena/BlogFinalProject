@@ -345,7 +345,7 @@ public class AdminDashboardAndPostController {
 
     @PostMapping("/postDelete")
     public String deletePost(HttpServletRequest request) {
-        String idToDelete = request.getParameter("postIdToDelete");//reads the name, not id
+        String idToDelete = request.getParameter("postIdToDelete");//reads the name of the input, not id of the input
 
         postDao.deletePost(Integer.parseInt(idToDelete));
 

@@ -34,6 +34,11 @@
                     <!--INSERT MAIN CONTENT HERE-->
                     <div class = "container">
 
+                        <div class = "col-12 m-1 text-center"
+                             th:if = "${successMessage}">
+                            <p class = "alert alert-success" th:text = "${successMessage}">Success message</p>
+                        </div>
+                        
                         <div th:replace = "fragments/blogFragments :: cardForPost"></div>
 
                     </div>
