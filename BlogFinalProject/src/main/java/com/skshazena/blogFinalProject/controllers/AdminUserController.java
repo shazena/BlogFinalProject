@@ -2,7 +2,6 @@ package com.skshazena.blogFinalProject.controllers;
 
 import com.skshazena.blogFinalProject.daos.*;
 import com.skshazena.blogFinalProject.dtos.Comment;
-import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Role;
 import com.skshazena.blogFinalProject.dtos.User;
 import com.skshazena.blogFinalProject.service.BlogFinalProjectService;
@@ -129,15 +128,103 @@ public class AdminUserController {
     }
 
     @PostMapping("/userEdit")
-    public String editUserInDB(HttpServletRequest request, Model model, @RequestParam(value = "action", required = true) String action) {
+    public String editUserInDB(HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file, @RequestParam(value = "action", required = true) String action) {
         if (action.equals("cancel")) {
             return "redirect:/admin/users";
         }
 
-        //TODO needs some extra validation, don't allow admins to make themselves disabled.
-        //if only one admin, don't allow change to just a user
-        User user = new User();
-        return "redirect:/admin/userDetails" + user.getUserId();
+        String userIdToBeEditedAsString = request.getParameter("userId");
+        String userIdOfEditorAsString = request.getParameter("userIdOfEditor");
+
+        User userToBeEdited = userDao.getUserById(Integer.parseInt(userIdToBeEditedAsString));
+        User userDoingEditing = userDao.getUserById(Integer.parseInt(userIdOfEditorAsString));
+
+        String usernameToEdit = request.getParameter("usernameToEdit");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String[] rolesSelected = request.getParameterValues("roles");
+        String enabledAsString = request.getParameter("enabled");
+
+        boolean enabled = false;
+        if (enabledAsString == null) {
+            enabled = false;
+        } else {
+            enabled = true;
+        }
+
+        Set<Role> roles = new HashSet<>();
+        if (rolesSelected != null) {
+            for (String roleId : rolesSelected) {
+                roles.add(roleDao.getRoleById(Integer.parseInt(roleId)));
+            }
+        } else {
+            rolesSelected = null;
+        }
+
+        Set<Error> customErrors = new HashSet<Error>();
+
+        //if we have a user and a creator, don't allow that.
+        Role adminRole = roleDao.getRoleByRole("ROLE_ADMIN");
+        Role creatorRole = roleDao.getRoleByRole("ROLE_CREATOR");
+
+        if (roles.contains(adminRole) && roles.contains(creatorRole)) {
+            customErrors.add(new Error("You cannot create an account that is an admin and a content creator"));
+        }
+
+        List<User> allAdmins = new ArrayList<>();
+        List<User> allUsers = userDao.getAllUsers();
+        for (User user : allUsers) {
+            if (user.getRoles().contains(adminRole)) {
+                allAdmins.add(user);
+            }
+        }
+
+        if (allAdmins.size() == 1 && userToBeEdited.getUserId() == userDoingEditing.getUserId() && !roles.contains(adminRole)) {
+            customErrors.add(new Error("You are the last administrator. There must always be one administrator."));
+        }
+
+        if (allAdmins.size() == 1 && userToBeEdited.getUserId() == userDoingEditing.getUserId() && enabled == false) {
+            customErrors.add(new Error("You are the only administrator. You cannot disable yourself."));
+        }
+
+        if (customErrors.size() > 0) {
+            List<Role> allRoles = roleDao.getAllRoles();
+
+            model.addAttribute("user", userToBeEdited);
+            model.addAttribute("roles", allRoles);
+            model.addAttribute("errors", customErrors);
+            return "adminDashboardUserEdit";
+        }
+
+        boolean fileIsEmpty = file.isEmpty();
+
+        if (!fileIsEmpty) {
+            userToBeEdited.setProfilePicture(imageDao.updateImage(file, userToBeEdited.getProfilePicture(), USER_PHOTO_UPLOAD_DIRECTORY));
+        }
+
+        userToBeEdited.setUsername(usernameToEdit);
+        userToBeEdited.setFirstName(firstName);
+        userToBeEdited.setLastName(lastName);
+        userToBeEdited.setEnabled(enabled);
+        userToBeEdited.setRoles(roles);
+        userToBeEdited.setLastLogin(LocalDateTime.now());
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violationsUserEdit = validate.validate(userToBeEdited);
+
+        if (violationsUserEdit.isEmpty()) {
+            userDao.updateUser(userToBeEdited);
+
+            return "redirect:/admin/userDetails?id=" + userToBeEdited.getUserId();
+        } else {
+            List<Role> allRoles = roleDao.getAllRoles();
+
+            model.addAttribute("roles", allRoles);
+            model.addAttribute("errors", violationsUserAdd);
+            return "adminDashboardUserEdit";
+
+        }
+
     }
 
     @PostMapping("/passwordEdit")
@@ -147,10 +234,44 @@ public class AdminUserController {
             return "redirect:/admin/userDetails?id=" + Integer.parseInt(userIdAsString);
         }
 
-        //TODO needs some extra validation, don't allow admins to make themselves disabled.
-        //if only one admin, don't allow change to just a user
-        User user = new User();
-        return "redirect:/admin/userDetails" + user.getUserId();
+        String userIdToBeEditedAsString = request.getParameter("userId");
+        String userIdOfEditorAsString = request.getParameter("userIdOfEditor");
+
+        User userToBeEdited = userDao.getUserById(Integer.parseInt(userIdToBeEditedAsString));
+        User userDoingEditing = userDao.getUserById(Integer.parseInt(userIdOfEditorAsString));
+
+        String passwordToEdit = request.getParameter("passwordToEdit");
+        String confirmPasswordToEdit = request.getParameter("confirmPasswordToEdit");
+
+        Set<Error> customErrors = new HashSet<Error>();
+        if (!passwordToEdit.equals(confirmPasswordToEdit)) {
+            customErrors.add(new Error("Your passwords did not match. Please try again."));
+        }
+
+        if (customErrors.size() > 0) {
+            model.addAttribute("errors", customErrors);
+            model.addAttribute("user", userToBeEdited);
+            return "adminDashboardUserPasswordEdit";
+        }
+
+        userToBeEdited.setPassword(passwordToEdit);
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violationsUserEditPassword = validate.validate(userToBeEdited);
+
+        if (violationsUserEditPassword.isEmpty()) {
+            userToBeEdited.setPassword(encoder.encode(passwordToEdit));
+            userDao.updateUser(userToBeEdited);
+
+            return "redirect:/admin/userDetails?id=" + userToBeEdited.getUserId();
+        } else {
+
+            model.addAttribute("user", userToBeEdited);
+            model.addAttribute("errors", violationsUserEditPassword);
+            return "adminDashboardUserPasswordEdit";
+
+        }
+
     }
 
     @PostMapping("/userCreate")
