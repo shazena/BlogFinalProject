@@ -340,6 +340,17 @@
                 </div>
 
                 <div class = "row">
+                    <div class = "col-3 text-right font-weight-bold">Roles</div>
+                    <div class = "col-9 text-left">
+                        <span th:each = "role, stat : ${user.roles}">
+                                    <span th:text = "${role.role}"></span>
+                                    <span th:if = "${stat.index + 1} !=  ${#lists.size(user.roles)}">, </span>
+                    </span>
+                    </div>
+                </div>
+
+
+                <div class = "row">
                     <div class = "col-3 text-right font-weight-bold">Profile Pic</div>
                     <div class = "col-9 text-left">
                         <img th:if = "${user.profilePicture}"

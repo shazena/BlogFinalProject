@@ -2,6 +2,7 @@ package com.skshazena.blogFinalProject.controllers;
 
 import com.skshazena.blogFinalProject.daos.*;
 import com.skshazena.blogFinalProject.dtos.Comment;
+import com.skshazena.blogFinalProject.dtos.EnhancedSpringUser;
 import com.skshazena.blogFinalProject.dtos.Hashtag;
 import com.skshazena.blogFinalProject.dtos.Post;
 import com.skshazena.blogFinalProject.dtos.Role;
@@ -16,6 +17,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -59,8 +62,12 @@ public class BlogController {
     @Autowired
     PasswordEncoder encoder;
 
+    String USER_PHOTO_UPLOAD_DIRECTORY = "Users";
+
     Set<ConstraintViolation<Comment>> violationsCommentAdd = new HashSet<>();
     Set<ConstraintViolation<User>> violationsUserAdd = new HashSet<>();
+    Set<ConstraintViolation<User>> violationsUserEdit = new HashSet<>();
+    Set<ConstraintViolation<User>> violationsUserPasswordEdit = new HashSet<>();
 
     @GetMapping("/post")
     public String getPostDetailsOnPage(Integer id, Model model) {
@@ -260,6 +267,128 @@ public class BlogController {
 
             model.addAttribute("errors", violationsUserAdd);
             return "mainBlogPageCreateNewUser";
+
+        }
+
+    }
+
+    @GetMapping("/userProfile")
+    public String getUserProfilePage(Model model) {
+        EnhancedSpringUser enhancedSpringUser = (EnhancedSpringUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Comment> allCommentsWrittenByUser = commentDao.getAllCommentsWrittenByUser(enhancedSpringUser.getUserId());
+
+        model.addAttribute("user", enhancedSpringUser);
+        model.addAttribute("comments", allCommentsWrittenByUser);
+        return "mainBlogPageUserProfile";
+    }
+
+    @GetMapping("/userEdit")
+    public String getUserEditPage(Model model) {
+        EnhancedSpringUser user = (EnhancedSpringUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", user);
+        violationsUserEdit.clear();
+        model.addAttribute("errors", violationsUserEdit);
+
+        return "mainBlogPageUserEdit";
+    }
+
+    @GetMapping("/passwordEdit")
+    public String getUserPasswordEditPage(Model model) {
+        EnhancedSpringUser user = (EnhancedSpringUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", user);
+        violationsUserPasswordEdit.clear();
+        model.addAttribute("errors", violationsUserPasswordEdit);
+
+        return "mainBlogPagePasswordEdit";
+    }
+
+    @PostMapping("/userEdit")
+    public String editUserInDB(HttpServletRequest request, Model model, @RequestParam("file") MultipartFile file, @RequestParam(value = "action", required = true) String action) {
+        if (action.equals("cancel")) {
+            return "redirect:/blog/userProfile";
+        }
+
+        EnhancedSpringUser enhancedSpringUser = (EnhancedSpringUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userDao.getUserById(enhancedSpringUser.getUserId());
+
+        String usernameToEdit = request.getParameter("usernameToEdit");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+
+        user.setUsername(usernameToEdit);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+
+        boolean fileIsEmpty = file.isEmpty();
+
+        if (!fileIsEmpty) {
+            user.setProfilePicture(imageDao.updateImage(file, user.getProfilePicture(), USER_PHOTO_UPLOAD_DIRECTORY));
+        }
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violationsUserEdit = validate.validate(user);
+
+        if (violationsUserEdit.isEmpty()) {
+            userDao.updateUser(user);
+
+            enhancedSpringUser.setFirstName(user.getFirstName());
+            enhancedSpringUser.setLastName(user.getLastName());
+            enhancedSpringUser.setProfilePicture(user.getProfilePicture());
+
+            return "redirect:/blog/userProfile";
+        } else {
+            model.addAttribute("errors", violationsUserEdit);
+            model.addAttribute("user", user);
+            model.addAttribute("errors", violationsUserEdit);
+
+            return "mainBlogPageUserEdit";
+        }
+
+    }
+
+    @PostMapping("/passwordEdit")
+    public String editUserPasswordInDB(HttpServletRequest request, Model model, @RequestParam(value = "action", required = true) String action) {
+        if (action.equals("cancel")) {
+            return "redirect:/blog/userProfile";
+        }
+
+        //TODO check for all the times this is used on this page, make sure I get the userId and get the user object frmo the dau
+        EnhancedSpringUser enhancedSpringUser = (EnhancedSpringUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userDao.getUserById(enhancedSpringUser.getUserId());
+
+        String passwordToEdit = request.getParameter("passwordToEdit");
+        String confirmPasswordToEdit = request.getParameter("confirmPasswordToEdit");
+
+        Set<Error> customErrors = new HashSet<Error>();
+
+        if (!passwordToEdit.equals(confirmPasswordToEdit)) {
+            customErrors.add(new Error("Your passwords did not match. Please try again."));
+        }
+
+        if (customErrors.size() > 0) {
+
+            model.addAttribute("user", user);
+
+            model.addAttribute("errors", customErrors);
+            return "mainBlogPagePasswordEdit";
+        }
+
+        user.setPassword(passwordToEdit);
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violationsUserPasswordEdit = validate.validate(user);
+
+        if (violationsUserPasswordEdit.isEmpty()) {
+            user.setPassword(encoder.encode(passwordToEdit));
+            userDao.updateUser(user);
+
+            return "redirect:/blog/userProfile";
+        } else {
+
+            model.addAttribute("user", user);
+
+            model.addAttribute("errors", violationsUserPasswordEdit);
+            return "mainBlogPagePasswordEdit";
 
         }
 

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang = "en" xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+
+    <title>Fragments</title>
+
+</head>
+
+<body>
+    <!--SAMPLE-->
+    <!--        <nav th:fragment="adminNavBar" class = "navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow fixed-top-2 ">-->
+    <!--            <a class = "navbar-brand col-sm-3 col-md-2 mr-0" th:href="dashboard" id = "adminNav">Admin Dashboard</a>-->
+    <!--        </nav>-->
+
+    <!--BEGIN CREATE NEW USER ACCOUNT FOR MAIN PAGE-->
+
+    <div th:fragment = "blogCreateNewUser">
+
+        <h2 class = "mt-4">Create New User Account</h2>
+        <hr>
+
+        <div class = "col-12 m-1 text-center"
+             th:if = "${!errors.isEmpty()}">
+            <p class = "alert alert-danger" th:each = "error : ${errors}"
+               th:text = "${error.message}">Error message</p>
+        </div>
+
+
+        <form th:action = "@{/blog/createNewUserAccount}" method = "post">
+            <div class = "form-group row">
+                <label for = "firstName" class = "col-2 col-form-label text-right font-weight-bold">
+                    First Name</label>
+                <input type = "text" id = "firstName"
+                       name = "firstName" class = "col-9 form-control">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "lastName" class = "col-2 col-form-label text-right font-weight-bold">
+                    Last Name</label>
+                <input type = "text" id = "lastName"
+                       name = "lastName" class = "col-9 form-control">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "usernameToAdd" class = "col-2 col-form-label text-right font-weight-bold">
+                    Username</label>
+                <input type = "text" id = "usernameToAdd"
+                       name = "usernameToAdd" class = "col-9 form-control">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "passwordToAdd" class = "col-2 col-form-label text-right font-weight-bold">
+                    Password</label>
+                <input type = "password" id = "passwordToAdd"
+                       name = "passwordToAdd" class = "col-9 form-control">
+            </div>
+            <div class = "form-group row">
+                <label for = "confirmPasswordToAdd"
+                       class = "col-2 col-form-label text-right font-weight-bold">
+                    Confirm Password</label>
+                <input type = "password" id = "confirmPasswordToAdd"
+                       name = "confirmPasswordToAdd" class = "col-9 form-control">
+            </div>
+
+
+            <input type = "hidden"
+                   th:name = "${_csrf.parameterName}"
+                   th:value = "${_csrf.token}"/>
+
+            <div class = "form-group row justify-content-around my-4">
+                <button class = "btn btn-danger" type = "submit" name = "action"
+                        value = "cancel">
+                    Cancel
+                </button>
+                <button class = "btn btn-dark" type = "submit" name = "action" value = "save">
+                    Save User
+                </button>
+            </div>
+
+        </form>
+
+
+    </div>
+    <!--END CREATE NEW USER ACCOUNT FOR MAIN PAGE-->
+
+
+    <!--BEGIN EDIT USER ACCOUNT FOR MAIN PAGE-->
+
+    <div th:fragment = "blogEditUser">
+
+        <div class = "row mt-4 ml-1" style = "position: relative;"><h2>Edit Profile</h2>
+            <span style = "position:absolute; right: 0; top:0;">
+                <a id = "editPasswordButton"
+                   th:href = "@{/blog/passwordEdit}"
+                   class = "btn btn-outline-danger">
+                        Edit Password
+                </a>
+            </span>
+        </div>
+        <hr>
+        <div class = "col-12 m-1 text-center"
+             th:if = "${!errors.isEmpty()}">
+            <p class = "alert alert-danger" th:each = "error : ${errors}"
+               th:text = "${error.message}">Error message</p>
+        </div>
+
+
+        <form th:action = "@{/blog/userEdit}" method = "post" enctype = "multipart/form-data">
+            <div class = "form-group row">
+                <label for = "firstName" class = "col-2 col-form-label text-right font-weight-bold">
+                    First Name</label>
+                <input type = "text" id = "firstName"
+                       name = "firstName" th:value = "${user.firstName}" class = "col-9 form-control">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "lastName" class = "col-2 col-form-label text-right font-weight-bold">
+                    Last Name</label>
+                <input type = "text" id = "lastName"
+                       name = "lastName" th:value = "${user.lastName}" class = "col-9 form-control">
+            </div>
+
+            <div class = "form-group row">
+                <label for = "usernameToAdd" class = "col-2 col-form-label text-right font-weight-bold">
+                    Username</label>
+                <input type = "text" id = "usernameToEdit"
+                       name = "usernameToEdit" th:value = "${user.username}" class = "col-9 form-control">
+            </div>
+
+            <div class = "form-group row">
+
+
+                <label for = "file" class = "col-2 col-form-label font-weight-bold text-right">
+                    Profile Picture</label>
+                <div class = "custom-file text-left col-4">
+                    <input type = "file" class = "custom-file-input" name = "file" id = "file"
+                           onchange = "$('#nameOfFile').html(this.files[0].name)" th:value = "${user.profilePicture}">
+                    <label class = "custom-file-label" id = "nameOfFile" for = "file">Choose
+                                                                                      file...</label>
+                </div>
+
+                <img th:if = "${user.profilePicture}" th:src = "${user.profilePicture}" alt = "originalPhoto"
+                     class = "offset-1 col-2">
+                <img th:if = "!${user.profilePicture}" th:src = "${user.profilePicture}" class = "offset-1 col-2">
+
+            </div>
+
+            <input type = "hidden" th:value = "${#authentication.principal.userId}" name = "userIdOfEditor"
+                   id = "userIdOfEditor">
+
+            <input type = "hidden"
+                   th:name = "${_csrf.parameterName}"
+                   th:value = "${_csrf.token}"/>
+
+            <div class = "form-group row justify-content-around my-4">
+                <button class = "btn btn-danger" type = "submit" name = "action"
+                        value = "cancel">
+                    Cancel
+                </button>
+                <button class = "btn btn-dark" type = "submit" name = "action" value = "save">
+                    Save Changes
+                </button>
+            </div>
+
+        </form>
+
+
+    </div>
+    <!--END EDIT USER ACCOUNT FOR MAIN PAGE-->
+
+
+    <!--BEGIN EDIT PASSWORD FOR MAIN PAGE-->
+
+    <div th:fragment = "blogEditPassword">
+
+
+        <h2 class = "mt-4">Edit Password</h2>
+        <hr>
+
+
+        <div class = "col-12 m-1 text-center"
+             th:if = "${!errors.isEmpty()}">
+            <p class = "alert alert-danger" th:each = "error : ${errors}"
+               th:text = "${error.message}">Error message</p>
+        </div>
+
+
+        <form th:action = "@{/blog/passwordEdit}" method = "post">
+
+            <div class = "form-group row">
+                <label for = "passwordToAdd" class = "col-2 col-form-label text-right font-weight-bold">
+                    Password</label>
+                <input type = "password" id = "passwordToEdit"
+                       name = "passwordToEdit" class = "col-9 form-control">
+            </div>
+            <div class = "form-group row">
+                <label for = "confirmPasswordToAdd"
+                       class = "col-2 col-form-label text-right font-weight-bold">
+                    Confirm Password</label>
+                <input type = "password" id = "confirmPasswordToEdit"
+                       name = "confirmPasswordToEdit" class = "col-9 form-control">
+            </div>
+
+            <input type = "hidden" th:value = "${#authentication.principal.userId}" name = "userIdOfEditor"
+                   id = "userIdOfEditor">
+
+            <input type = "hidden"
+                   th:name = "${_csrf.parameterName}"
+                   th:value = "${_csrf.token}"/>
+
+            <div class = "form-group row justify-content-around my-4">
+                <button class = "btn btn-danger" type = "submit" name = "action"
+                        value = "cancel">
+                    Cancel
+                </button>
+                <button class = "btn btn-dark" type = "submit" name = "action" value = "save">
+                    Save Changes
+                </button>
+            </div>
+
+        </form>
+
+
+    </div>
+    <!--END EDIT PASSWORD FOR MAIN PAGE-->
+
+
+    <!--    BEGIN USER PROFILE PAGE-->
+
+
+    <div th:fragment = "blogUserProfile">
+
+        <h2 class = "mt-4">User Profile</h2>
+        <hr>
+
+
+        <h6 class = "text-right">
+            <a href = "#" th:href = "@{/blog/userEdit}">Edit Profile</a>
+        </h6>
+
+
+        <div class = "m-4" style = "display: grid; grid-template-columns: 1fr 1fr;">
+
+
+            <div> <!--BEGIN LEFT SECTION-->
+                <div class = "row my-2">
+                    <div class = "col-3 text-right font-weight-bold">Username</div>
+                    <div class = "col-9 text-left">
+                        <span th:text = "${user.username}">Username</span>
+                    </div>
+                </div>
+
+                <div class = "row my-2">
+                    <div class = "col-3 text-right font-weight-bold">First Name</div>
+                    <div class = "col-9 text-left">
+                        <span th:text = "${user.firstName}">FirstName</span>
+                    </div>
+                </div>
+
+                <div class = "row my-2">
+                    <div class = "col-3 text-right font-weight-bold">Last Name</div>
+                    <div class = "col-9 text-left">
+                        <span th:text = "${user.lastName}">LastName</span>
+                    </div>
+                </div>
+
+
+                <div class = "row my-2">
+                    <div class = "col-3 text-right font-weight-bold">Last Login</div>
+                    <div class = "col-9 text-left">
+                        <span th:text = "${#temporals.format(user.lastLogin, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}">Last Login</span>
+                    </div>
+                </div>
+
+                <div class = "row my-2">
+                    <div class = "col-3 text-right font-weight-bold">Profile Pic</div>
+                    <div class = "col-9 text-left">
+                        <img th:if = "${user.profilePicture}"
+                             th:src = "${user.profilePicture}" style = "width: 100px;">
+                        <span th:if = "!${user.profilePicture}">No Picture provided</span>
+                    </div>
+                </div>
+
+            </div> <!--END LEFT SECTION-->
+
+            <div> <!--BEGIN RIGHT SECTION-->
+
+                <h5 class = "mb-3" th:if = "${#lists.size(comments)} > 0">Your Comments</h5>
+                <h5 class = "mb-3" th:if = "${#lists.size(comments)} == 0">You have not made any Comments</h5>
+
+                <div th:each = "comment : ${comments}">
+
+                    <h6><span th:text = "${comment.title}">Comment Title</span>
+                        <span class = "small" th:if = "${comment.approvalStatus}">(Approved)</span>
+                        <span class = "small" th:if = "!${comment.approvalStatus}">(Not Approved)</span>
+                    </h6>
+                    <p>
+                        <span th:text = "${#temporals.format(comment.createdAt, 'EEEE MMMM d, yyyy,  h:mm a', new java.util.Locale('en', 'EN'))}"></span><br/>
+                        <span th:text = "${comment.content}">Comment Content</span>
+                    </p>
+                    <br/>
+
+                </div>
+
+            </div> <!--END RIGHT SECTION-->
+
+
+        </div>
+    </div>
+    <!--    END USER PROFILE PAGE-->
+
+
+</body>
