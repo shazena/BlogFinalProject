@@ -292,7 +292,7 @@
                 <h5 class = "mb-3" th:if = "${#lists.size(comments)} == 0">You have not made any Comments</h5>
 
                 <div th:each = "comment : ${comments}">
-
+                    <h6>Post - <span th:text = "${comment.post.title}">Post Title</span></h6>
                     <h6><span th:text = "${comment.title}">Comment Title</span>
                         <span class = "small" th:if = "${comment.approvalStatus}">(Approved)</span>
                         <span class = "small" th:if = "!${comment.approvalStatus}">(Not Approved)</span>

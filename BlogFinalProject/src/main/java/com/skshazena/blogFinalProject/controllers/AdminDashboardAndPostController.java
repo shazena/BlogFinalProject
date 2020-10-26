@@ -245,7 +245,7 @@ public class AdminDashboardAndPostController {
         String hashtagsForPostAsStringToParse = request.getParameter("hashtagsForPost");
         String staticPageAsString = request.getParameter("staticPage");
         String contentFromTinyMCE = request.getParameter("content");
-        String userId = request.getParameter("userId");
+//        String userId = request.getParameter("userId");
 
         LocalDateTime postAt = LocalDateTime.now();
         if (postAtAsString.isBlank()) {
@@ -270,7 +270,7 @@ public class AdminDashboardAndPostController {
             staticPage = true;
         }
 
-        User user = userDao.getUserById(Integer.parseInt(userId));
+//        User user = userDao.getUserById(Integer.parseInt(userId));
 
         String postIdAsString = request.getParameter("postId");
 
@@ -290,7 +290,7 @@ public class AdminDashboardAndPostController {
             post.setTitlePhoto(imageDao.updateImage(file, post.getTitlePhoto(), POST_TITLE_PHOTO_UPLOAD_DIRECTORY));
         }
 
-        post.setUser(user);
+//        post.setUser(user);
         post.setHashtagsForPost(hashtagsForPost);
 
         Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
