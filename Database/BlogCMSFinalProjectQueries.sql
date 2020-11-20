@@ -39,7 +39,18 @@ SELECT
     *
 FROM
     Post
-WHERE postAt <= NOW() AND (expireAt >= NOW() OR expireAt is null) AND approvalStatus = 1;
+WHERE postAt <= @CurrentTime AND (expireAt >= @CurrentTime OR expireAt is null) AND approvalStatus = 1;
+
+SET @currentTime  =  NOW();
+select @CurrentTime;
+
+
+SELECT 
+    *
+FROM
+    Post
+WHERE postAt <= '2020-10-25 17:21:17' AND (expireAt >= '2020-10-25 17:21:17' OR expireAt is null) AND approvalStatus = 1;
+
 SELECT * FROM Post where postAt<= NOW() AND expireAt >= NOW();  
 
 delete from postHashtag where hashtagId = 5;
@@ -68,3 +79,10 @@ select * from Post where userId = 5;
 delete from postHashtag where postId = 31;
 delete from post where userId = 5;
 delete from comment where userId = 5;
+
+
+SELECT @@GLOBAL.time_zone;
+
+delete from comment where commentId =1;
+delete from postHashtag where postId>0;
+delete from post where postId > 0;

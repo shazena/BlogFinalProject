@@ -3,6 +3,10 @@ body {
     padding-bottom: 50px;
 }
 
+main {
+    width: 100%;
+}
+
 .sidebar {
     position: fixed;
     top: 0;

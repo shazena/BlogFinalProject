@@ -29,7 +29,7 @@ public class HashtagDaoImpl implements HashtagDao {
     public Hashtag getHashtagById(int hashtagId) {
 
         try {
-            final String SELECT_HASHTAG_BY_ID = "SELECT * FROM Hashtag "
+            final String SELECT_HASHTAG_BY_ID = "SELECT * FROM hashtag "
                     + "WHERE hashtagId = ?";
             Hashtag hashtag = jdbc.queryForObject(SELECT_HASHTAG_BY_ID, new HashtagMapper(), hashtagId);
             hashtag.setNumberOfPosts(getNumberOfPostsForHashtag(hashtagId));
@@ -42,7 +42,7 @@ public class HashtagDaoImpl implements HashtagDao {
     @Override
     public Hashtag getHashtagByTitle(String title) {
         try {
-            final String SELECT_HASHTAG_BY_TITLE = "SELECT * FROM Hashtag "
+            final String SELECT_HASHTAG_BY_TITLE = "SELECT * FROM hashtag "
                     + "WHERE title = ?";
             Hashtag hashtag = jdbc.queryForObject(SELECT_HASHTAG_BY_TITLE, new HashtagMapper(), title);
             hashtag.setNumberOfPosts(getNumberOfPostsForHashtag(hashtag.getHashtagId()));
@@ -54,7 +54,7 @@ public class HashtagDaoImpl implements HashtagDao {
 
     @Override
     public List<Hashtag> getAllHashtags() {
-        final String SELECT_HASHTAGS = "SELECT * FROM Hashtag";
+        final String SELECT_HASHTAGS = "SELECT * FROM hashtag";
         List<Hashtag> allHashtags = jdbc.query(SELECT_HASHTAGS, new HashtagMapper());
         for (Hashtag hashtag : allHashtags) {
             hashtag.setNumberOfPosts(getNumberOfPostsForHashtag(hashtag.getHashtagId()));
@@ -64,8 +64,8 @@ public class HashtagDaoImpl implements HashtagDao {
 
     @Override
     public List<Hashtag> getAllHashtagsForPost(int postId) {
-        final String SELECT_HASHTAGS_FOR_POST = "SELECT h.* FROM Hashtag h "
-                + "JOIN PostHashtag ph ON h.hashtagId = ph.hashtagId "
+        final String SELECT_HASHTAGS_FOR_POST = "SELECT h.* FROM hashtag h "
+                + "JOIN postHashtag ph ON h.hashtagId = ph.hashtagId "
                 + "WHERE ph.postId = ?";
         List<Hashtag> hashtagsForPost = jdbc.query(SELECT_HASHTAGS_FOR_POST, new HashtagMapper(), postId);
         for (Hashtag hashtag : hashtagsForPost) {
@@ -94,7 +94,7 @@ public class HashtagDaoImpl implements HashtagDao {
     @Override
     @Transactional
     public void updateHashtag(Hashtag hashtag) {
-        final String UPDATE_HASHTAG = "UPDATE Hashtag SET "
+        final String UPDATE_HASHTAG = "UPDATE hashtag SET "
                 + "title = ? "
                 + "WHERE hashtagId = ?";
         jdbc.update(UPDATE_HASHTAG,
@@ -107,12 +107,12 @@ public class HashtagDaoImpl implements HashtagDao {
     @Transactional
     public void deleteHashtag(int hashtagId) {
 
-        final String DELETE_FROM_POSTHASHTAG = "DELETE FROM PostHashtag "
+        final String DELETE_FROM_POSTHASHTAG = "DELETE FROM postHashtag "
                 + "WHERE hashtagId = ?";
 
         jdbc.update(DELETE_FROM_POSTHASHTAG, hashtagId);
 
-        final String DELETE_HASHTAG = "DELETE FROM Hashtag "
+        final String DELETE_HASHTAG = "DELETE FROM hashtag "
                 + "WHERE hashtagId = ?";
 
         jdbc.update(DELETE_HASHTAG, hashtagId);
@@ -122,7 +122,7 @@ public class HashtagDaoImpl implements HashtagDao {
     @Override
     @Transactional
     public Hashtag createHashtag(Hashtag hashtag) {
-        final String INSERT_HASHTAG = "INSERT INTO Hashtag(title) "
+        final String INSERT_HASHTAG = "INSERT INTO hashtag(title) "
                 + "VALUES (?)";
         jdbc.update(INSERT_HASHTAG,
                 hashtag.getTitle());
@@ -139,7 +139,7 @@ public class HashtagDaoImpl implements HashtagDao {
     //Helper Methods
     private int getNumberOfPostsForHashtag(int hashtagId) {
 
-        final String SELECT_POSTS_FOR_HASHTAG = "SELECT p.* FROM Hashtag h "
+        final String SELECT_POSTS_FOR_HASHTAG = "SELECT p.* FROM hashtag h "
                 + "JOIN postHashtag ph ON h.hashtagId = ph.hashtagId "
                 + "JOIN post p ON p.postId = ph.postId "
                 + "WHERE h.hashtagId = ?";

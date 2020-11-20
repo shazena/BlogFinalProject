@@ -33,7 +33,7 @@ public class PostDaoImpl implements PostDao {
     @Override
     public Post getPostById(int postId) {
         try {
-            final String SELECT_POST_BY_ID = "SELECT * FROM Post "
+            final String SELECT_POST_BY_ID = "SELECT * FROM post "
                     + "WHERE postId = ?";
 
             Post post = jdbc.queryForObject(SELECT_POST_BY_ID, new PostMapper(), postId);
@@ -49,7 +49,7 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public List<Post> getAllPostsForAdminNewestFirst() {
-        final String SELECT_ALL_POSTS = "SELECT * FROM Post ORDER BY postAt DESC";
+        final String SELECT_ALL_POSTS = "SELECT * FROM post ORDER BY postAt DESC";
         List<Post> allPosts = jdbc.query(SELECT_ALL_POSTS, new PostMapper());
         for (Post post : allPosts) {
             associateUserAndHashtagsWithPost(post);
@@ -59,7 +59,7 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public List<Post> getAllPostsForBlogNonStaticNewestFirst() {
-        final String SELECT_ALL_POSTS_FOR_BLOG = "SELECT * FROM Post "
+        final String SELECT_ALL_POSTS_FOR_BLOG = "SELECT * FROM post "
                 + "WHERE postAt <= NOW() AND (expireAt >= NOW() OR expireAt IS NULL) "
                 + "AND staticPage = 0 AND approvalStatus = 1 "
                 + "ORDER BY postAt DESC";
@@ -72,7 +72,7 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public List<Post> getAllPostsForBlogThatAreStaticNewestFirst() {
-        final String SELECT_POSTS_THAT_ARE_STATIC = "SELECT * FROM Post "
+        final String SELECT_POSTS_THAT_ARE_STATIC = "SELECT * FROM post "
                 + "WHERE staticPage = 1 "
                 + "AND postAt <= NOW() "
                 + "AND (expireAt >= NOW() OR expireAt IS NULL) "
@@ -87,9 +87,9 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public List<Post> getAllPostsForHashtagForAdminNewestFirst(int hashtagId) {
-        final String SELECT_POSTS_FOR_HASHTAG = "SELECT p.* FROM Post p "
-                + "JOIN PostHashtag ph ON p.postId = ph.postId "
-                + "JOIN Hashtag h ON h.hashtagId = ph.hashtagId "
+        final String SELECT_POSTS_FOR_HASHTAG = "SELECT p.* FROM post p "
+                + "JOIN postHashtag ph ON p.postId = ph.postId "
+                + "JOIN hashtag h ON h.hashtagId = ph.hashtagId "
                 + "WHERE h.hashtagId = ? ORDER BY postAt DESC";
         List<Post> postsForHashtag = jdbc.query(SELECT_POSTS_FOR_HASHTAG, new PostMapper(), hashtagId);
         for (Post post : postsForHashtag) {
@@ -100,9 +100,9 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public List<Post> getAllPostsForBlogForHashtagNewestFirst(int hashtagId) {
-        final String SELECT_POSTS_FOR_HASHTAG = "SELECT p.* FROM Post p "
-                + "JOIN PostHashtag ph ON p.postId = ph.postId "
-                + "JOIN Hashtag h ON h.hashtagId = ph.hashtagId "
+        final String SELECT_POSTS_FOR_HASHTAG = "SELECT p.* FROM post p "
+                + "JOIN postHashtag ph ON p.postId = ph.postId "
+                + "JOIN hashtag h ON h.hashtagId = ph.hashtagId "
                 + "WHERE h.hashtagId = ? "
                 + "AND postAt <= NOW() AND (expireAt >= NOW() OR expireAt IS NULL) "
                 + "AND approvalStatus = 1 "
@@ -116,7 +116,7 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public List<Post> getAllPostsNeedingApprovalWrittenByCreatorOldestFirst(int userId) {
-        final String SELECT_POSTS_NEEDING_APPROVAL_WRITTEN_BY_USER = "SELECT * from Post "
+        final String SELECT_POSTS_NEEDING_APPROVAL_WRITTEN_BY_USER = "SELECT * from post "
                 + "WHERE (approvalStatus = 0) AND (userId = ?) ORDER BY postAt ASC";
         List<Post> postsNeedingApprovalWrittenByThisUser = jdbc.query(SELECT_POSTS_NEEDING_APPROVAL_WRITTEN_BY_USER, new PostMapper(), userId);
         for (Post post : postsNeedingApprovalWrittenByThisUser) {
@@ -127,7 +127,7 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public List<Post> getAllPostsWrittenByCreatorNewestFirst(int userId) {
-        final String SELECT_POSTS_WRITTEN_BY_USER = "SELECT * FROM Post "
+        final String SELECT_POSTS_WRITTEN_BY_USER = "SELECT * FROM post "
                 + "WHERE userId = ? ORDER BY postAt DESC";
         List<Post> postsByUser = jdbc.query(SELECT_POSTS_WRITTEN_BY_USER, new PostMapper(), userId);
         for (Post post : postsByUser) {
@@ -139,7 +139,7 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public List<Post> getAllPostsNeedingApprovalForAdminOldestFirst() {
-        final String SELECT_POSTS_NEEDING_APPROVAL = "SELECT * FROM Post "
+        final String SELECT_POSTS_NEEDING_APPROVAL = "SELECT * FROM post "
                 + "WHERE approvalStatus = 0 "
                 + "ORDER BY postAt ASC";
         List<Post> postsNeedingApproval = jdbc.query(SELECT_POSTS_NEEDING_APPROVAL, new PostMapper());
@@ -152,7 +152,7 @@ public class PostDaoImpl implements PostDao {
     @Override
     @Transactional
     public void updatePost(Post post) {
-        final String UPDATE_POST = "UPDATE Post SET "
+        final String UPDATE_POST = "UPDATE post SET "
                 + "title = ?, "
                 + "userId = ?, "
                 + "createdAt = ?, "
@@ -178,11 +178,11 @@ public class PostDaoImpl implements PostDao {
                 post.getTitlePhoto(),
                 post.getPostId());
 
-        final String DELETE_FROM_POSTHASHTAG = "DELETE FROM PostHashtag "
+        final String DELETE_FROM_POSTHASHTAG = "DELETE FROM postHashtag "
                 + "WHERE postId = ?";
         jdbc.update(DELETE_FROM_POSTHASHTAG, post.getPostId());
 
-        final String INSERT_INTO_POSTHASHTAG = "INSERT INTO PostHashtag (postId, hashtagId) "
+        final String INSERT_INTO_POSTHASHTAG = "INSERT INTO postHashtag (postId, hashtagId) "
                 + "VALUES (?,?)";
         for (Hashtag hashtag : post.getHashtagsForPost()) {
             jdbc.update(INSERT_INTO_POSTHASHTAG, post.getPostId(), hashtag.getHashtagId());
@@ -192,17 +192,17 @@ public class PostDaoImpl implements PostDao {
     @Override
     @Transactional
     public void deletePost(int postId) {
-        final String DELETE_COMMENTS_FOR_POST = "DELETE FROM Comment "
+        final String DELETE_COMMENTS_FOR_POST = "DELETE FROM comment "
                 + "WHERE postId = ?";
 
         jdbc.update(DELETE_COMMENTS_FOR_POST, postId);
 
-        final String DELETE_FROM_POSTHASHTAG = "DELETE FROM PostHashtag "
+        final String DELETE_FROM_POSTHASHTAG = "DELETE FROM postHashtag "
                 + "WHERE postId = ?";
 
         jdbc.update(DELETE_FROM_POSTHASHTAG, postId);
 
-        final String DELETE_POST = "DELETE FROM Post "
+        final String DELETE_POST = "DELETE FROM post "
                 + "WHERE postId = ?";
 
         jdbc.update(DELETE_POST, postId);
@@ -212,7 +212,7 @@ public class PostDaoImpl implements PostDao {
     @Override
     @Transactional
     public Post createPost(Post post) {
-        final String INSERT_POST = "INSERT INTO Post"
+        final String INSERT_POST = "INSERT INTO post"
                 + "(title, userId, createdAt, postAt, expireAt, lastEditedAt, content, approvalStatus, staticPage, titlePhoto) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         jdbc.update(INSERT_POST,
@@ -230,7 +230,7 @@ public class PostDaoImpl implements PostDao {
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         post.setPostId(newId);
 
-        final String INSERT_INTO_POSTHASHTAG = "INSERT INTO PostHashtag (postId, hashtagId) "
+        final String INSERT_INTO_POSTHASHTAG = "INSERT INTO postHashtag (postId, hashtagId) "
                 + "VALUES (?,?)";
         for (Hashtag hashtag : post.getHashtagsForPost()) {
             jdbc.update(INSERT_INTO_POSTHASHTAG, post.getPostId(), hashtag.getHashtagId());
@@ -243,8 +243,8 @@ public class PostDaoImpl implements PostDao {
 
     //Helper Methods
     private User getUserForPost(int postId) {
-        final String SELECT_USER_FOR_POST = "SELECT u.* FROM User u "
-                + "JOIN Post p ON u.userId = p.userId "
+        final String SELECT_USER_FOR_POST = "SELECT u.* FROM user u "
+                + "JOIN post p ON u.userId = p.userId "
                 + "WHERE p.postId = ?";
         User user = jdbc.queryForObject(SELECT_USER_FOR_POST, new UserMapper(), postId);
 
@@ -260,7 +260,7 @@ public class PostDaoImpl implements PostDao {
     }
 
     private List<Hashtag> getHashtagsForPost(int postId) {
-        final String SELECT_HASHTAGS_FOR_POST = "SELECT h.* from Hashtag h "
+        final String SELECT_HASHTAGS_FOR_POST = "SELECT h.* from hashtag h "
                 + "JOIN postHashtag ph ON h.hashtagId = ph.hashtagId "
                 + "JOIN post p ON p.postId = ph.postId "
                 + "WHERE p.postId = ?";

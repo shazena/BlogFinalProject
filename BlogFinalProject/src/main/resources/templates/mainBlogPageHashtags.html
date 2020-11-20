@@ -31,7 +31,7 @@
                     <!--INSERT MAIN CONTENT HERE-->
 
                     <h2>
-                        <span th:text = "${hashtag.numberOfPosts}">No</span>
+                        <span th:text = "${#lists.size(posts)}">No</span>
                         Posts for the tag:
                         <span th:text = "${hashtag.title}">hashtagName</span>
                     </h2>

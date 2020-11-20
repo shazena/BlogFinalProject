@@ -98,19 +98,19 @@ public class UserDaoImpl implements UserDao {
     public void deleteUser(int userId) {
 
         //also delete comments by user and then posts by user
-        final String SELECT_POSTS_WRITTEN_BY_USER = "SELECT * FROM Post "
+        final String SELECT_POSTS_WRITTEN_BY_USER = "SELECT * FROM post "
                 + "WHERE userId = ?";
         List<Post> postsByUser = jdbc.query(SELECT_POSTS_WRITTEN_BY_USER, new PostMapper(), userId);
 
         for (Post post : postsByUser) {
-            final String DELETE_FROM_POSTHASHTAG = "DELETE FROM PostHashtag "
+            final String DELETE_FROM_POSTHASHTAG = "DELETE FROM postHashtag "
                     + "WHERE postId = ?";
             jdbc.update(DELETE_FROM_POSTHASHTAG, post.getPostId());
 
         }
 
-        final String DELETE_COMMENTS_BY_USER = "DELETE FROM Comment WHERE userId = ?";
-        final String DELETE_POSTS_BY_USER = "DELETE FROM Post WHERE userId = ?";
+        final String DELETE_COMMENTS_BY_USER = "DELETE FROM comment WHERE userId = ?";
+        final String DELETE_POSTS_BY_USER = "DELETE FROM post WHERE userId = ?";
         final String DELETE_USER_ROLE = "DELETE FROM userRole WHERE user_id = ?";
         final String DELETE_USER = "DELETE FROM user WHERE userId = ?";
         

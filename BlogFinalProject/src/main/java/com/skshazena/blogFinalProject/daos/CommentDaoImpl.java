@@ -34,7 +34,7 @@ public class CommentDaoImpl implements CommentDao {
     @Override
     public Comment getCommentById(int commentId) {
         try {
-            final String SELECT_COMMENT_BY_ID = "SELECT * FROM Comment "
+            final String SELECT_COMMENT_BY_ID = "SELECT * FROM comment "
                     + "WHERE commentId = ?";
             Comment comment = jdbc.queryForObject(SELECT_COMMENT_BY_ID, new CommentMapper(), commentId);
             associateUserAndPostWithComment(comment);
@@ -47,7 +47,7 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public List<Comment> getAllComments() {
-        final String SELECT_COMMENTS = "SELECT * FROM Comment";
+        final String SELECT_COMMENTS = "SELECT * FROM comment";
 
         List<Comment> allComments = jdbc.query(SELECT_COMMENTS, new CommentMapper());
 
@@ -62,7 +62,7 @@ public class CommentDaoImpl implements CommentDao {
     @Override
     public List<Comment> getAllCommentsForPost(int postId) {
 
-        final String SELECT_COMMENTS_FOR_POST = "SELECT * from Comment "
+        final String SELECT_COMMENTS_FOR_POST = "SELECT * from comment "
                 + "WHERE postId = ? "
                 + "AND approvalStatus = 1 "
                 + "ORDER BY createdAt DESC";//newest first   
@@ -77,7 +77,7 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public List<Comment> getAllCommentsWrittenByUser(int userId) {
-        final String SELECT_COMMENTS_FOR_USER = "SELECT * from Comment "
+        final String SELECT_COMMENTS_FOR_USER = "SELECT * from comment "
                 + "WHERE userId = ? "
                 + "ORDER BY createdAt DESC"; //newest first
 
@@ -92,7 +92,7 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public List<Comment> getAllCommentsNeedingApproval() {
-        final String SELECT_COMMENTS_NEEDING_APPROVAL = "SELECT * from Comment "
+        final String SELECT_COMMENTS_NEEDING_APPROVAL = "SELECT * from comment "
                 + "WHERE approvalStatus = 0 "
                 + "ORDER BY createdAt ASC"; //oldest first
 
@@ -131,7 +131,7 @@ public class CommentDaoImpl implements CommentDao {
     @Override
     @Transactional
     public void deleteComment(int commentId) {
-        final String DELETE_COMMENT = "DELETE FROM Comment "
+        final String DELETE_COMMENT = "DELETE FROM comment "
                 + "WHERE commentId = ?";
         jdbc.update(DELETE_COMMENT, commentId);
     }
@@ -139,7 +139,7 @@ public class CommentDaoImpl implements CommentDao {
     @Override
     @Transactional
     public Comment createComment(Comment comment) {
-        final String INSERT_COMMENT = "INSERT INTO Comment(title, content, createdAt, approvalStatus, postId, userId) "
+        final String INSERT_COMMENT = "INSERT INTO comment(title, content, createdAt, approvalStatus, postId, userId) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
         jdbc.update(INSERT_COMMENT,
                 comment.getTitle(),
@@ -160,8 +160,8 @@ public class CommentDaoImpl implements CommentDao {
 
     //Helper methods
     private User getUserForComment(int commentId) {
-        final String SELECT_USER_FOR_COMMENT = "SELECT u.* from User u "
-                + "JOIN Comment c ON c.userId = u.userId "
+        final String SELECT_USER_FOR_COMMENT = "SELECT u.* FROM user u "
+                + "JOIN comment c ON c.userId = u.userId "
                 + "WHERE c.commentId = ?";
         User user = jdbc.queryForObject(SELECT_USER_FOR_COMMENT, new UserMapper(), commentId);
 
@@ -177,13 +177,13 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     private Post getPostForComment(int commentId) {
-        final String SELECT_POST_FOR_COMMENT = "SELECT p.* from Post p "
-                + "JOIN Comment c ON c.postId = p.postId "
+        final String SELECT_POST_FOR_COMMENT = "SELECT p.* from post p "
+                + "JOIN comment c ON c.postId = p.postId "
                 + "WHERE c.commentId = ?";
         Post post = jdbc.queryForObject(SELECT_POST_FOR_COMMENT, new PostMapper(), commentId);
 
-        final String SELECT_USER_FOR_POST = "SELECT u.* FROM User u "
-                + "JOIN Post p ON u.userId = p.userId "
+        final String SELECT_USER_FOR_POST = "SELECT u.* FROM user u "
+                + "JOIN post p ON u.userId = p.userId "
                 + "WHERE p.postId = ?";
         User user = jdbc.queryForObject(SELECT_USER_FOR_POST, new UserDaoImpl.UserMapper(), post.getPostId());
 
@@ -197,7 +197,7 @@ public class CommentDaoImpl implements CommentDao {
 
         post.setUser(user);
 
-        final String SELECT_HASHTAGS_FOR_POST = "SELECT h.* from Hashtag h "
+        final String SELECT_HASHTAGS_FOR_POST = "SELECT h.* from hashtag h "
                 + "JOIN postHashtag ph ON h.hashtagId = ph.hashtagId "
                 + "JOIN post p ON p.postId = ph.postId "
                 + "WHERE p.postId = ?";
